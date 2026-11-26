@@ -52,5 +52,5 @@ Les données ne contiennent que des informations publiques : pas de coordonnées
 - **L'agenda** : liste `AGENDA` dans `_build/build.py`.
 - **La galerie photos** : déposer les photos dans `assets/galerie/` et les lister dans `GALERIE` (`_build/build.py`). Uniquement des photos dont le comité a les droits, avec l'accord des personnes (autorisation parentale pour les mineurs).
 - **Le contenu des pages** : modifier le texte dans `_build/build.py`, puis lancer `python3 _build/build.py`.
-- **Le carrousel de l'accueil** : les visuels sont dans `assets/carrousel/` (format 1920 × 720, régénérés par `_build/slides.py`). Pour mettre une affiche ou une photo, déposer l'image dans ce dossier puis modifier la liste `SLIDES` dans `_build/build.py` (image, texte alternatif, lien) et relancer le script.
-- **Les couleurs** : modifier les variables en haut de `assets/style.css`.
+- **Le carrousel de l'accueil** : les visuels sont dans `assets/carrousel/` (visuels en HTML aux couleurs de la charte, liste `SLIDES` dans `_build/build.py` ; une photo se place dans `assets/carrousel/`). Pour mettre une affiche ou une photo, déposer l'image dans ce dossier puis modifier la liste `SLIDES` dans `_build/build.py` (image, texte alternatif, lien) et relancer le script.
+- **Les couleurs et le logo** : charte graphique de novembre 2026 (marine #12284C, sable #D9B57E, bordeaux #8C1D40, blanc ; Barlow Condensed et Barlow). Variables en haut de `assets/style.css` ; logo généré par `emblem()` et `logo_h()` dans `_build/build.py` (tracé du fichier source, à ne pas redessiner).

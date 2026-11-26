@@ -22,6 +22,41 @@ MENU = [
 ]
 SECTION_OF = {"dirigeants": "formations", "mini-basket": "competitions", "5x5": "competitions", "3x3": "competitions", "vivre-ensemble": "competitions", "joueurs": "formations", "licences": "clubs"}
 
+# ---------------------------------------------------------------- Logo (charte graphique novembre 2026)
+# Tracé de l'emblème repris tel quel du fichier source de la charte : ne pas redessiner.
+MARINE, SABLE, BORDEAUX = "#12284C", "#D9B57E", "#8C1D40"
+_DUNE = "M10 128 C48 116 84 98 114 80 C120 77 127 77 131 82 L192 136 L192 200 L10 200 Z"
+_SEAMS = ('<path d="M100 16 V184"/><path d="M44 30 C72 62 72 138 44 170"/><path d="M156 30 C128 62 128 138 156 170"/>')
+_UID = [0]
+
+def emblem(neg=False, size=None, label=None):
+    """Emblème : quadri (fond clair) ou négatif (fond marine)."""
+    _UID[0] += 1
+    u = _UID[0]
+    fill, line, inner = (MARINE, "#FFFFFF", MARINE) if neg else ("#FFFFFF", MARINE, MARINE)
+    wh = f' width="{size}" height="{size}"' if size else ""
+    aria = f'role="img" aria-label="{label}"' if label else 'aria-hidden="true"'
+    return (f'<svg class="emblem" viewBox="0 0 200 200"{wh} {aria} focusable="false">'
+            f'<defs><clipPath id="b{u}"><circle cx="100" cy="100" r="80"/></clipPath><clipPath id="d{u}"><path d="{_DUNE}"/></clipPath></defs>'
+            f'<circle cx="100" cy="100" r="80" fill="{fill}"/>'
+            f'<g clip-path="url(#b{u})"><path d="{_DUNE}" fill="{SABLE}"/>'
+            f'<g fill="none" stroke="{line}" stroke-width="8" stroke-linecap="round">{_SEAMS}</g>'
+            f'<g clip-path="url(#d{u})" fill="none" stroke="{inner}" stroke-width="8" stroke-linecap="round">{_SEAMS}</g>'
+            f'<path d="M10 128 C48 116 84 98 114 80 C120 77 127 77 131 82 L192 136" fill="none" stroke="{line}" stroke-width="8" stroke-linecap="round"/></g>'
+            f'<circle cx="100" cy="100" r="84" fill="none" stroke="{line}" stroke-width="11"/></svg>')
+
+def logo_h(neg=False):
+    """Logo horizontal (version principale) : emblème + GIRONDE / BASKET-BALL / COMITÉ DÉPARTEMENTAL."""
+    return (f'<span class="logo-h{" neg" if neg else ""}">{emblem(neg)}'
+            '<span class="logo-txt"><span class="l1">GIRONDE</span><span class="lrule"></span>'
+            '<span class="l2">BASKET-BALL</span><span class="l3">COMITÉ DÉPARTEMENTAL</span></span></span>')
+
+def logo_v(neg=False):
+    """Logo vertical : emblème au-dessus du nom."""
+    return (f'<span class="logo-v{" neg" if neg else ""}">{emblem(neg)}'
+            '<span class="logo-txt"><span class="l1">GIRONDE</span><span class="lrule"></span>'
+            '<span class="l2">BASKET-BALL</span><span class="l3">COMITÉ DÉPARTEMENTAL</span></span></span>')
+
 def doc(label, url, meta=""):
     m = f'<span class="doc-cat">{meta}</span>' if meta else ""
     return f'<a class="doc" href="{url}" target="_blank" rel="noopener"><span class="doc-title">{label}</span>{m}<span class="doc-open">Ouvrir ↗</span></a>'
@@ -51,34 +86,31 @@ def page(slug, title, desc, kicker, h1, lead, body, wide_head=False):
 <title>{title} · Comité de basket de la Gironde</title>
 <meta name="description" content="{desc}">
 <link rel="canonical" href="{BASE_URL}{'' if slug == 'index' else slug + '.html'}">
-<link rel="icon" href="assets/ballon-33.svg" type="image/svg+xml">
-<meta property="og:image" content="{BASE_URL}assets/carrousel/banniere-gironde.jpg">
+<link rel="icon" href="assets/embleme.svg" type="image/svg+xml">
+<meta name="theme-color" content="#12284C">
 <meta property="og:title" content="{title} · Comité de basket de la Gironde">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="assets/style.css">
 </head>
 <body class="p-{slug}">
 <a class="skip" href="#contenu">Aller au contenu</a>
 <header class="header" id="topbar">
-  <div class="wrap header-inner">
-    <a class="brand" href="index.html" aria-label="Comité de basket de la Gironde, accueil">
-      <img src="assets/ballon-33.svg" alt="" width="44" height="47">
-      <span class="brand-t"><span>Comité</span><span>Basketball</span><span>Gironde</span></span>
-    </a>
-    <nav class="menu" id="nav" aria-label="Menu principal">
-      <ul class="menu-list">{menu(slug)}</ul>
-    </nav>
+  <div class="wrap header-top">
+    <a class="brand" href="index.html" aria-label="Gironde Basket-ball, comité départemental : accueil">{logo_h()}</a>
     <a class="ask-btn" href="assistant.html"{' aria-current="page"' if slug == 'assistant' else ''}>Une question ?</a>
     <button type="button" class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav"><span class="burger" aria-hidden="true"></span>Menu</button>
   </div>
+  <nav class="menu" id="nav" aria-label="Menu principal">
+    <div class="wrap"><ul class="menu-list">{menu(slug)}</ul></div>
+  </nav>
 </header>
 <main id="contenu">
 {hero(slug, kicker, h1, lead)}
 {body}
 </main>
-{FOOTER}
+{FOOTER()}
 <script src="assets/config.js"></script>
 <script src="assets/app.js"></script>
 </body>
@@ -106,10 +138,10 @@ AGENDA = [  # (jour, mois, titre, lieu, lien) – à tenir à jour
     ("12", "juin", "Finales des Coupes 33", "Toutes catégories", "5x5.html#coupes"),
 ]
 
-FOOTER = f"""<footer class="footer">
+FOOTER = lambda: f"""<footer class="footer">
   <div class="wrap footer-grid">
     <div class="fcol">
-      <img src="assets/logo.svg" alt="Gironde Basketball" width="72" height="104" class="flogo">
+      <p class="flogo">{logo_h(neg=True)}</p>
       <p>4 allée Annie Fratellini<br>33140 Villenave d'Ornon</p>
       <p><a href="tel:+33619863771">06 19 86 37 71</a><br><a href="mailto:secretariat@basket33.fr">secretariat@basket33.fr</a></p>
       <p class="fmuted">Accueil sur place : lundi et jeudi, 9h-17h<br>Téléphone : du lundi au vendredi, 9h-17h</p>
@@ -156,18 +188,41 @@ def docs(items):
     return '<div class="doc-list">' + "".join(doc(*i) for i in items) + "</div>"
 
 # ---------------------------------------------------------------- Accueil
-SLIDES = [  # image dans assets/carrousel/ (format 16:6, remplaçable par une photo), texte alternatif, lien
-    ("banniere-gironde.jpg", "Gironde Basketball : mosaïque de photos de joueuses, joueurs, arbitres et entraîneurs girondins autour du logo du comité", "comite.html"),
-    ("01-detections.svg", "Détections génération 2014/2015, novembre et décembre 2026", "joueurs.html"),
-    ("02-3x3-stop2.svg", "3x3 départemental, stop 2 les 19 et 20 décembre 2026 à Talence", "3x3.html"),
-    ("04-finales-coupes.svg", "Finales des Coupes 33 le samedi 12 juin 2027", "5x5.html#coupes"),
+SLIDES = [
+    # (type, lien, contenu) — "charte" : bannière de la charte ; "photo" : image + logo posé sur une zone calme ;
+    # "info" : (surtitre, titre, accroche sable, ligne d'info). Les visuels "info" sont en HTML : polices et couleurs de la charte.
+    ("charte", "comite.html", None),
+    ("photo", "comite.html", ("carrousel/banniere-gironde.jpg", "Mosaïque de photos du basket girondin : joueuses, joueurs, arbitres et entraîneurs")),
+    ("info", "joueurs.html", ("Joueurs · génération 2014/2015", "Détections", "Nov. – déc. 2026", "29/11 à Talence · 06/12 au Taillan et en Sud Gironde")),
+    ("info", "3x3.html", ("3x3 départemental · stop 2", "3x3", "19 et 20 déc.", "Halle des sports de Talence · U13 à seniors")),
+    ("info", "5x5.html#coupes", ("Coupes 33 · toutes catégories", "Finales", "12 juin 2027", "Le rendez-vous de fin de saison du basket girondin")),
 ]
+COURT = ('<svg class="court" viewBox="0 0 1920 720" preserveAspectRatio="xMaxYMid slice" aria-hidden="true">'
+         '<g fill="none" stroke="#FFFFFF" stroke-opacity=".09" stroke-width="5"><line x1="1420" y1="0" x2="1420" y2="720"/>'
+         '<circle cx="1420" cy="360" r="150"/><circle cx="1420" cy="360" r="50"/><path d="M1924 60 L1760 60 A320 320 0 0 0 1760 660 L1924 660"/>'
+         '<rect x="1700" y="250" width="224" height="220"/></g>'
+         '<path d="M1420 210 A150 150 0 0 1 1570 360" fill="none" stroke="#D9B57E" stroke-width="5"/></svg>')
+
+def slide_html(i, kind, href, data):
+    if kind == "charte":
+        inner = (f'<div class="sl sl-charte">{COURT}<div class="sl-in">{logo_h(neg=True)}'
+                 '<p class="sl-hook">Le basket<br>en Gironde</p></div></div>')
+        label = "Gironde Basket-ball, comité départemental : le basket en Gironde"
+    elif kind == "photo":
+        img, alt = data
+        inner = (f'<div class="sl sl-photo"><img src="assets/{img}" alt="{alt}" width="1920" height="720" loading="lazy">'
+                 f'<span class="sl-logo">{logo_v()}</span></div>')
+        label = alt
+    else:
+        k, t1, t2, sub = data
+        inner = (f'<div class="sl sl-info">{COURT}<div class="sl-in"><span class="sl-rule"></span><p class="sl-k">{k}</p>'
+                 f'<p class="sl-t">{t1}</p><p class="sl-t2">{t2}</p><p class="sl-s">{sub}</p></div></div>')
+        label = f"{t1} : {t2}. {k}. {sub}"
+    return (f'<li class="slide" role="group" aria-roledescription="diapositive" aria-label="{i+1} sur {len(SLIDES)}">'
+            f'<a href="{href}" aria-label="{label}">{inner}</a></li>')
 
 def slider():
-    slides = "".join(
-        f'<li class="slide" role="group" aria-roledescription="diapositive" aria-label="{i+1} sur {len(SLIDES)}">'
-        f'<a href="{href}"><img src="assets/carrousel/{img}" alt="{alt}" width="1920" height="720" loading="{"eager" if i == 0 else "lazy"}"></a></li>'
-        for i, (img, alt, href) in enumerate(SLIDES))
+    slides = "".join(slide_html(i, *s) for i, s in enumerate(SLIDES))
     dots = "".join(f'<button type="button" class="dot" aria-label="Diapositive {i+1}"{" aria-current=\"true\"" if i == 0 else ""}></button>' for i in range(len(SLIDES)))
     return f"""<section class="hero-slider" aria-roledescription="carrousel" aria-label="À la une">
   <div class="carousel" data-carousel>
@@ -741,6 +796,11 @@ for slug, title, desc, kicker, h1, lead, body in PAGES:
 with open(os.path.join(ROOT, "data", "catalogue.json"), "w", encoding="utf-8") as f:
     json.dump({"maj": MAJ, "docs": catalogue}, f, ensure_ascii=False, separators=(",", ":"))
 print("Catalogue :", len(catalogue), "documents")
+
+def _svg_file(markup):
+    return '<?xml version="1.0" encoding="UTF-8"?>\n' + markup.replace('<svg class="emblem" viewBox', '<svg xmlns="http://www.w3.org/2000/svg" viewBox', 1)
+open(os.path.join(ROOT, "assets", "embleme.svg"), "w", encoding="utf-8").write(_svg_file(emblem(size=200, label="Emblème Gironde Basket-ball")))
+open(os.path.join(ROOT, "assets", "embleme-negatif.svg"), "w", encoding="utf-8").write(_svg_file(emblem(neg=True, size=200, label="Emblème Gironde Basket-ball")))
 
 with open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8") as f:
     today = datetime.date.today().isoformat()
