@@ -10,17 +10,17 @@ GP = "https://girondebasket.com/wp-content/uploads/"
 
 # Menu principal : (page, libellé, [(ancre ou page, libellé), ...])
 MENU = [
-    ("comite", "Le CD33", [("comite.html#missions", "Qui sommes-nous"), ("comite.html#elus", "Commissions"), ("comite.html#finances", "Finances"), ("comite.html#contact", "Contact")]),
-    ("clubs", "Nos clubs", [("clubs.html#trouver", "Trouver un club"), ("clubs.html#labels", "Clubs labellisés"), ("clubs.html#demarches", "Créer, affilier, labelliser"), ("licences.html", "Licences et tarifs"), ("licences.html#surclassement", "Surclassement")]),
+    ("comite", "Le CD33", [("comite.html#missions", "Qui sommes-nous"), ("comite.html#elus", "Comité directeur"), ("comite.html#salaries", "Les salariés"), ("comite.html#finances", "Finances"), ("comite.html#contact", "Contact")]),
+    ("clubs", "Nos clubs", [("clubs.html#trouver", "Trouver un club"), ("clubs.html#labels", "Clubs labellisés"), ("clubs.html#demarches", "Créer, affilier, labelliser"), ("clubs.html#annonces", "Annonces"), ("licences.html", "Licences et tarifs"), ("licences.html#surclassement", "Surclassement")]),
     ("competitions", "Compétitions et pratiques", [("5x5.html", "5x5"), ("3x3.html", "3x3"), ("mini-basket.html", "Mini basket"),
         ("mini-basket.html#micro", "Micro basket", 2), ("mini-basket.html#u7", "U7", 2), ("mini-basket.html#u9", "U9", 2), ("mini-basket.html#u11", "U11", 2), ("mini-basket.html#labels", "Labels", 2),
         ("vivre-ensemble.html", "Vivre ensemble"), ("vivre-ensemble.html#basketsante", "Basket santé", 2), ("vivre-ensemble.html#basketonik", "Basketonik", 2), ("vivre-ensemble.html#basketloisir", "Basket loisir", 2)]),
-    ("formations", "Formations", [("joueurs.html", "Joueur"), ("formations.html#arbitres", "Arbitres"), ("formations.html#otm", "Officiels de table"), ("formations.html#entraineurs", "Entraîneurs")]),
+    ("formations", "Formations", [("joueurs.html", "Joueur"), ("formations.html#arbitres", "Arbitres"), ("formations.html#otm", "Officiels de table"), ("formations.html#entraineurs", "Entraîneurs"), ("dirigeants.html", "Dirigeant")]),
     ("agenda", "Agenda", []),
     ("galerie", "Galerie photos", []),
     ("documents", "Ressources documentaires", []),
 ]
-SECTION_OF = {"mini-basket": "competitions", "5x5": "competitions", "3x3": "competitions", "vivre-ensemble": "competitions", "joueurs": "formations", "licences": "clubs"}
+SECTION_OF = {"dirigeants": "formations", "mini-basket": "competitions", "5x5": "competitions", "3x3": "competitions", "vivre-ensemble": "competitions", "joueurs": "formations", "licences": "clubs"}
 
 def doc(label, url, meta=""):
     m = f'<span class="doc-cat">{meta}</span>' if meta else ""
@@ -110,7 +110,7 @@ FOOTER = f"""<footer class="footer">
       <img src="assets/logo.svg" alt="Gironde Basketball" width="72" height="104" class="flogo">
       <p>4 allée Annie Fratellini<br>33140 Villenave d'Ornon</p>
       <p><a href="tel:+33619863771">06 19 86 37 71</a><br><a href="mailto:secretariat@basket33.fr">secretariat@basket33.fr</a></p>
-      <p class="fmuted">Accueil sur place : lundi et jeudi, 9h-17h</p>
+      <p class="fmuted">Accueil sur place : lundi et jeudi, 9h-17h<br>Téléphone : du lundi au vendredi, 9h-17h</p>
     </div>
     <div class="fcol">
       <h2>Liens utiles</h2>
@@ -318,9 +318,14 @@ joueurs_body = (
     section("detections", "Détections", "Génération 2014/2015", '<div class="table-wrap"><table class="tbl"><thead><tr><th>Secteur</th><th>Dates et lieux</th><th>Horaires</th></tr></thead><tbody>'
         + "".join(f"<tr><th scope='row'>{a}</th><td>{b}</td><td>{c}</td></tr>" for a, b, c in DET)
         + "</tbody></table></div><p class='note'>Les convocations sont transmises par le comité aux clubs. Rendez-vous 15 minutes avant chaque créneau.</p>")
-    + section("selections", "Sélections", "Du district à l'inter-comités", rows([
-        ("Parcours", "Détections par secteur, tournoi inter-districts, puis sélections départementales (Tournoi des Étoiles, Tournoi inter-comités)."),
-        ("Espoirs girondins", "Stages et entraînements pour les jeunes repérés."),
+    + section("selections", "Sélections", "Le parcours de sélection en Gironde", '<p class="section-lead">La FFBB a mis en place un Plan de performance fédéral (PPF) qui associe clubs, comités et ligues pour accompagner les joueurs et joueuses à potentiel. En Gironde, le comité s\'occupe des détections U12/U13.</p><ol class="steps">' + "".join(f'<li><strong>{a}</strong><span>{b}</span></li>' for a, b in [
+        ("Détection clubs", "Chaque club envoie au comité une liste de joueurs et joueuses à potentiel, selon les critères du PPF."),
+        ("Détection districts", "Les potentiels sont convoqués sur des rassemblements de district."),
+        ("Tournoi inter-districts", "Des sélections de district disputent un tournoi de détection départemental."),
+        ("Espoirs Gironde", "À l\'issue du tournoi, deux groupes de 10 à 12 potentiels, garçons et filles, sont constitués."),
+        ("Tournoi inter-comités", "Les 10 garçons et 10 filles retenus représentent la Gironde face aux autres comités."),
+    ]) + '</ol>' + rows([
+        ("Le staff Espoirs", "Sous la responsabilité du conseiller territorial chargé des détections. Chaque saison, 4 entraîneurs en formation suivent les groupes Espoirs pour acquérir de l\'expérience."),
         ("Camps du comité", "Stages en internat pour les 11-15 ans à Villenave d'Ornon : <a href='https://girondebasketcamp.wixsite.com/girondebasketcamp' target='_blank' rel='noopener'>site des camps</a>."),
     ]), alt=True)
 )
@@ -344,6 +349,12 @@ mini_body = (
         ("Le projet complet", "<a href='https://www.canva.com/design/DAGxvoTcSIc/6ZKWF5lo8krE9HBEn_To-Q/view' target='_blank' rel='noopener'>Présentation du projet mini-basket 2025-2028</a>."),
         ("Engager ses équipes", "<a href='https://docs.google.com/forms/d/e/1FAIpQLSc67OBv3uym-eVDTCE97Ozq6PkiMFjwh1efUysndh6rxMpPhA/viewform' target='_blank' rel='noopener'>Formulaire d'engagement mini-basket</a>."),
         ("Contact", "Commission mini-basket : <a href='mailto:secretariat@basket33.fr'>secretariat@basket33.fr</a>."),
+    ]))
+    + section("cestquoi", "Le mini basket", "C'est quoi ?", rows([
+        ("Son histoire", "Inventé en 1950 par René Lavergne, professeur d'éducation physique, le mini basket initie les jeunes de 6 à 12 ans à la vie sportive et au basket. Près de 160 000 licenciés le pratiquent en France."),
+        ("Les catégories", "U7 (anciennement baby-basketteurs) : 6 ans et moins · U9 (mini-poussins) : 7 et 8 ans · U11 (poussins) : 9 et 10 ans."),
+        ("L'esprit", "Loyauté et camaraderie. Matériel adapté aux enfants : ballons de petite taille (taille 3 et 5), paniers ajustables. Le non-contact et le marcher sont les deux règles principales."),
+        ("Les rencontres", "Rassemblements baby, plateaux U9 et U11 filles et garçons : l'organisation des rencontres est envoyée aux clubs engagés."),
     ]))
     + section("micro", "Micro basket", "Les tout-petits", rows([
         ("Le principe", "Une première découverte du ballon et du jeu, avant la catégorie U7 : motricité, jeux d'adresse et d'équilibre, en petits groupes, avec un parent souvent associé à la séance."),
@@ -388,11 +399,17 @@ trois_body = (
         ("Formulaire d'inscription 3x3", "https://docs.google.com/forms/d/e/1FAIpQLSeOoPaNeZO1yskBizRBk1AGCH0p0N6wbBR_PsVDKE_x0u-C7g/viewform", "Inscription"),
         ("Règlements sportifs généraux 3x3 FFBB 2026-2027", GP + "2026/09/01-refbfbdglements-sportifs-gefbfbdnefbfbdraux-3x3-vdef.pdf", "Règlement"),
     ]))
+    + section("open", "Open 3x3", "Ta saison 5x5 est terminée ?", rows([
+        ("Junior League", "Tu joues en U18 : participe à la Junior League 3x3."),
+        ("Superleague", "Tu joues en seniors : participe à la Superleague 3x3."),
+        ("Open de France", "Participe à des tournois et qualifie-toi avec ta team pour l'Open de France 3x3."),
+        ("Les tournois", "Tous les tournois sur <a href='https://www.3x3ffbb.com/' target='_blank' rel='noopener'>3x3ffbb.com</a>. <span class='todo'>[À COMPLÉTER : tournois jeunes et seniors en Gironde]</span>"),
+    ]), alt=True)
     + section("pratiquer", "Pratiquer le 3x3", "En club et en loisir", rows([
         ("Le 3x3 en club", "Licence de club obligatoire, y compris pour jouer en compétition 3x3. <a href='licences.html'>Licences et tarifs</a>."),
         ("Le 3x3 loisir seniors", "Fiche individuelle d'inscription et formules allégées : voir <a href='vivre-ensemble.html#basketloisir'>Basket loisir</a>."),
         ("Le 3x3 en France", "Calendrier des tournois et classements sur <a href='https://www.3x3ffbb.com/' rel='noopener'>3x3ffbb.com</a>."),
-    ]), alt=True)
+    ]))
 )
 
 # ---------------------------------------------------------------- Compétitions et pratiques (page d'accueil de la rubrique)
@@ -468,12 +485,18 @@ clubs_body = (
         ("Labelliser son club", "Le comité accompagne les clubs dans leurs démarches de labels fédéraux et départementaux."),
         ("Homologuer sa salle", "Commission Équipements, via le secrétariat."),
     ]))
+    + section("annonces", "Annonces", "Les annonces des clubs", rows([
+        ("Tournois et événements", "Les tournois et événements proposés par les clubs du département."),
+        ("Offres d'emploi", "Les offres d'emploi des clubs girondins."),
+        ("Recherche d'entraîneurs", "Les clubs qui cherchent un entraîneur."),
+        ("Publier une annonce", '<span class="todo">[À COMPLÉTER : modalités de dépôt des annonces et liste des annonces en cours]</span>'),
+    ]), alt=True)
 )
 
 # ---------------------------------------------------------------- Formations
 form_body = (
-    section("arbitres", "Arbitres", "Devenir arbitre départemental", rows([
-        ("La formation", "Trois week-ends, une journée d'examen (écrit et oral) et une évaluation sur le terrain."),
+    section("arbitres", "Arbitres", "Devenir arbitre départemental", '<p class="section-lead">Par délégation de la FFBB, le comité propose plusieurs formules pour devenir arbitre officiel ou officiel de table de marque, en formation continue ou en camp d\'une semaine.</p>' + rows([
+        ("Formation continue", "Trois week-ends, une journée d'examen (écrit et oral) et une évaluation sur le terrain."),
         ("Inscription", "<a href='https://docs.google.com/forms/d/e/1FAIpQLSdVLD6KxDRbsQwf8QUG1_g9PkeogqNdeLd874iyKcupPPe9cA/viewform' target='_blank' rel='noopener'>Formulaire d'inscription</a>."),
         ("Camps arbitres", "Dès 15 ans, formation diplômante FFBB pour officier dès septembre."),
         ("Contact", "Commission des officiels : <a href='mailto:CDO@basket33.fr'>CDO@basket33.fr</a>."),
@@ -486,32 +509,77 @@ form_body = (
         ("Les rôles", "Marqueur (feuille e-marque), chronométreur, opérateur 24 secondes."),
         ("Accompagnement", "Le comité a formé plus de 30 clubs à l'e-marque V2."),
     ]), alt=True)
-    + section("entraineurs", "Entraîneurs", "Brevets fédéraux", rows([
-        ("BF enfants", "Pour encadrer les U9 à U12."),
-        ("BF jeunes", "Pour encadrer les U13 à U15."),
-        ("BF adultes", "Pour encadrer les U17 et plus."),
+    + section("entraineurs", "Entraîneurs", "Brevets fédéraux", '<p class="section-lead">Par délégation de la FFBB et de la Ligue Nouvelle-Aquitaine, le comité propose les brevets fédéraux pour encadrer des équipes, des U9 aux seniors.</p>' + rows([
+        ("BF Enfant", "Entraîner une équipe de mini-basket et l'accompagner en compétition, avec une posture pédagogique qui favorise l'engagement et l'apprentissage. <a href='https://nouvelleaquitainebasketball.org/formations/brevet-federal-enfant/' target='_blank' rel='noopener'>En savoir plus</a>"),
+        ("BF Jeune", "Entraîner une équipe U13-U15 et l'accompagner en compétition. <a href='https://nouvelleaquitainebasketball.org/formations/brevet-federal-jeune/' target='_blank' rel='noopener'>En savoir plus</a>"),
+        ("BF Adulte", "Entraîner une équipe U17-U20 ou seniors et l'accompagner en compétition, en favorisant l'engagement et le développement. <a href='https://nouvelleaquitainebasketball.org/formations/brevet-federal-adulte/' target='_blank' rel='noopener'>En savoir plus</a>"),
+        ("Toutes les formations", "Formations complémentaires sur <a href='https://nouvelleaquitainebasketball.org/formations-techniciens/' target='_blank' rel='noopener'>le site de la Ligue Nouvelle-Aquitaine</a>."),
         ("Inscription", "Dès 16 ans, licencié FFBB, directement sur <a href='https://nasket.net' target='_blank' rel='noopener'>nasket.net</a>."),
     ]))
 )
 
 # ---------------------------------------------------------------- Comité
-COMM = [
-    ("Président du comité", "Jean-Luc Dubos"), ("Commission sportive", "Cécile Doumax"), ("Commission technique", "Anaïs Boisnier"),
-    ("Commission mini-basket", "Michèle Ladois"), ("Commission féminine", "Anna Gbedemah"), ("Commission des officiels", "Fabien Tapie"),
-    ("3x3 et événementiel", "Stéphane Vernagallo"), ("Accompagnement des clubs", "Ludovic Garrigos"), ("Équipements et Coupes 33", "Jacques Doublet"),
-    ("Qualification", "Edith Lanau"), ("Communication", "Théo Lanchon-Dumontier"), ("Moyens généraux", "Anthony Matignon"), ("Vivre ensemble", "Gaëtan Sauvignon"),
+BUREAU = [
+    ("Président", "Jean-Luc Dubos"),
+    ("1re vice-présidente", "Cécile Doumax"),
+    ("2e vice-président · commission sportive", "Julien Michaud"),
+    ("3e vice-présidente · commission technique", "Anaïs Boisnier"),
+    ("4e vice-président · commission des officiels", "Fabien Tapie"),
+    ("Secrétaire générale · qualification", "Edith Lanau"),
+    ("Trésorier · Vivre ensemble", "Gaëtan Sauvignon"),
+    ("Membre du bureau · commission féminine", "Anna Gbedemah"),
+    ("Membre du bureau · moyens généraux", "Anthony Matignon"),
 ]
+COMM = [
+    ("Commission mini-basket", "Michèle Ladois"),
+    ("Commission 3x3 et événementiel", "Stéphane Vernagallo"),
+    ("Commission communication", "Théo Lanchon-Dumontier"),
+    ("Équipements, salles et terrains", "Jacques Doublet"),
+    ("Accompagnement des clubs", "Ludovic Garrigos"),
+    ("Vice-présidente commission féminine", "Marine Gonzalez"),
+    ("Vice-président commission technique", "Freddy Dogoum"),
+    ("Membre commission technique", "Sophie Maury"),
+    ("Membre commission féminine", "Marion Bouquet"),
+]
+SALARIES = [
+    ("Joan Desbordes", "Conseiller territorial", "Formation du joueur, détection des espoirs, formation des cadres"),
+    ("Zouheir Kasri", "Conseiller territorial", "Formation et désignations des arbitres, référent championnats seniors"),
+    ("Mathieu Rodier", "Conseiller territorial", "Référent 3x3 et mini-basket, communication"),
+    ("Audrey Bard", "Responsable administrative", "Référente championnats jeunes et Coupe 33, secrétariat et communication"),
+    ("Valérie Legrand", "Responsable comptabilité", "Suivi des facturations, comptabilité"),
+]
+def people(items):
+    return '<div class="people">' + "".join(f'<div class="person"><span>{r}</span><strong>{n}</strong></div>' for r, n in items) + '</div>'
 comite_body = (
-    section("missions", "Missions", "Le CD33", '<div class="prose"><p>Structure déconcentrée de la FFBB, le comité applique en Gironde la politique fédérale : il organise et développe le basket, soutient les clubs, prépare les compétitions départementales et pré-régionales, et forme joueurs, entraîneurs, arbitres, officiels et dirigeants.</p></div>'
+    section("missions", "Missions", "Le CD33", '<div class="prose"><p>Organe décentralisé de la FFBB, le comité est chargé en Gironde de l\'organisation, de la promotion et du développement du basket-ball et de toutes ses pratiques : 5x5, 3x3 et Vivre ensemble. Il soutient les clubs, prépare les compétitions départementales et pré-régionales, et forme joueurs, entraîneurs, arbitres, officiels et dirigeants.</p><p>Ses valeurs : bienveillance, respect, responsabilité, assiduité et plaisir du jeu.</p></div>'
         + docs([("Statuts du comité (24/06/2023)", GP + "2024/01/2023-06-24-statuts-cd33.pdf", "Statuts"),
                 ("Règlement intérieur", GP + "2022/06/2021_02_22-recc80glement-intecc81rieur-cd33.pdf", "Règlement")]))
-    + section("elus", "Comité directeur 2024-2028", "Les commissions", '<div class="people">' + "".join(f'<div class="person"><span>{r}</span><strong>{n}</strong></div>' for r, n in COMM) + '</div><p class="note">Pour joindre une commission : <a href="mailto:secretariat@basket33.fr">secretariat@basket33.fr</a>, qui transmet.</p>', alt=True)
+    + section("elus", "Comité directeur 2024-2028", "Les élus", '<h3 class="sub-h">Le bureau</h3>' + people(BUREAU) + '<h3 class="sub-h">Les commissions</h3>' + people(COMM) + '<p class="note">Pour joindre une commission : <a href="mailto:secretariat@basket33.fr">secretariat@basket33.fr</a>, qui transmet.</p>', alt=True)
+    + section("salaries", "L'équipe salariée", "Les salariés", '<div class="staff">' + "".join(f'<div class="staff-card"><strong>{n}</strong><span class="staff-role">{r}</span><p>{m}</p></div>' for n, r, m in SALARIES) + '</div><p class="note">Pour joindre un salarié : <a href="mailto:secretariat@basket33.fr">secretariat@basket33.fr</a> · comptabilité : <a href="mailto:comptabilite@basket33.fr">comptabilite@basket33.fr</a> · 3x3 et développement : <a href="mailto:developpement@basket33.fr">developpement@basket33.fr</a>.</p>')
     + section("finances", "Finances", "Transparence", docs([
         ("Indicateurs financiers 2025 (AG du 20/06/2026)", "https://drive.google.com/file/d/1Yi3O5QZqxPBfm113js6vKMYXlOW2K_9o/view", "Finances"),
         ("Comptes annuels 2025", "https://drive.google.com/file/d/1wKq6LqKBZLNhWKGgGmz-ue6NBK6Idzan/view", "Finances"),
         ("Dispositions financières 2026-2027", "https://drive.google.com/file/d/13SY2D7ZyJ06w_t-XtJUsXBWPZEqjPHBg/view", "Tarifs"),
     ]))
-    + section("contact", "Contact", "Nous joindre", '<div class="contact"><div><h3>Adresse</h3><p>4 allée Annie Fratellini<br>33140 Villenave d\'Ornon</p></div><div><h3>Secrétariat</h3><p><a href="mailto:secretariat@basket33.fr">secretariat@basket33.fr</a><br><a href="tel:+33619863771">06 19 86 37 71</a></p></div><div><h3>Accueil sur place</h3><p>Lundi et jeudi, 9h-17h</p></div></div>', alt=True)
+    + section("contact", "Contact", "Nous joindre", '<div class="contact"><div><h3>Adresse</h3><p>4 allée Annie Fratellini<br>33140 Villenave d\'Ornon</p></div><div><h3>Secrétariat</h3><p><a href="mailto:secretariat@basket33.fr">secretariat@basket33.fr</a><br><a href="tel:+33619863771">06 19 86 37 71</a></p></div><div><h3>Horaires</h3><p>Accueil sur place : lundi et jeudi, 9h-17h<br>Accueil téléphonique : du lundi au vendredi, 9h-17h</p></div></div>', alt=True)
+)
+
+# ---------------------------------------------------------------- Dirigeant
+dir_body = (
+    section("formation", "Se former", "Être dirigeant de club", '<p class="section-lead">Pour que l\'engagement bénévole reste une formidable aventure humaine au service de la passion du basket, le dirigeant doit bénéficier d\'un temps de formation et d\'information en lien avec ses responsabilités et ses fonctions.</p>' + rows([
+        ("Les formations FFBB", "La FFBB met à disposition des formations et des informations, en présentiel ou en libre accès à distance. Consultez les ressources selon vos besoins et participez aux formations proposées par la FFBB et ses structures territoriales. <a href='https://www.ffbb.com/diriger#presentation-du-service-formation-dirigeant' target='_blank' rel='noopener'>En savoir plus</a>"),
+        ("Avec le comité", "Accompagnement des clubs, e-marque, engagements, licences : le comité forme et conseille les dirigeants girondins. <a href='mailto:secretariat@basket33.fr'>secretariat@basket33.fr</a>"),
+    ]))
+    + section("club", "Le club", "Créer, collaborer, se labelliser", rows([
+        ("Créer un club", "La FFBB compte plus de 3 700 clubs actifs. Un club est avant tout un lieu associatif de convivialité et de partage. Pour créer le vôtre, remplissez le formulaire d'affiliation. <a href='https://www.ffbb.com/diriger#creer-un-club' target='_blank' rel='noopener'>En savoir plus</a>"),
+        ("Collaborer entre clubs", "Ententes, CTC : plusieurs dispositifs encadrent la collaboration entre clubs affiliés. <a href='https://www.ffbb.com/diriger#collaboration-entre-clubs' target='_blank' rel='noopener'>En savoir plus</a>"),
+        ("Les labels fédéraux", "Pour encadrer et valoriser le travail des clubs, la FFBB a créé des labels qui récompensent la qualité des structures. <a href='https://www.ffbb.com/diriger#les-labels-federaux' target='_blank' rel='noopener'>En savoir plus</a> · <a href='clubs.html#labels'>Les clubs labellisés en Gironde</a>"),
+    ]), alt=True)
+    + section("ressources", "Ressources", "Les outils du dirigeant", rows([
+        ("Licences", "Modes opératoires FBI : création, renouvellement, mutation. <a href='licences.html#modes'>Voir les démarches</a>"),
+        ("Engagements", "Engager ses équipes en championnat et en coupe. <a href='5x5.html#engager'>Voir les engagements</a>"),
+        ("Tous les documents", "Statuts, règlements, dispositions financières : <a href='documents.html'>Ressources documentaires</a>"),
+    ]))
 )
 
 # ---------------------------------------------------------------- Documents et assistant
@@ -612,6 +680,7 @@ PAGES = [
     ("licences", "Licences et tarifs", "Licences de basket en Gironde : tarifs 2026-2027, dispositions financières, modes opératoires et surclassement.", "Licences", "Licences<br>et tarifs", "Tarifs de la saison, démarches de licence et surclassement.", lic_body),
     ("clubs", "Clubs", "Les clubs de basket de la Gironde par district, les clubs labellisés et les démarches pour créer ou affilier un club.", "Clubs", "Trouver un club", "Les clubs girondins par district, leurs labels et les démarches pour les dirigeants.", clubs_body),
     ("formations", "Se former", "Devenir arbitre, officiel de table ou entraîneur en Gironde : formations, inscriptions et documents.", "Se former", "Se former", "Arbitrer, tenir la table de marque ou entraîner : les formations proposées par le comité et la FFBB.", form_body),
+    ("dirigeants", "Dirigeant", "Se former comme dirigeant de club de basket en Gironde : formations FFBB, création de club, collaborations, labels.", "<a href=\"formations.html\">Formations</a> <span aria-hidden=\"true\">/</span> Dirigeant", "Dirigeant", "Se former, créer ou développer son club : les ressources pour les dirigeants bénévoles.", dir_body),
     ("comite", "Le CD33", "Le Comité départemental de basket-ball de la Gironde : missions, commissions, finances et contact.", "Le CD33", "Le CD33", "Missions, commissions, documents institutionnels et contact.", comite_body),
     ("documents", "Ressources documentaires", "Tous les documents présents sur le site du comité de basket de la Gironde : règlements, tarifs, calendrier, notes, modes opératoires, formulaires.", "Ressources documentaires", "Ressources<br>documentaires", "Tous les documents présents sur le site, réunis au même endroit. Cherchez par mot-clé ou par catégorie.", docs_body),
     ("agenda", "Agenda", "Agenda du basket en Gironde : détections, 3x3 départemental, finales des Coupes 33 et calendrier général 2026-2027.", "Agenda", "Agenda", "Les prochains rendez-vous du comité et le calendrier général de la saison.", agenda_body()),
@@ -624,7 +693,7 @@ PAGES = [
 # ceux de data/documents.json et tous les liens « document » rencontrés dans les pages.
 import re, html as _html
 CAT_MAP = {"Licences et clubs": "Clubs et licences", "Officiels": "Formations et officiels", "Le comité": "Le CD33"}
-CAT_OF_PAGE = {"comite": "Le CD33", "competitions": "Compétitions", "5x5": "Compétitions", "3x3": "Compétitions", "vivre-ensemble": "Compétitions", "joueurs": "Formations et officiels", "formations": "Formations et officiels",
+CAT_OF_PAGE = {"comite": "Le CD33", "competitions": "Compétitions", "5x5": "Compétitions", "3x3": "Compétitions", "vivre-ensemble": "Compétitions", "joueurs": "Formations et officiels", "formations": "Formations et officiels", "dirigeants": "Formations et officiels",
                "licences": "Clubs et licences", "clubs": "Clubs et licences", "mini-basket": "Mini-basket", "agenda": "Compétitions"}
 DOC_RE = re.compile(r'<a class="doc" href="([^"]+)"[^>]*><span class="doc-title">(.*?)</span>')
 
