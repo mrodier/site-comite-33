@@ -19,6 +19,15 @@
     });
     document.addEventListener("keydown", (e) => { if (e.key === "Escape" && topbar.classList.contains("open")) { topbar.classList.remove("open"); toggle.setAttribute("aria-expanded", "false"); toggle.focus(); } });
   }
+  /* Sous-menus : survol sur ordinateur (CSS), bouton chevron au clavier et dans le tiroir mobile */
+  const subs = [...document.querySelectorAll(".mi.has-sub")];
+  const closeSubs = (except) => subs.forEach((li) => { if (li !== except) { li.classList.remove("sub-open"); li.querySelector(".sub-toggle").setAttribute("aria-expanded", "false"); } });
+  subs.forEach((li) => {
+    const b = li.querySelector(".sub-toggle");
+    b.addEventListener("click", (e) => { e.stopPropagation(); const open = !li.classList.contains("sub-open"); closeSubs(li); li.classList.toggle("sub-open", open); b.setAttribute("aria-expanded", String(open)); });
+    li.addEventListener("keydown", (e) => { if (e.key === "Escape" && li.classList.contains("sub-open")) { closeSubs(); b.focus(); e.stopPropagation(); } });
+  });
+  document.addEventListener("click", (e) => { if (!e.target.closest(".mi.has-sub")) closeSubs(); });
 
 
   /* ---------- Carrousel ---------- */

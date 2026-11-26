@@ -1,26 +1,46 @@
 """Génère les pages HTML du site à partir d'un gabarit commun.
 Usage : python3 _build/build.py   (depuis la racine du dépôt)
 Modifier le contenu dans PAGES ci-dessous, puis relancer le script et pousser les fichiers produits."""
-import os, json, datetime
+import os, json, datetime, pathlib
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_URL = "https://mrodier.github.io/site-comite-33/"
 MAJ = "26/11/2026"
 GP = "https://girondebasket.com/wp-content/uploads/"
 
-NAV = [
-    ("competitions", "Compétitions"), ("joueurs", "Joueurs"), ("mini-basket", "Mini-basket"),
-    ("licences", "Licences"), ("clubs", "Clubs"), ("formations", "Se former"),
-    ("comite", "Le comité"), ("documents", "Documents"),
+# Menu principal : (page, libellé, [(ancre ou page, libellé), ...])
+MENU = [
+    ("comite", "Le comité", [("comite.html#missions", "Qui sommes-nous"), ("comite.html#elus", "Commissions"), ("comite.html#finances", "Finances"), ("comite.html#contact", "Contact")]),
+    ("clubs", "Nos clubs", [("clubs.html#trouver", "Trouver un club"), ("clubs.html#labels", "Clubs labellisés"), ("clubs.html#demarches", "Créer, affilier, labelliser")]),
+    ("competitions", "Compétitions", [("competitions.html#jeunes", "Championnats jeunes"), ("competitions.html#seniors", "Championnats seniors"), ("competitions.html#coupes", "Coupes 33"), ("competitions.html#trois", "3x3"), ("mini-basket.html", "Mini-basket"), ("competitions.html#engager", "Engager ses équipes")]),
+    ("joueurs", "Joueurs", [("joueurs.html#detections", "Détections 2014/2015"), ("joueurs.html#selections", "Sélections et camps")]),
+    ("formations", "Formations", [("formations.html#arbitres", "Arbitres"), ("formations.html#otm", "Officiels de table"), ("formations.html#entraineurs", "Entraîneurs")]),
+    ("licences", "Licences", [("licences.html#tarifs", "Tarifs 2026-2027"), ("licences.html#modes", "Démarches"), ("licences.html#surclassement", "Surclassement")]),
+    ("documents", "Documents", []),
 ]
+SECTION_OF = {"mini-basket": "competitions"}
 
 def doc(label, url, meta=""):
     m = f'<span class="doc-cat">{meta}</span>' if meta else ""
     return f'<a class="doc" href="{url}" target="_blank" rel="noopener"><span class="doc-title">{label}</span>{m}<span class="doc-open">Ouvrir ↗</span></a>'
 
+CHEV = '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>'
+
+def menu(slug):
+    cur = SECTION_OF.get(slug, slug)
+    out = []
+    for s, label, subs in MENU:
+        here = ' aria-current="page"' if s == cur else ""
+        if not subs:
+            out.append(f'<li class="mi"><a class="mlink" href="{s}.html"{here}>{label}</a></li>')
+            continue
+        items = "".join(f'<li><a href="{h}">{l}</a></li>' for h, l in subs)
+        out.append(f'<li class="mi has-sub"><a class="mlink" href="{s}.html"{here}>{label}</a>'
+                   f'<button type="button" class="sub-toggle" aria-expanded="false" aria-label="Ouvrir le sous-menu {label}">{CHEV}</button>'
+                   f'<ul class="sub">{items}</ul></li>')
+    return "".join(out)
+
 def page(slug, title, desc, kicker, h1, lead, body, wide_head=False):
-    nav = "".join(
-        f'<a href="{s}.html"{" aria-current=\"page\"" if s == slug else ""}>{l}</a>' for s, l in NAV)
     return f"""<!doctype html>
 <html lang="fr">
 <head>
@@ -32,18 +52,22 @@ def page(slug, title, desc, kicker, h1, lead, body, wide_head=False):
 <link rel="icon" href="assets/ballon-33.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="assets/style.css">
 </head>
 <body class="p-{slug}">
 <a class="skip" href="#contenu">Aller au contenu</a>
-<header class="topbar" id="topbar">
-  <div class="container topbar-inner">
+<header class="header" id="topbar">
+  <div class="wrap header-inner">
     <a class="brand" href="index.html" aria-label="Comité de basket de la Gironde, accueil">
-      <img src="assets/ballon-33.svg" alt="" width="34" height="36"><span>Gironde <em>Basket</em></span>
+      <img src="assets/ballon-33.svg" alt="" width="44" height="47">
+      <span class="brand-t"><span>Comité</span><span>Basketball</span><span>Gironde</span></span>
     </a>
-    <button type="button" class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
-    <nav class="nav" id="nav" aria-label="Sommaire"><a href="assistant.html" class="nav-cta"{' aria-current="page"' if slug == 'assistant' else ''}>Une question ?</a><a href="index.html" class="nav-home"{' aria-current="page"' if slug == 'index' else ''}>Accueil</a>{nav}</nav>
+    <nav class="menu" id="nav" aria-label="Menu principal">
+      <ul class="menu-list">{menu(slug)}</ul>
+    </nav>
+    <a class="ask-btn" href="assistant.html"{' aria-current="page"' if slug == 'assistant' else ''}>Une question ?</a>
+    <button type="button" class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav"><span class="burger" aria-hidden="true"></span>Menu</button>
   </div>
 </header>
 <main id="contenu">
@@ -51,51 +75,71 @@ def page(slug, title, desc, kicker, h1, lead, body, wide_head=False):
 {body}
 </main>
 {FOOTER}
-<nav class="mobilebar" aria-label="Accès rapide mobile">
-  <a href="index.html"{' aria-current="page"' if slug == 'index' else ''}><span aria-hidden="true">⌂</span>Accueil</a>
-  <a href="competitions.html"{' aria-current="page"' if slug == 'competitions' else ''}><span aria-hidden="true">◎</span>Compétitions</a>
-  <a href="documents.html"{' aria-current="page"' if slug == 'documents' else ''}><span aria-hidden="true">▤</span>Documents</a>
-  <a href="assistant.html"{' aria-current="page"' if slug == 'assistant' else ''}><span aria-hidden="true">?</span>Question</a>
-</nav>
 <script src="assets/config.js"></script>
 <script src="assets/app.js"></script>
 </body>
 </html>
 """
 
-COURT = '<svg class="court" viewBox="0 0 1440 520" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><line x1="1010" y1="0" x2="1010" y2="520"/><circle cx="1010" cy="260" r="100"/><circle cx="1010" cy="260" r="34"/><path d="M1442 40 L1290 40 A220 220 0 0 0 1290 480 L1442 480"/><rect x="1250" y="180" width="192" height="160"/></svg>'
-
 def hero(slug, kicker, h1, lead):
     if slug == "index":
         return ""
-    return f"""<section class="phead">{COURT}
-  <div class="container phead-inner">
-    <p class="crumbs"><a href="index.html">Accueil</a> / {kicker}</p>
+    return f"""<section class="phead">
+  <div class="wrap">
+    <p class="crumbs"><a href="index.html">Accueil</a> <span aria-hidden="true">/</span> {kicker}</p>
     <h1>{h1}</h1>
-    {f'<p class="lead">{lead}</p>' if lead else ''}
+    {f'<p class="phead-lead">{lead}</p>' if lead else ''}
     <p class="updated">Mis à jour le {MAJ}</p>
   </div>
 </section>"""
 
-FOOTER = """<footer class="footer">
-  <div class="container footer-inner">
-    <img src="assets/logo.svg" alt="Gironde Basketball" width="64" height="92">
-    <div class="footer-id">
-      <p><strong>Comité départemental de basket-ball de la Gironde</strong></p>
-      <p class="muted">4 allée Annie Fratellini, 33140 Villenave d'Ornon · <a href="mailto:secretariat@basket33.fr">secretariat@basket33.fr</a> · <a href="tel:+33619863771">06 19 86 37 71</a></p>
+AGENDA = [  # (jour, mois, titre, lieu, lien) – à tenir à jour
+    ("29", "nov.", "Détections 2014/2015 · District de Bordeaux", "Gymnase Jean Bouin, Talence", "joueurs.html#detections"),
+    ("06", "déc.", "Détections 2014/2015 · Médoc et Sud Gironde", "Le Taillan · lieu Sud Gironde à confirmer", "joueurs.html#detections"),
+    ("19", "déc.", "3x3 départemental · Stop 2 (19 et 20 déc.)", "Halle des sports, Talence", "competitions.html#trois"),
+    ("22", "févr.", "3x3 départemental · Stop 3 (22 au 25 févr.)", "Halle des sports, Talence", "competitions.html#trois"),
+    ("19", "avr.", "3x3 départemental · Stop 4 (19 au 22 avr.)", "Halle des sports, Talence", "competitions.html#trois"),
+    ("12", "juin", "Finales des Coupes 33", "Toutes catégories", "competitions.html#coupes"),
+]
+
+FOOTER = f"""<footer class="footer">
+  <div class="wrap footer-grid">
+    <div class="fcol">
+      <img src="assets/logo.svg" alt="Gironde Basketball" width="72" height="104" class="flogo">
+      <p>4 allée Annie Fratellini<br>33140 Villenave d'Ornon</p>
+      <p><a href="tel:+33619863771">06 19 86 37 71</a><br><a href="mailto:secretariat@basket33.fr">secretariat@basket33.fr</a></p>
+      <p class="fmuted">Accueil sur place : lundi et jeudi, 9h-17h</p>
     </div>
-    <ul class="footer-links">
-      <li><a href="https://www.facebook.com/Cd33Basket" rel="noopener">Facebook</a></li>
-      <li><a href="https://www.instagram.com/girondebasket" rel="noopener">Instagram</a></li>
-      <li><a href="https://www.youtube.com/@comitedegirondedebasketbal7366" rel="noopener">YouTube</a></li>
-      <li><a href="mentions-legales.html">Mentions légales et confidentialité</a></li>
-    </ul>
+    <div class="fcol">
+      <h2>Liens utiles</h2>
+      <ul>
+        <li><a href="https://www.ffbb.com/" rel="noopener">Fédération française de basket-ball</a></li>
+        <li><a href="https://nouvelleaquitainebasketball.org/" rel="noopener">Ligue Nouvelle-Aquitaine</a></li>
+        <li><a href="https://www.3x3ffbb.com/" rel="noopener">3x3 FFBB</a></li>
+        <li><a href="https://www.gironde.fr/" rel="noopener">Département de la Gironde</a></li>
+        <li><a href="https://www.agencedusport.fr/" rel="noopener">Agence nationale du sport</a></li>
+      </ul>
+    </div>
+    <div class="fcol">
+      <h2>Suivez-nous</h2>
+      <ul>
+        <li><a href="https://www.facebook.com/Cd33Basket" rel="noopener">Facebook</a></li>
+        <li><a href="https://www.instagram.com/girondebasket" rel="noopener">Instagram</a></li>
+        <li><a href="https://www.youtube.com/@comitedegirondedebasketbal7366" rel="noopener">YouTube</a></li>
+      </ul>
+      <a class="fask" href="assistant.html">Une question ? Demandez à l'assistant →</a>
+    </div>
+    <div class="fcol">
+      <h2>Agenda</h2>
+      <ul class="fagenda">{''.join(f'<li><a href="{h}"><strong>{d} {m}</strong> {tt}</a></li>' for d, m, tt, l, h in AGENDA[:4])}</ul>
+    </div>
   </div>
+  <div class="wrap fbottom"><span>© Comité départemental de basket-ball de la Gironde</span><a href="mentions-legales.html">Mentions légales et confidentialité</a></div>
 </footer>"""
 
 def section(id_, kicker, title, inner, alt=False, lead=""):
     return f"""<section class="section{' alt' if alt else ''}" id="{id_}">
-  <div class="container">
+  <div class="wrap">
     <div class="section-head"><p class="kicker">{kicker}</p><h2>{title}</h2>{f'<p class="section-lead">{lead}</p>' if lead else ''}</div>
     {inner}
   </div>
@@ -108,77 +152,95 @@ def docs(items):
     return '<div class="doc-list">' + "".join(doc(*i) for i in items) + "</div>"
 
 # ---------------------------------------------------------------- Accueil
-QUICK = [  # classés selon les pages les plus vues en 2026 (statistiques WordPress)
-    ("documents.html#reglements", "Règlements", "Règlements sportifs, jeunes, pré-région, 3x3"),
-    ("competitions.html#jeunes", "Championnats jeunes", "U13 à U21, calendrier, phases finales"),
-    ("competitions.html#coupes", "Coupes 33", "Seniors et jeunes, notices et finales"),
-    ("joueurs.html", "Détections et sélections", "Génération 2014/2015, dates et lieux"),
-    ("competitions.html#seniors", "Championnats seniors", "Pré-région et départementales"),
-    ("mini-basket.html", "Mini-basket", "U7, U9, U11 : règlements et outils"),
-    ("competitions.html#trois", "3x3", "Stops 2026-2027 et inscription"),
-    ("licences.html", "Licences et tarifs", "Tarifs, modes opératoires, surclassement"),
-]
-TOPDOCS = [  # les plus téléchargés en 2026
-    ("Cahier des charges des phases finales championnats (06/02/2026)", GP + "2026/02/2026_02_06-cahier_charges-chpt.pdf", "Compétitions"),
-    ("Cahier des charges des phases finales des Coupes 33 (06/02/2026)", GP + "2026/02/2026_02_06-cahier_charges-_coupes.pdf", "Compétitions"),
-    ("Statuts du comité (24/06/2023)", GP + "2024/01/2023-06-24-statuts-cd33.pdf", "Le comité"),
-    ("Règlement sportif particulier des championnats jeunes 2026-2027", "https://docs.google.com/document/d/1Cj-tsL1w77xI0HiB4HxjuI6cfWdVFXMK/edit", "Règlements"),
-    ("Mode opératoire engagements FBI (30/06/2026)", GP + "2026/06/2026_06_30_mode_operatoire_engagements-fbi.pdf", "Compétitions"),
-    ("Fiche rencontre U9 / U9-U11 championnat", GP + "2025/11/fiche-rencontre-u9u9championnatu11.pdf", "Mini-basket"),
+SLIDES = [  # image dans assets/carrousel/ (format 16:6, remplaçable par une photo), texte alternatif, lien
+    ("00-bienvenue.svg", "Le basket en Gironde, comité départemental de basket-ball", "comite.html"),
+    ("01-detections.svg", "Détections génération 2014/2015, novembre et décembre 2026", "joueurs.html"),
+    ("02-3x3-stop2.svg", "3x3 départemental, stop 2 les 19 et 20 décembre 2026 à Talence", "competitions.html#trois"),
+    ("04-finales-coupes.svg", "Finales des Coupes 33 le samedi 12 juin 2027", "competitions.html#coupes"),
 ]
 
-SLIDES = [  # image dans assets/carrousel/ (remplaçable par une affiche ou une photo au format 16:9), texte alternatif, lien
-    ("01-detections.svg", "Détections génération 2014/2015, novembre et décembre 2026", "joueurs.html", "Dates et lieux des détections"),
-    ("02-3x3-stop2.svg", "3x3 départemental, stop 2 les 19 et 20 décembre 2026 à Talence", "competitions.html#trois", "Tous les stops 3x3"),
-    ("03-3x3-stops34.svg", "3x3 départemental, stops 3 et 4 en février et avril 2027 à Talence", "competitions.html#trois", "Tous les stops 3x3"),
-    ("04-finales-coupes.svg", "Finales des Coupes 33 le samedi 12 juin 2027", "competitions.html#coupes", "Les Coupes 33"),
-]
-
-def carousel():
+def slider():
     slides = "".join(
-        f'<li class="slide" id="slide-{i+1}" role="group" aria-roledescription="diapositive" aria-label="{i+1} sur {len(SLIDES)}">'
-        f'<a href="{href}"><img src="assets/carrousel/{img}" alt="{alt}" width="1600" height="900" loading="{"eager" if i == 0 else "lazy"}">'
-        f'<span class="slide-cta">{cta} →</span></a></li>'
-        for i, (img, alt, href, cta) in enumerate(SLIDES))
+        f'<li class="slide" role="group" aria-roledescription="diapositive" aria-label="{i+1} sur {len(SLIDES)}">'
+        f'<a href="{href}"><img src="assets/carrousel/{img}" alt="{alt}" width="1920" height="720" loading="{"eager" if i == 0 else "lazy"}"></a></li>'
+        for i, (img, alt, href) in enumerate(SLIDES))
     dots = "".join(f'<button type="button" class="dot" aria-label="Diapositive {i+1}"{" aria-current=\"true\"" if i == 0 else ""}></button>' for i in range(len(SLIDES)))
-    return f"""<section class="section" id="agenda" aria-roledescription="carrousel" aria-labelledby="agenda-title">
-  <div class="container">
-    <div class="section-head carousel-head"><div><p class="kicker">Cette saison</p><h2 id="agenda-title">Les prochaines dates</h2></div>
-      <div class="carousel-nav"><button type="button" class="cbtn" data-dir="-1" aria-label="Diapositive précédente">←</button><button type="button" class="cbtn" data-dir="1" aria-label="Diapositive suivante">→</button></div></div>
-    <div class="carousel" data-carousel>
-      <ul class="slides">{slides}</ul>
-      <div class="dots">{dots}</div>
-    </div>
-    <p class="note">Calendrier général 2026-2027 provisoire : <a href="https://drive.google.com/file/d/1ml0u5hERsjXXAmbd_6r5MFnAS_rRXM9-/view" target="_blank" rel="noopener">le consulter</a>.</p>
+    return f"""<section class="hero-slider" aria-roledescription="carrousel" aria-label="À la une">
+  <div class="carousel" data-carousel>
+    <ul class="slides">{slides}</ul>
+    <button type="button" class="cbtn prev" data-dir="-1" aria-label="Diapositive précédente">‹</button>
+    <button type="button" class="cbtn next" data-dir="1" aria-label="Diapositive suivante">›</button>
+    <div class="dots">{dots}</div>
   </div>
 </section>"""
 
-home_body = f"""<section class="hero">{COURT}
-  <div class="container hero-inner">
-    <div>
-      <p class="eyebrow">Comité départemental de basket-ball · Saison 2026-2027</p>
-      <h1>Le basket<br>en <em>Gironde</em></h1>
-      <form class="ask hero-ask" action="assistant.html" method="get" role="search">
+FIGURES = [("66", "Clubs"), ("6", "Districts"), ("50+", "Bénévoles"), ("5", "Salariés"), ("4", "Stops 3x3")]
+ACTIVITES = [
+    ("competitions.html#jeunes", "5x5", "Championnats jeunes et seniors"),
+    ("competitions.html#trois", "3x3", "Championnat départemental"),
+    ("mini-basket.html", "Mini-basket", "U7, U9, U11"),
+    ("competitions.html#coupes", "Coupes 33", "Seniors et jeunes"),
+    ("joueurs.html", "Détections", "Génération 2014/2015"),
+    ("formations.html#arbitres", "Officiels", "Arbitres et table de marque"),
+    ("formations.html#entraineurs", "Entraîneurs", "Brevets fédéraux"),
+    ("clubs.html", "Nos clubs", "66 clubs, 6 districts"),
+]
+BASEDOC = [
+    ("documents.html#reglements", "Règlements sportifs"), ("licences.html#tarifs", "Tarifs et dispositions financières"),
+    ("licences.html#modes", "Licences : démarches"), ("competitions.html#engager", "Engager ses équipes"),
+    ("comite.html#missions", "Statuts et règlement intérieur"), ("documents.html#finances", "Comptes et finances"),
+]
+ACTUS = [  # articles du site actuel girondebasket.com
+    ("19/11/2026", "Violences dans le sport : le comité signe une convention départementale", "https://girondebasket.com/2026/11/19/violences-dans-le-sport-le-comite-de-gironde-de-basket-ball-signe-une-convention-departementale/"),
+    ("05/11/2026", "Respect en jeu : la dynamique se poursuit", "https://girondebasket.com/2026/11/05/respect-en-jeu-la-dynamique-se-poursuit/"),
+    ("13/05/2026", "1/2 finales Coupe 33 seniors féminines : Pessac veut garder la coupe !", "https://girondebasket.com/2026/05/13/1-2-finales-coupe-33-seniors-feminines-pessac-veut-garder-la-coupe/"),
+    ("04/05/2026", "Florian Leroyer, arbitre de Gauriac, sacré champion de France", "https://girondebasket.com/2026/05/04/florian-leroyer-arbitre-de-gauriac-sacre-champion-de-france/"),
+]
+PARTENAIRES = [("Fédération française de basket-ball", "https://www.ffbb.com/"), ("Ligue Nouvelle-Aquitaine", "https://nouvelleaquitainebasketball.org/"), ("Département de la Gironde", "https://www.gironde.fr/"), ("Agence nationale du sport", "https://www.agencedusport.fr/")]
+
+home_body = f"""{slider()}
+<section class="figures" aria-label="Le comité en chiffres">
+  <div class="wrap"><ul>{''.join(f'<li><strong>{n}</strong><span>{l}</span></li>' for n, l in FIGURES)}</ul></div>
+</section>
+<section class="section" id="activites">
+  <div class="wrap">
+    <div class="section-head center"><h2>Nos activités</h2></div>
+    <div class="tiles">{''.join(f'<a class="tile" href="{h}"><span class="tile-t">{t}</span><span class="tile-d">{d}</span></a>' for h, t, d in ACTIVITES)}</div>
+  </div>
+</section>
+<section class="section alt" id="administratif">
+  <div class="wrap">
+    <div class="section-head center"><h2>Administratif et base documentaire</h2></div>
+    <div class="admin">
+      <ul class="admin-links">{''.join(f'<li><a href="{h}"><span class="ico" aria-hidden="true">▤</span>{l}</a></li>' for h, l in BASEDOC[:3])}</ul>
+      <form class="ask-card" action="assistant.html" method="get" role="search">
+        <p class="ask-k">Assistant</p>
+        <h3>Une question ?</h3>
+        <p>Il cherche la réponse dans les pages et documents officiels du comité et vous donne la source.</p>
         <label for="home-q" class="sr">Votre question</label>
-        <input id="home-q" name="q" type="search" placeholder="Une question ? Ex. : tarif licence U13" autocomplete="off" required>
-        <button type="submit" class="btn btn-primary">Demander</button>
+        <div class="ask-row"><input id="home-q" name="q" type="search" placeholder="Ex. : tarif licence U13" autocomplete="off" required><button type="submit">Demander</button></div>
       </form>
+      <ul class="admin-links">{''.join(f'<li><a href="{h}"><span class="ico" aria-hidden="true">▤</span>{l}</a></li>' for h, l in BASEDOC[3:])}</ul>
     </div>
-    <img class="hero-logo" src="assets/ballon-33.svg" alt="" width="280" height="300">
   </div>
 </section>
-<section class="quick" aria-labelledby="quick-title">
-  <div class="container">
-    <h2 id="quick-title" class="sr">Accès rapides</h2>
-    <div class="quick-grid">{''.join(f'<a class="qtile" href="{h}"><span class="qtile-t">{t}</span><span class="qtile-d">{d}</span><span class="qtile-a" aria-hidden="true">→</span></a>' for h, t, d in QUICK)}</div>
+<section class="section" id="agenda">
+  <div class="wrap two-cols">
+    <div>
+      <div class="section-head"><h2>Agenda</h2></div>
+      <ul class="agenda">{''.join(f'<li><a href="{h}"><span class="date"><strong>{d}</strong>{m}</span><span><span class="ag-t">{tt}</span><span class="ag-l">{l}</span></span></a></li>' for d, m, tt, l, h in AGENDA)}</ul>
+      <p class="more"><a href="https://drive.google.com/file/d/1ml0u5hERsjXXAmbd_6r5MFnAS_rRXM9-/view" target="_blank" rel="noopener">Calendrier général 2026-2027 →</a></p>
+    </div>
+    <div>
+      <div class="section-head"><h2>Actualités</h2></div>
+      <ul class="news">{''.join(f'<li><a href="{u}" target="_blank" rel="noopener"><span class="news-d">{d}</span><span class="news-t">{tt}</span></a></li>' for d, tt, u in ACTUS)}</ul>
+      <p class="more"><a href="https://girondebasket.com/category/blog/" target="_blank" rel="noopener">Toutes les actualités →</a></p>
+    </div>
   </div>
 </section>
-{carousel()}
-{section("top-docs", "Documents", "Les plus téléchargés", docs(TOPDOCS) + '<p class="note"><a href="documents.html">Tous les documents officiels →</a></p>', alt=True)}
-{section("nous", "Le comité", "Au service des clubs girondins", '''<div class="split-2">
-  <p class="big">Le CD33 organise et développe le basket en Gironde : compétitions départementales et pré-régionales, soutien aux clubs, formation des joueurs, entraîneurs, arbitres, officiels de table et dirigeants.</p>
-  <ul class="facts-light"><li><strong>6</strong><span>districts</span></li><li><strong>5</strong><span>salariés</span></li><li><strong>50+</strong><span>bénévoles</span></li></ul>
-</div><p class="note"><a href="comite.html">Le comité, ses commissions et son équipe →</a> · <a href="clubs.html">Trouver un club →</a></p>''')}
+<section class="partners" aria-label="Partenaires institutionnels">
+  <div class="wrap"><p class="kicker">Nos partenaires institutionnels</p><ul>{''.join(f'<li><a href="{u}" rel="noopener">{n}</a></li>' for n, u in PARTENAIRES)}</ul></div>
+</section>
 """
 
 # ---------------------------------------------------------------- Compétitions
@@ -375,7 +437,11 @@ asst_body = '''<section class="section dark asst">
   </div>
 </section>'''
 
+MENTIONS = (pathlib.Path(__file__).resolve().parent / "mentions-legales.inc.html").read_text(encoding="utf-8")
+ml_body = f'<section class="section"><div class="wrap prose">{MENTIONS}</div></section>'
+
 PAGES = [
+    ("mentions-legales", "Mentions légales", "Mentions légales et politique de confidentialité du site du Comité de basket de la Gironde.", "Mentions légales", "Mentions légales et confidentialité", "Les passages surlignés sont à compléter et à faire valider par le comité avant la mise en ligne.", ml_body),
     ("index", "Accueil", "Le Comité départemental de basket-ball de la Gironde : compétitions, détections, mini-basket, licences, clubs, documents officiels et assistant.", "", "", "", home_body),
     ("competitions", "Compétitions", "Championnats jeunes et seniors, Coupes 33, 3x3 départemental et engagements des équipes en Gironde, saison 2026-2027.", "Compétitions", "Compétitions", "Championnats, Coupes 33 et 3x3 : calendrier, règlements et engagements de la saison 2026-2027.", comp_body),
     ("joueurs", "Détections et sélections", "Détections de la génération 2014/2015 en Gironde : dates, lieux et horaires par secteur, sélections et camps.", "Joueurs", "Détections<br>et sélections", "Les dates et lieux des détections de la génération 2014/2015, puis le parcours vers les sélections.", joueurs_body),

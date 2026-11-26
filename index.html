@@ -9,91 +9,112 @@
 <link rel="icon" href="assets/ballon-33.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="assets/style.css">
 </head>
 <body class="p-index">
 <a class="skip" href="#contenu">Aller au contenu</a>
-<header class="topbar" id="topbar">
-  <div class="container topbar-inner">
+<header class="header" id="topbar">
+  <div class="wrap header-inner">
     <a class="brand" href="index.html" aria-label="Comité de basket de la Gironde, accueil">
-      <img src="assets/ballon-33.svg" alt="" width="34" height="36"><span>Gironde <em>Basket</em></span>
+      <img src="assets/ballon-33.svg" alt="" width="44" height="47">
+      <span class="brand-t"><span>Comité</span><span>Basketball</span><span>Gironde</span></span>
     </a>
-    <button type="button" class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
-    <nav class="nav" id="nav" aria-label="Sommaire"><a href="assistant.html" class="nav-cta">Une question ?</a><a href="index.html" class="nav-home" aria-current="page">Accueil</a><a href="competitions.html">Compétitions</a><a href="joueurs.html">Joueurs</a><a href="mini-basket.html">Mini-basket</a><a href="licences.html">Licences</a><a href="clubs.html">Clubs</a><a href="formations.html">Se former</a><a href="comite.html">Le comité</a><a href="documents.html">Documents</a></nav>
+    <nav class="menu" id="nav" aria-label="Menu principal">
+      <ul class="menu-list"><li class="mi has-sub"><a class="mlink" href="comite.html">Le comité</a><button type="button" class="sub-toggle" aria-expanded="false" aria-label="Ouvrir le sous-menu Le comité"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><ul class="sub"><li><a href="comite.html#missions">Qui sommes-nous</a></li><li><a href="comite.html#elus">Commissions</a></li><li><a href="comite.html#finances">Finances</a></li><li><a href="comite.html#contact">Contact</a></li></ul></li><li class="mi has-sub"><a class="mlink" href="clubs.html">Nos clubs</a><button type="button" class="sub-toggle" aria-expanded="false" aria-label="Ouvrir le sous-menu Nos clubs"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><ul class="sub"><li><a href="clubs.html#trouver">Trouver un club</a></li><li><a href="clubs.html#labels">Clubs labellisés</a></li><li><a href="clubs.html#demarches">Créer, affilier, labelliser</a></li></ul></li><li class="mi has-sub"><a class="mlink" href="competitions.html">Compétitions</a><button type="button" class="sub-toggle" aria-expanded="false" aria-label="Ouvrir le sous-menu Compétitions"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><ul class="sub"><li><a href="competitions.html#jeunes">Championnats jeunes</a></li><li><a href="competitions.html#seniors">Championnats seniors</a></li><li><a href="competitions.html#coupes">Coupes 33</a></li><li><a href="competitions.html#trois">3x3</a></li><li><a href="mini-basket.html">Mini-basket</a></li><li><a href="competitions.html#engager">Engager ses équipes</a></li></ul></li><li class="mi has-sub"><a class="mlink" href="joueurs.html">Joueurs</a><button type="button" class="sub-toggle" aria-expanded="false" aria-label="Ouvrir le sous-menu Joueurs"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><ul class="sub"><li><a href="joueurs.html#detections">Détections 2014/2015</a></li><li><a href="joueurs.html#selections">Sélections et camps</a></li></ul></li><li class="mi has-sub"><a class="mlink" href="formations.html">Formations</a><button type="button" class="sub-toggle" aria-expanded="false" aria-label="Ouvrir le sous-menu Formations"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><ul class="sub"><li><a href="formations.html#arbitres">Arbitres</a></li><li><a href="formations.html#otm">Officiels de table</a></li><li><a href="formations.html#entraineurs">Entraîneurs</a></li></ul></li><li class="mi has-sub"><a class="mlink" href="licences.html">Licences</a><button type="button" class="sub-toggle" aria-expanded="false" aria-label="Ouvrir le sous-menu Licences"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><ul class="sub"><li><a href="licences.html#tarifs">Tarifs 2026-2027</a></li><li><a href="licences.html#modes">Démarches</a></li><li><a href="licences.html#surclassement">Surclassement</a></li></ul></li><li class="mi"><a class="mlink" href="documents.html">Documents</a></li></ul>
+    </nav>
+    <a class="ask-btn" href="assistant.html">Une question ?</a>
+    <button type="button" class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav"><span class="burger" aria-hidden="true"></span>Menu</button>
   </div>
 </header>
 <main id="contenu">
 
-<section class="hero"><svg class="court" viewBox="0 0 1440 520" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><line x1="1010" y1="0" x2="1010" y2="520"/><circle cx="1010" cy="260" r="100"/><circle cx="1010" cy="260" r="34"/><path d="M1442 40 L1290 40 A220 220 0 0 0 1290 480 L1442 480"/><rect x="1250" y="180" width="192" height="160"/></svg>
-  <div class="container hero-inner">
-    <div>
-      <p class="eyebrow">Comité départemental de basket-ball · Saison 2026-2027</p>
-      <h1>Le basket<br>en <em>Gironde</em></h1>
-      <form class="ask hero-ask" action="assistant.html" method="get" role="search">
+<section class="hero-slider" aria-roledescription="carrousel" aria-label="À la une">
+  <div class="carousel" data-carousel>
+    <ul class="slides"><li class="slide" role="group" aria-roledescription="diapositive" aria-label="1 sur 4"><a href="comite.html"><img src="assets/carrousel/00-bienvenue.svg" alt="Le basket en Gironde, comité départemental de basket-ball" width="1920" height="720" loading="eager"></a></li><li class="slide" role="group" aria-roledescription="diapositive" aria-label="2 sur 4"><a href="joueurs.html"><img src="assets/carrousel/01-detections.svg" alt="Détections génération 2014/2015, novembre et décembre 2026" width="1920" height="720" loading="lazy"></a></li><li class="slide" role="group" aria-roledescription="diapositive" aria-label="3 sur 4"><a href="competitions.html#trois"><img src="assets/carrousel/02-3x3-stop2.svg" alt="3x3 départemental, stop 2 les 19 et 20 décembre 2026 à Talence" width="1920" height="720" loading="lazy"></a></li><li class="slide" role="group" aria-roledescription="diapositive" aria-label="4 sur 4"><a href="competitions.html#coupes"><img src="assets/carrousel/04-finales-coupes.svg" alt="Finales des Coupes 33 le samedi 12 juin 2027" width="1920" height="720" loading="lazy"></a></li></ul>
+    <button type="button" class="cbtn prev" data-dir="-1" aria-label="Diapositive précédente">‹</button>
+    <button type="button" class="cbtn next" data-dir="1" aria-label="Diapositive suivante">›</button>
+    <div class="dots"><button type="button" class="dot" aria-label="Diapositive 1" aria-current="true"></button><button type="button" class="dot" aria-label="Diapositive 2"></button><button type="button" class="dot" aria-label="Diapositive 3"></button><button type="button" class="dot" aria-label="Diapositive 4"></button></div>
+  </div>
+</section>
+<section class="figures" aria-label="Le comité en chiffres">
+  <div class="wrap"><ul><li><strong>66</strong><span>Clubs</span></li><li><strong>6</strong><span>Districts</span></li><li><strong>50+</strong><span>Bénévoles</span></li><li><strong>5</strong><span>Salariés</span></li><li><strong>4</strong><span>Stops 3x3</span></li></ul></div>
+</section>
+<section class="section" id="activites">
+  <div class="wrap">
+    <div class="section-head center"><h2>Nos activités</h2></div>
+    <div class="tiles"><a class="tile" href="competitions.html#jeunes"><span class="tile-t">5x5</span><span class="tile-d">Championnats jeunes et seniors</span></a><a class="tile" href="competitions.html#trois"><span class="tile-t">3x3</span><span class="tile-d">Championnat départemental</span></a><a class="tile" href="mini-basket.html"><span class="tile-t">Mini-basket</span><span class="tile-d">U7, U9, U11</span></a><a class="tile" href="competitions.html#coupes"><span class="tile-t">Coupes 33</span><span class="tile-d">Seniors et jeunes</span></a><a class="tile" href="joueurs.html"><span class="tile-t">Détections</span><span class="tile-d">Génération 2014/2015</span></a><a class="tile" href="formations.html#arbitres"><span class="tile-t">Officiels</span><span class="tile-d">Arbitres et table de marque</span></a><a class="tile" href="formations.html#entraineurs"><span class="tile-t">Entraîneurs</span><span class="tile-d">Brevets fédéraux</span></a><a class="tile" href="clubs.html"><span class="tile-t">Nos clubs</span><span class="tile-d">66 clubs, 6 districts</span></a></div>
+  </div>
+</section>
+<section class="section alt" id="administratif">
+  <div class="wrap">
+    <div class="section-head center"><h2>Administratif et base documentaire</h2></div>
+    <div class="admin">
+      <ul class="admin-links"><li><a href="documents.html#reglements"><span class="ico" aria-hidden="true">▤</span>Règlements sportifs</a></li><li><a href="licences.html#tarifs"><span class="ico" aria-hidden="true">▤</span>Tarifs et dispositions financières</a></li><li><a href="licences.html#modes"><span class="ico" aria-hidden="true">▤</span>Licences : démarches</a></li></ul>
+      <form class="ask-card" action="assistant.html" method="get" role="search">
+        <p class="ask-k">Assistant</p>
+        <h3>Une question ?</h3>
+        <p>Il cherche la réponse dans les pages et documents officiels du comité et vous donne la source.</p>
         <label for="home-q" class="sr">Votre question</label>
-        <input id="home-q" name="q" type="search" placeholder="Une question ? Ex. : tarif licence U13" autocomplete="off" required>
-        <button type="submit" class="btn btn-primary">Demander</button>
+        <div class="ask-row"><input id="home-q" name="q" type="search" placeholder="Ex. : tarif licence U13" autocomplete="off" required><button type="submit">Demander</button></div>
       </form>
+      <ul class="admin-links"><li><a href="competitions.html#engager"><span class="ico" aria-hidden="true">▤</span>Engager ses équipes</a></li><li><a href="comite.html#missions"><span class="ico" aria-hidden="true">▤</span>Statuts et règlement intérieur</a></li><li><a href="documents.html#finances"><span class="ico" aria-hidden="true">▤</span>Comptes et finances</a></li></ul>
     </div>
-    <img class="hero-logo" src="assets/ballon-33.svg" alt="" width="280" height="300">
   </div>
 </section>
-<section class="quick" aria-labelledby="quick-title">
-  <div class="container">
-    <h2 id="quick-title" class="sr">Accès rapides</h2>
-    <div class="quick-grid"><a class="qtile" href="documents.html#reglements"><span class="qtile-t">Règlements</span><span class="qtile-d">Règlements sportifs, jeunes, pré-région, 3x3</span><span class="qtile-a" aria-hidden="true">→</span></a><a class="qtile" href="competitions.html#jeunes"><span class="qtile-t">Championnats jeunes</span><span class="qtile-d">U13 à U21, calendrier, phases finales</span><span class="qtile-a" aria-hidden="true">→</span></a><a class="qtile" href="competitions.html#coupes"><span class="qtile-t">Coupes 33</span><span class="qtile-d">Seniors et jeunes, notices et finales</span><span class="qtile-a" aria-hidden="true">→</span></a><a class="qtile" href="joueurs.html"><span class="qtile-t">Détections et sélections</span><span class="qtile-d">Génération 2014/2015, dates et lieux</span><span class="qtile-a" aria-hidden="true">→</span></a><a class="qtile" href="competitions.html#seniors"><span class="qtile-t">Championnats seniors</span><span class="qtile-d">Pré-région et départementales</span><span class="qtile-a" aria-hidden="true">→</span></a><a class="qtile" href="mini-basket.html"><span class="qtile-t">Mini-basket</span><span class="qtile-d">U7, U9, U11 : règlements et outils</span><span class="qtile-a" aria-hidden="true">→</span></a><a class="qtile" href="competitions.html#trois"><span class="qtile-t">3x3</span><span class="qtile-d">Stops 2026-2027 et inscription</span><span class="qtile-a" aria-hidden="true">→</span></a><a class="qtile" href="licences.html"><span class="qtile-t">Licences et tarifs</span><span class="qtile-d">Tarifs, modes opératoires, surclassement</span><span class="qtile-a" aria-hidden="true">→</span></a></div>
-  </div>
-</section>
-<section class="section" id="agenda" aria-roledescription="carrousel" aria-labelledby="agenda-title">
-  <div class="container">
-    <div class="section-head carousel-head"><div><p class="kicker">Cette saison</p><h2 id="agenda-title">Les prochaines dates</h2></div>
-      <div class="carousel-nav"><button type="button" class="cbtn" data-dir="-1" aria-label="Diapositive précédente">←</button><button type="button" class="cbtn" data-dir="1" aria-label="Diapositive suivante">→</button></div></div>
-    <div class="carousel" data-carousel>
-      <ul class="slides"><li class="slide" id="slide-1" role="group" aria-roledescription="diapositive" aria-label="1 sur 4"><a href="joueurs.html"><img src="assets/carrousel/01-detections.svg" alt="Détections génération 2014/2015, novembre et décembre 2026" width="1600" height="900" loading="eager"><span class="slide-cta">Dates et lieux des détections →</span></a></li><li class="slide" id="slide-2" role="group" aria-roledescription="diapositive" aria-label="2 sur 4"><a href="competitions.html#trois"><img src="assets/carrousel/02-3x3-stop2.svg" alt="3x3 départemental, stop 2 les 19 et 20 décembre 2026 à Talence" width="1600" height="900" loading="lazy"><span class="slide-cta">Tous les stops 3x3 →</span></a></li><li class="slide" id="slide-3" role="group" aria-roledescription="diapositive" aria-label="3 sur 4"><a href="competitions.html#trois"><img src="assets/carrousel/03-3x3-stops34.svg" alt="3x3 départemental, stops 3 et 4 en février et avril 2027 à Talence" width="1600" height="900" loading="lazy"><span class="slide-cta">Tous les stops 3x3 →</span></a></li><li class="slide" id="slide-4" role="group" aria-roledescription="diapositive" aria-label="4 sur 4"><a href="competitions.html#coupes"><img src="assets/carrousel/04-finales-coupes.svg" alt="Finales des Coupes 33 le samedi 12 juin 2027" width="1600" height="900" loading="lazy"><span class="slide-cta">Les Coupes 33 →</span></a></li></ul>
-      <div class="dots"><button type="button" class="dot" aria-label="Diapositive 1" aria-current="true"></button><button type="button" class="dot" aria-label="Diapositive 2"></button><button type="button" class="dot" aria-label="Diapositive 3"></button><button type="button" class="dot" aria-label="Diapositive 4"></button></div>
+<section class="section" id="agenda">
+  <div class="wrap two-cols">
+    <div>
+      <div class="section-head"><h2>Agenda</h2></div>
+      <ul class="agenda"><li><a href="joueurs.html#detections"><span class="date"><strong>29</strong>nov.</span><span><span class="ag-t">Détections 2014/2015 · District de Bordeaux</span><span class="ag-l">Gymnase Jean Bouin, Talence</span></span></a></li><li><a href="joueurs.html#detections"><span class="date"><strong>06</strong>déc.</span><span><span class="ag-t">Détections 2014/2015 · Médoc et Sud Gironde</span><span class="ag-l">Le Taillan · lieu Sud Gironde à confirmer</span></span></a></li><li><a href="competitions.html#trois"><span class="date"><strong>19</strong>déc.</span><span><span class="ag-t">3x3 départemental · Stop 2 (19 et 20 déc.)</span><span class="ag-l">Halle des sports, Talence</span></span></a></li><li><a href="competitions.html#trois"><span class="date"><strong>22</strong>févr.</span><span><span class="ag-t">3x3 départemental · Stop 3 (22 au 25 févr.)</span><span class="ag-l">Halle des sports, Talence</span></span></a></li><li><a href="competitions.html#trois"><span class="date"><strong>19</strong>avr.</span><span><span class="ag-t">3x3 départemental · Stop 4 (19 au 22 avr.)</span><span class="ag-l">Halle des sports, Talence</span></span></a></li><li><a href="competitions.html#coupes"><span class="date"><strong>12</strong>juin</span><span><span class="ag-t">Finales des Coupes 33</span><span class="ag-l">Toutes catégories</span></span></a></li></ul>
+      <p class="more"><a href="https://drive.google.com/file/d/1ml0u5hERsjXXAmbd_6r5MFnAS_rRXM9-/view" target="_blank" rel="noopener">Calendrier général 2026-2027 →</a></p>
     </div>
-    <p class="note">Calendrier général 2026-2027 provisoire : <a href="https://drive.google.com/file/d/1ml0u5hERsjXXAmbd_6r5MFnAS_rRXM9-/view" target="_blank" rel="noopener">le consulter</a>.</p>
+    <div>
+      <div class="section-head"><h2>Actualités</h2></div>
+      <ul class="news"><li><a href="https://girondebasket.com/2026/11/19/violences-dans-le-sport-le-comite-de-gironde-de-basket-ball-signe-une-convention-departementale/" target="_blank" rel="noopener"><span class="news-d">19/11/2026</span><span class="news-t">Violences dans le sport : le comité signe une convention départementale</span></a></li><li><a href="https://girondebasket.com/2026/11/05/respect-en-jeu-la-dynamique-se-poursuit/" target="_blank" rel="noopener"><span class="news-d">05/11/2026</span><span class="news-t">Respect en jeu : la dynamique se poursuit</span></a></li><li><a href="https://girondebasket.com/2026/05/13/1-2-finales-coupe-33-seniors-feminines-pessac-veut-garder-la-coupe/" target="_blank" rel="noopener"><span class="news-d">13/05/2026</span><span class="news-t">1/2 finales Coupe 33 seniors féminines : Pessac veut garder la coupe !</span></a></li><li><a href="https://girondebasket.com/2026/05/04/florian-leroyer-arbitre-de-gauriac-sacre-champion-de-france/" target="_blank" rel="noopener"><span class="news-d">04/05/2026</span><span class="news-t">Florian Leroyer, arbitre de Gauriac, sacré champion de France</span></a></li></ul>
+      <p class="more"><a href="https://girondebasket.com/category/blog/" target="_blank" rel="noopener">Toutes les actualités →</a></p>
+    </div>
   </div>
 </section>
-<section class="section alt" id="top-docs">
-  <div class="container">
-    <div class="section-head"><p class="kicker">Documents</p><h2>Les plus téléchargés</h2></div>
-    <div class="doc-list"><a class="doc" href="https://girondebasket.com/wp-content/uploads/2026/02/2026_02_06-cahier_charges-chpt.pdf" target="_blank" rel="noopener"><span class="doc-title">Cahier des charges des phases finales championnats (06/02/2026)</span><span class="doc-cat">Compétitions</span><span class="doc-open">Ouvrir ↗</span></a><a class="doc" href="https://girondebasket.com/wp-content/uploads/2026/02/2026_02_06-cahier_charges-_coupes.pdf" target="_blank" rel="noopener"><span class="doc-title">Cahier des charges des phases finales des Coupes 33 (06/02/2026)</span><span class="doc-cat">Compétitions</span><span class="doc-open">Ouvrir ↗</span></a><a class="doc" href="https://girondebasket.com/wp-content/uploads/2024/01/2023-06-24-statuts-cd33.pdf" target="_blank" rel="noopener"><span class="doc-title">Statuts du comité (24/06/2023)</span><span class="doc-cat">Le comité</span><span class="doc-open">Ouvrir ↗</span></a><a class="doc" href="https://docs.google.com/document/d/1Cj-tsL1w77xI0HiB4HxjuI6cfWdVFXMK/edit" target="_blank" rel="noopener"><span class="doc-title">Règlement sportif particulier des championnats jeunes 2026-2027</span><span class="doc-cat">Règlements</span><span class="doc-open">Ouvrir ↗</span></a><a class="doc" href="https://girondebasket.com/wp-content/uploads/2026/06/2026_06_30_mode_operatoire_engagements-fbi.pdf" target="_blank" rel="noopener"><span class="doc-title">Mode opératoire engagements FBI (30/06/2026)</span><span class="doc-cat">Compétitions</span><span class="doc-open">Ouvrir ↗</span></a><a class="doc" href="https://girondebasket.com/wp-content/uploads/2025/11/fiche-rencontre-u9u9championnatu11.pdf" target="_blank" rel="noopener"><span class="doc-title">Fiche rencontre U9 / U9-U11 championnat</span><span class="doc-cat">Mini-basket</span><span class="doc-open">Ouvrir ↗</span></a></div><p class="note"><a href="documents.html">Tous les documents officiels →</a></p>
-  </div>
-</section>
-<section class="section" id="nous">
-  <div class="container">
-    <div class="section-head"><p class="kicker">Le comité</p><h2>Au service des clubs girondins</h2></div>
-    <div class="split-2">
-  <p class="big">Le CD33 organise et développe le basket en Gironde : compétitions départementales et pré-régionales, soutien aux clubs, formation des joueurs, entraîneurs, arbitres, officiels de table et dirigeants.</p>
-  <ul class="facts-light"><li><strong>6</strong><span>districts</span></li><li><strong>5</strong><span>salariés</span></li><li><strong>50+</strong><span>bénévoles</span></li></ul>
-</div><p class="note"><a href="comite.html">Le comité, ses commissions et son équipe →</a> · <a href="clubs.html">Trouver un club →</a></p>
-  </div>
+<section class="partners" aria-label="Partenaires institutionnels">
+  <div class="wrap"><p class="kicker">Nos partenaires institutionnels</p><ul><li><a href="https://www.ffbb.com/" rel="noopener">Fédération française de basket-ball</a></li><li><a href="https://nouvelleaquitainebasketball.org/" rel="noopener">Ligue Nouvelle-Aquitaine</a></li><li><a href="https://www.gironde.fr/" rel="noopener">Département de la Gironde</a></li><li><a href="https://www.agencedusport.fr/" rel="noopener">Agence nationale du sport</a></li></ul></div>
 </section>
 
 </main>
 <footer class="footer">
-  <div class="container footer-inner">
-    <img src="assets/logo.svg" alt="Gironde Basketball" width="64" height="92">
-    <div class="footer-id">
-      <p><strong>Comité départemental de basket-ball de la Gironde</strong></p>
-      <p class="muted">4 allée Annie Fratellini, 33140 Villenave d'Ornon · <a href="mailto:secretariat@basket33.fr">secretariat@basket33.fr</a> · <a href="tel:+33619863771">06 19 86 37 71</a></p>
+  <div class="wrap footer-grid">
+    <div class="fcol">
+      <img src="assets/logo.svg" alt="Gironde Basketball" width="72" height="104" class="flogo">
+      <p>4 allée Annie Fratellini<br>33140 Villenave d'Ornon</p>
+      <p><a href="tel:+33619863771">06 19 86 37 71</a><br><a href="mailto:secretariat@basket33.fr">secretariat@basket33.fr</a></p>
+      <p class="fmuted">Accueil sur place : lundi et jeudi, 9h-17h</p>
     </div>
-    <ul class="footer-links">
-      <li><a href="https://www.facebook.com/Cd33Basket" rel="noopener">Facebook</a></li>
-      <li><a href="https://www.instagram.com/girondebasket" rel="noopener">Instagram</a></li>
-      <li><a href="https://www.youtube.com/@comitedegirondedebasketbal7366" rel="noopener">YouTube</a></li>
-      <li><a href="mentions-legales.html">Mentions légales et confidentialité</a></li>
-    </ul>
+    <div class="fcol">
+      <h2>Liens utiles</h2>
+      <ul>
+        <li><a href="https://www.ffbb.com/" rel="noopener">Fédération française de basket-ball</a></li>
+        <li><a href="https://nouvelleaquitainebasketball.org/" rel="noopener">Ligue Nouvelle-Aquitaine</a></li>
+        <li><a href="https://www.3x3ffbb.com/" rel="noopener">3x3 FFBB</a></li>
+        <li><a href="https://www.gironde.fr/" rel="noopener">Département de la Gironde</a></li>
+        <li><a href="https://www.agencedusport.fr/" rel="noopener">Agence nationale du sport</a></li>
+      </ul>
+    </div>
+    <div class="fcol">
+      <h2>Suivez-nous</h2>
+      <ul>
+        <li><a href="https://www.facebook.com/Cd33Basket" rel="noopener">Facebook</a></li>
+        <li><a href="https://www.instagram.com/girondebasket" rel="noopener">Instagram</a></li>
+        <li><a href="https://www.youtube.com/@comitedegirondedebasketbal7366" rel="noopener">YouTube</a></li>
+      </ul>
+      <a class="fask" href="assistant.html">Une question ? Demandez à l'assistant →</a>
+    </div>
+    <div class="fcol">
+      <h2>Agenda</h2>
+      <ul class="fagenda"><li><a href="joueurs.html#detections"><strong>29 nov.</strong> Détections 2014/2015 · District de Bordeaux</a></li><li><a href="joueurs.html#detections"><strong>06 déc.</strong> Détections 2014/2015 · Médoc et Sud Gironde</a></li><li><a href="competitions.html#trois"><strong>19 déc.</strong> 3x3 départemental · Stop 2 (19 et 20 déc.)</a></li><li><a href="competitions.html#trois"><strong>22 févr.</strong> 3x3 départemental · Stop 3 (22 au 25 févr.)</a></li></ul>
+    </div>
   </div>
+  <div class="wrap fbottom"><span>© Comité départemental de basket-ball de la Gironde</span><a href="mentions-legales.html">Mentions légales et confidentialité</a></div>
 </footer>
-<nav class="mobilebar" aria-label="Accès rapide mobile">
-  <a href="index.html" aria-current="page"><span aria-hidden="true">⌂</span>Accueil</a>
-  <a href="competitions.html"><span aria-hidden="true">◎</span>Compétitions</a>
-  <a href="documents.html"><span aria-hidden="true">▤</span>Documents</a>
-  <a href="assistant.html"><span aria-hidden="true">?</span>Question</a>
-</nav>
 <script src="assets/config.js"></script>
 <script src="assets/app.js"></script>
 </body>
