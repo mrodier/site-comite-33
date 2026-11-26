@@ -372,31 +372,21 @@ body { background: var(--bg); }
 @media (max-width: 680px) { .slide-cta { right: 10px; bottom: 10px; font-size: 12px; padding: 7px 11px; } .carousel-nav { display: none; } }
 @media (min-width: 900px) { .slide { flex: 0 0 calc(50% - 8px); } }
 
-/* ================= Menu en barre latérale (ordinateur) ================= */
+/* ================= Menu horizontal sous « Une question ? » ================= */
 @media (min-width: 1021px) {
-  html { scroll-padding-top: 24px; }
-  body { padding-left: 264px; }
-  .topbar { position: fixed; top: 0; left: 0; bottom: 0; width: 264px; background: #FFFFFF; border-bottom: 0; border-right: 1px solid var(--line); box-shadow: none; overflow-y: auto; }
-  .topbar::after { left: auto; right: -1px; top: 0; bottom: 0; width: 3px; height: auto; }
-  .topbar-inner { flex-direction: column; align-items: stretch; gap: 28px; min-height: 100%; padding: 28px 20px 24px; max-width: none; }
-  .brand { padding: 0 6px; }
+  html { scroll-padding-top: 130px; }
+  .topbar-inner { position: relative; flex-wrap: wrap; gap: 0; min-height: 0; padding-top: 14px; }
+  .brand { min-height: 54px; }
   .menu-toggle { display: none !important; }
-  .nav, .topbar .nav { display: flex !important; position: static; flex-direction: column; align-items: stretch; gap: 2px; margin: 0; padding: 0; background: transparent; border: 0; box-shadow: none; }
-  .nav a { display: block; white-space: normal; font-size: 13px; letter-spacing: .08em; padding: 12px 14px; border-radius: 10px; opacity: .85; border-bottom: 0; box-shadow: none; }
-  .nav a:hover { background: var(--peach); opacity: 1; }
-  .nav a[aria-current="page"] { background: var(--peach); color: var(--accent); opacity: 1; box-shadow: inset 3px 0 0 var(--accent-strong); border-radius: 0 10px 10px 0; padding-left: 14px; }
-  .nav .nav-cta { order: -1; margin: 0 0 18px; padding: 14px 16px; text-align: center; font-size: 14px; border-radius: 999px; background: var(--accent-strong); color: #FFFFFF; opacity: 1; box-shadow: 0 8px 20px rgba(232,89,12,.22); }
-  .nav .nav-cta:hover { background: #D04E0A; }
-  .nav .nav-cta[aria-current="page"] { background: #D04E0A; color: #FFFFFF; box-shadow: 0 8px 20px rgba(232,89,12,.22); border-radius: 999px; }
-  .container { max-width: 1080px; }
-  .split .section-head { top: 32px; }
-  .hero-inner { grid-template-columns: minmax(0, 1fr) auto; }
-  .hero-logo { width: clamp(160px, 18vw, 260px); }
-}
-@media (min-width: 1021px) and (max-width: 1280px) {
-  body { padding-left: 232px; }
-  .topbar { width: 232px; }
-  .quick-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .nav, .topbar .nav { display: flex !important; position: static; order: 3; width: 100%; margin: 6px 0 0; padding: 0; gap: 4px; flex-direction: row; flex-wrap: wrap; align-items: center; background: transparent; border: 0; border-top: 1px solid var(--line); box-shadow: none; }
+  .nav a { white-space: nowrap; font-size: 13px; letter-spacing: .08em; padding: 14px 12px; border-radius: 0; border-bottom: 0; opacity: .82; box-shadow: none; }
+  .nav a:hover { opacity: 1; color: var(--accent); }
+  .nav a[aria-current="page"] { opacity: 1; color: var(--accent); box-shadow: inset 0 -3px 0 var(--accent-strong); }
+  .nav .nav-home { padding-left: 0; }
+  .nav .nav-cta { position: absolute; right: max(20px, env(safe-area-inset-right)); top: 16px; margin: 0; padding: 12px 22px; font-size: 14px; border-radius: 999px; background: var(--accent-strong); color: #FFFFFF; opacity: 1; box-shadow: 0 8px 20px rgba(232,89,12,.22); }
+  .nav .nav-cta:hover { background: #D04E0A; color: #FFFFFF; }
+  .nav .nav-cta[aria-current="page"] { background: #D04E0A; color: #FFFFFF; box-shadow: 0 8px 20px rgba(232,89,12,.22); }
+  .split .section-head { top: 150px; }
 }
 /* Tablette et mobile : barre en haut, le menu s'ouvre avec « Une question ? » en tête */
 @media (max-width: 1020px) {
@@ -406,5 +396,3 @@ body { background: var(--bg); }
   .nav a { padding: 14px 4px; border-radius: 0; border-bottom: 1px solid var(--line); white-space: normal; }
   .nav .nav-cta { order: -1; margin: 0 0 8px; text-align: center; border-radius: 999px; border: 0; padding: 14px; }
 }
-@media (min-width: 1021px) and (max-width: 1180px) { .topbar.open .nav, .nav { display: flex; } }
-@media (min-width: 1021px) { .topbar .brand span { white-space: normal; font-size: 22px; line-height: 1; } }
