@@ -4,18 +4,30 @@ Site statique, sans base de données ni cookie, pensé pour GitHub Pages.
 
 ## Contenu
 
-| Fichier | Rôle |
+Le site est organisé d'après l'audit du site actuel et ses statistiques 2026 : les pages les plus consultées (règlements, championnats jeunes, Coupes 33, détections, championnats seniors, mini-basket, 3x3, licences) sont accessibles en un clic depuis l'accueil, et 63 % des visites se faisant sur mobile, une barre d'accès rapide reste en bas de l'écran sur téléphone.
+
+| Page | Contenu |
 | --- | --- |
-| `index.html` | La page du site : accueil, comité, pratiquer, compétitions, se former, clubs, assistant, documents, contact |
-| `mentions-legales.html` | Mentions légales et confidentialité (passages surlignés à compléter avant la mise en ligne) |
-| `assets/style.css` | Mise en forme (couleurs dans le bloc `:root` en haut du fichier) |
-| `assets/app.js` | Menu, liste des clubs, zone documents et assistant |
-| `assets/config.js` | Réglage de l'assistant (mode recherche ou relais IA) |
-| `data/kb.json` | Contenu des pages publiques du site girondebasket.com (relevé du 24/11/2026) |
-| `data/documents.json` | Liste et texte des documents officiels (règlements, dispositions financières, calendrier…) |
-| `worker/` | Relais IA facultatif, à déployer sur Cloudflare (voir plus bas) |
+| `index.html` | Question à l'assistant, 8 accès rapides, prochaines dates, documents les plus téléchargés |
+| `competitions.html` | Championnats jeunes et seniors, Coupes 33, 3x3, engagements |
+| `joueurs.html` | Détections 2014/2015 par secteur, sélections, camps |
+| `mini-basket.html` | Projet 2025-2028, règlements et outils U9/U11 |
+| `licences.html` | Tarifs, modes opératoires, surclassement |
+| `clubs.html` | Clubs par district, labels, démarches |
+| `formations.html` | Arbitres, officiels de table, entraîneurs |
+| `comite.html` | Missions, commissions, finances, contact |
+| `documents.html` | Tous les documents officiels, avec recherche et filtres |
+| `assistant.html` | L'assistant (accepte `?q=` dans l'adresse) |
+| `mentions-legales.html` | Mentions légales et confidentialité (passages surlignés à compléter) |
+| `sitemap.xml`, `robots.txt` | Référencement (89 % des visites viennent des moteurs de recherche) |
+| `assets/` | Styles, scripts, logo, réglage de l'assistant (`config.js`) |
+| `data/` | Pages publiques (`kb.json`) et documents officiels (`documents.json`) pour l'assistant et la zone documents |
+| `_build/build.py` | Génère toutes les pages : modifier le contenu ici, puis lancer `python3 _build/build.py` |
+| `worker/` | Relais IA facultatif (voir plus bas) |
 
 Les données ne contiennent que des informations publiques : pas de coordonnées personnelles, pas de listes de joueurs, pas de CV.
+
+> Si l'adresse finale change (nom de domaine du comité), modifier `BASE_URL` dans `_build/build.py` et relancer le script.
 
 ## Mettre le site en ligne avec GitHub Pages
 
@@ -37,5 +49,5 @@ Les données ne contiennent que des informations publiques : pas de coordonnées
 ## Mettre à jour
 
 - **Un document** : modifier `data/documents.json` (titre `t`, lien `u`, catégorie `cat`).
-- **Le contenu des pages** : modifier le texte dans `index.html`.
+- **Le contenu des pages** : modifier le texte dans `_build/build.py`, puis lancer `python3 _build/build.py`.
 - **Les couleurs** : modifier les variables en haut de `assets/style.css`.
