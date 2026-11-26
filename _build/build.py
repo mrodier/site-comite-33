@@ -10,15 +10,15 @@ GP = "https://girondebasket.com/wp-content/uploads/"
 
 # Menu principal : (page, libellé, [(ancre ou page, libellé), ...])
 MENU = [
-    ("comite", "Le comité", [("comite.html#missions", "Qui sommes-nous"), ("comite.html#elus", "Commissions"), ("comite.html#finances", "Finances"), ("comite.html#contact", "Contact")]),
-    ("clubs", "Nos clubs", [("clubs.html#trouver", "Trouver un club"), ("clubs.html#labels", "Clubs labellisés"), ("clubs.html#demarches", "Créer, affilier, labelliser")]),
-    ("competitions", "Compétitions", [("competitions.html#jeunes", "Championnats jeunes"), ("competitions.html#seniors", "Championnats seniors"), ("competitions.html#coupes", "Coupes 33"), ("competitions.html#trois", "3x3"), ("mini-basket.html", "Mini-basket"), ("competitions.html#engager", "Engager ses équipes")]),
-    ("joueurs", "Joueurs", [("joueurs.html#detections", "Détections 2014/2015"), ("joueurs.html#selections", "Sélections et camps")]),
+    ("comite", "Le CD33", [("comite.html#missions", "Qui sommes-nous"), ("comite.html#elus", "Commissions"), ("comite.html#finances", "Finances"), ("comite.html#contact", "Contact")]),
+    ("clubs", "Nos clubs", [("clubs.html#trouver", "Trouver un club"), ("clubs.html#labels", "Clubs labellisés"), ("clubs.html#demarches", "Créer, affilier, labelliser"), ("licences.html", "Licences et tarifs"), ("licences.html#surclassement", "Surclassement")]),
+    ("competitions", "Compétitions et pratiques", [("competitions.html#jeunes", "Championnats jeunes"), ("competitions.html#seniors", "Championnats seniors"), ("competitions.html#coupes", "Coupes 33"), ("competitions.html#trois", "3x3"), ("mini-basket.html", "Mini-basket"), ("joueurs.html", "Détections et sélections"), ("competitions.html#engager", "Engager ses équipes")]),
     ("formations", "Formations", [("formations.html#arbitres", "Arbitres"), ("formations.html#otm", "Officiels de table"), ("formations.html#entraineurs", "Entraîneurs")]),
-    ("licences", "Licences", [("licences.html#tarifs", "Tarifs 2026-2027"), ("licences.html#modes", "Démarches"), ("licences.html#surclassement", "Surclassement")]),
-    ("documents", "Documents", []),
+    ("agenda", "Agenda", []),
+    ("galerie", "Galerie photos", []),
+    ("documents", "Ressources documentaires", []),
 ]
-SECTION_OF = {"mini-basket": "competitions"}
+SECTION_OF = {"mini-basket": "competitions", "joueurs": "competitions", "licences": "clubs"}
 
 def doc(label, url, meta=""):
     m = f'<span class="doc-cat">{meta}</span>' if meta else ""
@@ -130,7 +130,7 @@ FOOTER = f"""<footer class="footer">
       <a class="fask" href="assistant.html">Une question ? Demandez à l'assistant →</a>
     </div>
     <div class="fcol">
-      <h2>Agenda</h2>
+      <h2><a href="agenda.html">Agenda</a></h2>
       <ul class="fagenda">{''.join(f'<li><a href="{h}"><strong>{d} {m}</strong> {tt}</a></li>' for d, m, tt, l, h in AGENDA[:4])}</ul>
     </div>
   </div>
@@ -186,9 +186,9 @@ ACTIVITES = [
     ("clubs.html", "Nos clubs", "66 clubs, 6 districts"),
 ]
 BASEDOC = [
-    ("documents.html#reglements", "Règlements sportifs"), ("licences.html#tarifs", "Tarifs et dispositions financières"),
-    ("licences.html#modes", "Licences : démarches"), ("competitions.html#engager", "Engager ses équipes"),
-    ("comite.html#missions", "Statuts et règlement intérieur"), ("documents.html#finances", "Comptes et finances"),
+    ("documents.html#reglements", "Règlements sportifs"), ("documents.html#finances", "Tarifs et dispositions financières"),
+    ("documents.html#clubs-licences", "Licences : modes opératoires"), ("documents.html#competitions", "Compétitions et engagements"),
+    ("documents.html#cd33", "Statuts et règlement intérieur"), ("documents.html", "Toutes les ressources documentaires"),
 ]
 ACTUS = [  # articles du site actuel girondebasket.com
     ("19/11/2026", "Violences dans le sport : le comité signe une convention départementale", "https://girondebasket.com/2026/11/19/violences-dans-le-sport-le-comite-de-gironde-de-basket-ball-signe-une-convention-departementale/"),
@@ -229,7 +229,7 @@ home_body = f"""{slider()}
     <div>
       <div class="section-head"><h2>Agenda</h2></div>
       <ul class="agenda">{''.join(f'<li><a href="{h}"><span class="date"><strong>{d}</strong>{m}</span><span><span class="ag-t">{tt}</span><span class="ag-l">{l}</span></span></a></li>' for d, m, tt, l, h in AGENDA)}</ul>
-      <p class="more"><a href="https://drive.google.com/file/d/1ml0u5hERsjXXAmbd_6r5MFnAS_rRXM9-/view" target="_blank" rel="noopener">Calendrier général 2026-2027 →</a></p>
+      <p class="more"><a href="agenda.html">Tout l’agenda →</a></p>
     </div>
     <div>
       <div class="section-head"><h2>Actualités</h2></div>
@@ -423,7 +423,22 @@ comite_body = (
 )
 
 # ---------------------------------------------------------------- Documents et assistant
-docs_body = '<section class="section"><div class="container"><div class="doc-tools"><label for="doc-q" class="sr">Rechercher un document</label><input id="doc-q" type="search" placeholder="Rechercher un document…" autocomplete="off"><div class="doc-filters" id="doc-filters" role="group" aria-label="Filtrer par catégorie"></div></div><div class="doc-list" id="doc-list"></div><p class="note">Vous cherchez une information précise dans un document ? <a href="assistant.html">Posez la question à l\'assistant</a>, il cherche à l\'intérieur des textes.</p></div></section>'
+docs_body = """<section class="section">
+  <div class="wrap">
+    <div class="res-search">
+      <label for="doc-q" class="res-label">Quel document cherchez-vous ?</label>
+      <div class="res-row">
+        <input id="doc-q" type="search" placeholder="Ex. : règlement 3x3, tarifs, mutation, fiche rencontre U9…" autocomplete="off">
+      </div>
+      <p class="res-help">Tapez un ou plusieurs mots : la recherche porte sur le titre, la rubrique du site où le document apparaît et, pour les documents indexés, sur leur texte. Les accents et majuscules ne comptent pas.</p>
+    </div>
+    <div class="doc-filters" id="doc-filters" role="group" aria-label="Filtrer par catégorie"></div>
+    <div class="res-bar"><p id="doc-count" class="res-count" aria-live="polite"></p>
+      <label class="res-sort">Trier <select id="doc-sort"><option value="cat">par catégorie</option><option value="az">de A à Z</option></select></label></div>
+    <div class="res-list" id="doc-list"></div>
+    <p class="note">Vous ne trouvez pas ? <a href="assistant.html">Posez la question à l'assistant</a> ou écrivez à <a href="mailto:secretariat@basket33.fr">secretariat@basket33.fr</a>.</p>
+  </div>
+</section>"""
 asst_body = '''<section class="section dark asst">
   <div class="container narrow">
     <form class="ask" id="ask-form" role="search">
@@ -437,6 +452,59 @@ asst_body = '''<section class="section dark asst">
   </div>
 </section>'''
 
+# ---------------------------------------------------------------- Agenda
+CAL_GENERAL = "https://drive.google.com/file/d/1ml0u5hERsjXXAmbd_6r5MFnAS_rRXM9-/view"
+MOIS = {"nov.": "Novembre 2026", "déc.": "Décembre 2026", "janv.": "Janvier 2027", "févr.": "Février 2027", "mars": "Mars 2027", "avr.": "Avril 2027", "mai": "Mai 2027", "juin": "Juin 2027"}
+
+def agenda_body():
+    groups = {}
+    for d, m, tt, l, h in AGENDA:
+        groups.setdefault(MOIS.get(m, m), []).append((d, m, tt, l, h))
+    blocks = ""
+    for mo, items in groups.items():
+        lis = "".join(f'<li><a href="{h}"><span class="date"><strong>{d}</strong>{m}</span><span><span class="ag-t">{tt}</span><span class="ag-l">{l}</span></span></a></li>' for d, m, tt, l, h in items)
+        blocks += f'<div class="ag-month"><h2 class="ag-mh">{mo}</h2><ul class="agenda">{lis}</ul></div>'
+    return f"""<section class="section">
+  <div class="wrap agenda-page">
+    <div>{blocks}</div>
+    <aside class="ag-side">
+      <h2>Calendrier général</h2>
+      <p>Toutes les dates de la saison 2026-2027 (championnats, coupes, rassemblements) sont dans le calendrier général du comité.</p>
+      <a class="btn-dark" href="{CAL_GENERAL}" target="_blank" rel="noopener">Ouvrir le calendrier 2026-2027 ↗</a>
+      <p class="note">Une date manque ou a changé ? Écrivez à <a href="mailto:secretariat@basket33.fr">secretariat@basket33.fr</a>.</p>
+    </aside>
+  </div>
+</section>"""
+
+# ---------------------------------------------------------------- Galerie photos
+# Pour ajouter des photos : les déposer dans assets/galerie/ et les lister dans l'album (fichier, légende).
+# Ne publier que des photos dont le comité détient les droits, avec l'accord des personnes
+# (autorisation parentale pour les mineurs).
+GALERIE = [
+    ("Détections 2014/2015", "Novembre et décembre 2026", "joueurs.html", []),
+    ("3x3 départemental", "Saison 2026-2027", "competitions.html#trois", []),
+    ("Mini-basket", "Plateaux et rassemblements", "mini-basket.html", []),
+    ("Finales des Coupes 33", "Juin 2027", "competitions.html#coupes", []),
+]
+
+def galerie_body():
+    albums = ""
+    for titre, sous, lien, photos in GALERIE:
+        if photos:
+            grid = "".join(f'<figure><img src="assets/galerie/{f}" alt="{c}" loading="lazy"><figcaption>{c}</figcaption></figure>' for f, c in photos)
+        else:
+            grid = '<div class="gal-empty"><span aria-hidden="true"></span><p>Photos à venir</p></div>'
+        albums += f'<article class="album"><header><h2>{titre}</h2><p>{sous} · <a href="{lien}">En savoir plus</a></p></header><div class="gal-grid">{grid}</div></article>'
+    return f"""<section class="section">
+  <div class="wrap">
+    {albums}
+    <div class="gal-social">
+      <p>En attendant, retrouvez les photos des événements sur nos réseaux :
+      <a href="https://www.facebook.com/Cd33Basket" rel="noopener">Facebook</a> · <a href="https://www.instagram.com/girondebasket" rel="noopener">Instagram</a> · <a href="https://www.youtube.com/@comitedegirondedebasketbal7366" rel="noopener">YouTube</a></p>
+    </div>
+  </div>
+</section>"""
+
 MENTIONS = (pathlib.Path(__file__).resolve().parent / "mentions-legales.inc.html").read_text(encoding="utf-8")
 ml_body = f'<section class="section"><div class="wrap prose">{MENTIONS}</div></section>'
 
@@ -449,14 +517,64 @@ PAGES = [
     ("licences", "Licences et tarifs", "Licences de basket en Gironde : tarifs 2026-2027, dispositions financières, modes opératoires et surclassement.", "Licences", "Licences<br>et tarifs", "Tarifs de la saison, démarches de licence et surclassement.", lic_body),
     ("clubs", "Clubs", "Les clubs de basket de la Gironde par district, les clubs labellisés et les démarches pour créer ou affilier un club.", "Clubs", "Trouver un club", "Les clubs girondins par district, leurs labels et les démarches pour les dirigeants.", clubs_body),
     ("formations", "Se former", "Devenir arbitre, officiel de table ou entraîneur en Gironde : formations, inscriptions et documents.", "Se former", "Se former", "Arbitrer, tenir la table de marque ou entraîner : les formations proposées par le comité et la FFBB.", form_body),
-    ("comite", "Le comité", "Le Comité départemental de basket-ball de la Gironde : missions, commissions, finances et contact.", "Le comité", "Le comité", "Missions, commissions, documents institutionnels et contact.", comite_body),
-    ("documents", "Documents officiels", "Tous les documents officiels du comité de basket de la Gironde : règlements, tarifs, calendrier, notes, modes opératoires.", "Documents", "Documents<br>officiels", "Règlements, tarifs, calendrier, notes et modes opératoires. Cherchez par mot-clé ou par catégorie.", docs_body),
+    ("comite", "Le CD33", "Le Comité départemental de basket-ball de la Gironde : missions, commissions, finances et contact.", "Le CD33", "Le CD33", "Missions, commissions, documents institutionnels et contact.", comite_body),
+    ("documents", "Ressources documentaires", "Tous les documents présents sur le site du comité de basket de la Gironde : règlements, tarifs, calendrier, notes, modes opératoires, formulaires.", "Ressources documentaires", "Ressources<br>documentaires", "Tous les documents présents sur le site, réunis au même endroit. Cherchez par mot-clé ou par catégorie.", docs_body),
+    ("agenda", "Agenda", "Agenda du basket en Gironde : détections, 3x3 départemental, finales des Coupes 33 et calendrier général 2026-2027.", "Agenda", "Agenda", "Les prochains rendez-vous du comité et le calendrier général de la saison.", agenda_body()),
+    ("galerie", "Galerie photos", "Galerie photos du Comité de basket de la Gironde : détections, 3x3, mini-basket, Coupes 33.", "Galerie photos", "Galerie photos", "Les temps forts de la saison en images.", galerie_body()),
     ("assistant", "Une question ?", "Posez votre question sur le basket en Gironde : l'assistant cherche la réponse dans les pages et documents officiels du comité.", "Assistant", "Une question ?", "Licence, tarifs, règlements, calendrier, 3x3, formations : l'assistant cherche dans les pages et documents officiels, et donne toujours la source.", asst_body),
 ]
 
+# ---------------------------------------------------------------- Écriture des pages et catalogue documentaire
+# Le catalogue (data/catalogue.json) réunit tous les documents présents sur le site :
+# ceux de data/documents.json et tous les liens « document » rencontrés dans les pages.
+import re, html as _html
+CAT_MAP = {"Licences et clubs": "Clubs et licences", "Officiels": "Formations et officiels", "Le comité": "Le CD33"}
+CAT_OF_PAGE = {"comite": "Le CD33", "competitions": "Compétitions", "joueurs": "Compétitions", "formations": "Formations et officiels",
+               "licences": "Clubs et licences", "clubs": "Clubs et licences", "mini-basket": "Mini-basket", "agenda": "Compétitions"}
+DOC_RE = re.compile(r'<a class="doc" href="([^"]+)"[^>]*><span class="doc-title">(.*?)</span>')
+
+def kind(u):
+    low = u.lower().split("?")[0]
+    for ext, k in ((".pdf", "PDF"), (".docx", "Word"), (".doc", "Word"), (".xlsx", "Excel"), (".png", "Image"), (".jpg", "Image")):
+        if low.endswith(ext):
+            return k
+    if "docs.google.com/forms" in low: return "Formulaire en ligne"
+    if "docs.google.com/document" in low: return "Document Google"
+    if "drive.google.com" in low: return "PDF"
+    return "Page web"
+
+src = json.load(open(os.path.join(ROOT, "data", "documents.json"), encoding="utf-8"))
+catalogue, by_url = [], {}
+
+def add(u, titre, categorie, slug=None, ptitle=None, idx=None):
+    key = u.split("#")[0]
+    if key not in by_url:
+        by_url[key] = {"t": titre, "u": u, "cat": categorie, "k": kind(u), "p": [], "i": idx}
+        catalogue.append(by_url[key])
+    d = by_url[key]
+    if idx is not None and d["i"] is None:
+        d["i"] = idx
+    if slug and not any(x[0] == slug for x in d["p"]):
+        d["p"].append([slug, ptitle])
+
+for i, d in enumerate(src["docs"]):
+    add(d["u"], d["t"], CAT_MAP.get(d["cat"], d["cat"]), idx=i)
+
 for slug, title, desc, kicker, h1, lead, body in PAGES:
+    out = page(slug, title, desc, kicker, h1, lead, body)
     with open(os.path.join(ROOT, f"{slug}.html"), "w", encoding="utf-8") as f:
-        f.write(page(slug, title, desc, kicker, h1, lead, body))
+        f.write(out)
+    if slug in ("documents", "index", "assistant", "mentions-legales"):
+        continue
+    for u, lab in DOC_RE.findall(out):
+        lab = _html.unescape(re.sub("<[^>]+>", " ", lab)).strip()
+        add(_html.unescape(u), lab, CAT_OF_PAGE.get(slug, "Le CD33"), slug, re.sub("<[^>]+>", " ", title))
+    if slug == "agenda":
+        add(CAL_GENERAL, "Calendrier sportif 2026-2027 (provisoire)", "Compétitions", slug, title)
+
+with open(os.path.join(ROOT, "data", "catalogue.json"), "w", encoding="utf-8") as f:
+    json.dump({"maj": MAJ, "docs": catalogue}, f, ensure_ascii=False, separators=(",", ":"))
+print("Catalogue :", len(catalogue), "documents")
 
 with open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8") as f:
     today = datetime.date.today().isoformat()

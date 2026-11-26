@@ -161,35 +161,99 @@
     }).join("");
   }
 
-  /* ---------- Documents ---------- */
-  function renderDocs(docs) {
-    const cats = ["Tous", ...new Set(docs.docs.map((d) => d.cat))];
-    const fromHash = { "#reglements": "Règlements", "#finances": "Finances", "#competitions": "Compétitions", "#licences": "Licences et clubs" }[location.hash];
-    let cat = fromHash || "Tous";
-    const list = $("#doc-list"), q = $("#doc-q"), filters = $("#doc-filters");
-    filters.innerHTML = cats.map((c) => `<button type="button" aria-pressed="${c === cat}">${esc(c)}</button>`).join("");
+  /* ---------- Ressources documentaires ----------
+     data/catalogue.json : tous les documents présents sur le site (titre t, lien u, catégorie cat, type k,
+     pages où il apparaît p, index i dans documents.json pour le texte intégral). */
+  const CAT_ORDER = ["Règlements", "Compétitions", "Mini-basket", "Clubs et licences", "Formations et officiels", "Finances", "Le CD33", "Notes du comité"];
+  const slugCat = (c) => norm(c).replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  const HASH_ALIAS = { "clubs-licences": "clubs-et-licences", "formations": "formations-et-officiels", "notes": "notes-du-comite" };
+  function renderDocs(cat0, docs) {
+    const text = {};
+    (docs.chunks || []).forEach((c) => { text[c.d] = (text[c.d] || "") + " " + c.x; });
+    const items = cat0.docs.map((d) => {
+      const full = d.i != null ? text[d.i] || "" : "";
+      const dash = (s) => s + " " + s.replace(/[-'’]/g, ""); /* « ré-affiliation » se trouve aussi en tapant « reaffiliation » */
+      return { ...d, full, head: dash(norm([d.t, d.cat, d.k, ...d.p.map((x) => x[1])].join(" "))), body: dash(norm(full)) };
+    });
+    const cats = [...new Set([...CAT_ORDER.filter((c) => items.some((d) => d.cat === c)), ...items.map((d) => d.cat)])];
+    const list = $("#doc-list"), q = $("#doc-q"), filters = $("#doc-filters"), count = $("#doc-count"), sort = $("#doc-sort");
+    const h = location.hash.slice(1);
+    let cat = cats.find((c) => slugCat(c) === (HASH_ALIAS[h] || h)) || "Tous";
+    const params = new URLSearchParams(location.search);
+    if (params.get("q")) q.value = params.get("q");
+    function drawFilters(counts) {
+      filters.innerHTML = ["Tous", ...cats].map((c) => `<button type="button" data-c="${esc(c)}" aria-pressed="${c === cat}">${esc(c)} <span class="n">${counts[c] || 0}</span></button>`).join("");
+    }
+    function excerpt(d, words) {
+      const src = d.full.replace(/\s+/g, " ");
+      const n = norm(src);
+      let pos = -1; for (const w of words) { pos = n.indexOf(w); if (pos >= 0) break; }
+      if (pos < 0) return "";
+      const a = Math.max(0, pos - 90), b = Math.min(src.length, pos + 140);
+      let out = esc((a ? "…" : "") + src.slice(a, b) + (b < src.length ? "…" : ""));
+      words.filter((w) => w.length > 2).forEach((w) => { out = out.replace(new RegExp("(" + w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "[a-z0-9]*)", "gi"), "<mark>$1</mark>"); });
+      return out;
+    }
+    function card(d, words) {
+      const where = d.p.length
+        ? "Sur le site : " + d.p.map(([s, t]) => `<a href="${esc(s)}.html">${esc(t)}</a>`).join(", ")
+        : "Disponible uniquement dans les ressources documentaires";
+      const inText = words.length && !words.every((w) => d.head.includes(w));
+      return `<article class="res-item">
+        <div class="res-main"><p class="res-meta"><span class="res-kind">${esc(d.k)}</span><span>${esc(d.cat)}</span></p>
+        <h3><a href="${esc(safeUrl(d.u))}" target="_blank" rel="noopener">${esc(d.t)}</a></h3>
+        ${inText ? `<p class="res-ex"><span>Trouvé dans le texte :</span> ${excerpt(d, words)}</p>` : ""}
+        <p class="res-where">${where}</p></div>
+        <a class="res-open" href="${esc(safeUrl(d.u))}" target="_blank" rel="noopener" aria-label="Ouvrir : ${esc(d.t)}">Ouvrir ↗</a>
+      </article>`;
+    }
     function draw() {
-      const term = norm(q.value.trim());
-      const rows = docs.docs.filter((d) => (cat === "Tous" || d.cat === cat) && (!term || norm(d.t + " " + d.cat).includes(term)));
-      list.innerHTML = rows.length ? rows.map((d) => `<a class="doc" href="${esc(safeUrl(d.u))}" target="_blank" rel="noopener"><span class="doc-title">${esc(d.t)}</span><span class="doc-cat">${esc(d.cat)}</span><span class="doc-open">Ouvrir ↗</span></a>`).join("")
-        : `<p class="doc-empty">Aucun document ne correspond. Essayez <a href="assistant.html?q=${encodeURIComponent(q.value)}">l'assistant</a> : il cherche aussi à l'intérieur des documents.</p>`;
+      const words = toks(q.value);
+      const matched = items.map((d) => {
+        if (!words.length) return { d, s: 1 };
+        let s = 0;
+        for (const w of words) { if (d.head.includes(w)) s += 3; else if (d.body.includes(w)) s += 1; else return null; }
+        return { d, s };
+      }).filter(Boolean);
+      const counts = { Tous: matched.length };
+      matched.forEach(({ d }) => { counts[d.cat] = (counts[d.cat] || 0) + 1; });
+      drawFilters(counts);
+      let rows = matched.filter(({ d }) => cat === "Tous" || d.cat === cat);
+      const byTitle = (a, b) => a.d.t.localeCompare(b.d.t, "fr");
+      if (words.length) rows.sort((a, b) => b.s - a.s || byTitle(a, b));
+      else if (sort.value === "az") rows.sort(byTitle);
+      else rows.sort((a, b) => cats.indexOf(a.d.cat) - cats.indexOf(b.d.cat) || byTitle(a, b));
+      count.textContent = rows.length + (rows.length > 1 ? " documents" : " document") + (cat !== "Tous" ? " · " + cat : "") + (words.length ? " pour « " + q.value.trim() + " »" : "");
+      if (!rows.length) {
+        list.innerHTML = `<p class="doc-empty">Aucun document ne correspond${cat !== "Tous" ? " dans cette catégorie" : ""}. Essayez un autre mot, la catégorie « Tous », ou <a href="assistant.html?q=${encodeURIComponent(q.value)}">posez la question à l'assistant</a>.</p>`;
+        return;
+      }
+      let html = "", last = "";
+      rows.forEach(({ d }) => {
+        if (!words.length && sort.value === "cat" && cat === "Tous" && d.cat !== last) { html += `<h2 class="res-group">${esc(d.cat)}</h2>`; last = d.cat; }
+        html += card(d, words);
+      });
+      list.innerHTML = html;
     }
     filters.addEventListener("click", (e) => {
       const b = e.target.closest("button"); if (!b) return;
-      cat = b.textContent;
-      filters.querySelectorAll("button").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+      cat = b.dataset.c;
+      history.replaceState(null, "", cat === "Tous" ? location.pathname + location.search : "#" + slugCat(cat));
       draw();
     });
-    q.addEventListener("input", draw);
+    let t; q.addEventListener("input", () => { clearTimeout(t); t = setTimeout(draw, 120); });
+    sort.addEventListener("change", draw);
+    window.addEventListener("hashchange", () => { const k = location.hash.slice(1); cat = cats.find((c) => slugCat(c) === (HASH_ALIAS[k] || k)) || "Tous"; draw(); });
     draw();
   }
 
   Promise.all([
     fetch("data/kb.json").then((r) => r.json()),
-    fetch("data/documents.json").then((r) => r.json())
-  ]).then(([kb, docs]) => {
+    fetch("data/documents.json").then((r) => r.json()),
+    needDocs ? fetch("data/catalogue.json").then((r) => r.json()) : null
+  ]).then(([kb, docs, cat]) => {
     if (needClubs) renderDistricts(kb);
-    if (needDocs) renderDocs(docs);
+    if (needDocs) renderDocs(cat, docs);
     if (needAsk) { buildIndex(kb, docs); if (pending) { const q = pending; pending = ""; ask(q); } }
   }).catch(() => {
     const el = $("#doc-list") || $("#answer") || $("#districts");
