@@ -126,6 +126,33 @@ TOPDOCS = [  # les plus téléchargés en 2026
     ("Mode opératoire engagements FBI (30/06/2026)", GP + "2026/06/2026_06_30_mode_operatoire_engagements-fbi.pdf", "Compétitions"),
     ("Fiche rencontre U9 / U9-U11 championnat", GP + "2025/11/fiche-rencontre-u9u9championnatu11.pdf", "Mini-basket"),
 ]
+
+SLIDES = [  # image dans assets/carrousel/ (remplaçable par une affiche ou une photo au format 16:9), texte alternatif, lien
+    ("01-detections.svg", "Détections génération 2014/2015, novembre et décembre 2026", "joueurs.html", "Dates et lieux des détections"),
+    ("02-3x3-stop2.svg", "3x3 départemental, stop 2 les 19 et 20 décembre 2026 à Talence", "competitions.html#trois", "Tous les stops 3x3"),
+    ("03-3x3-stops34.svg", "3x3 départemental, stops 3 et 4 en février et avril 2027 à Talence", "competitions.html#trois", "Tous les stops 3x3"),
+    ("04-finales-coupes.svg", "Finales des Coupes 33 le samedi 12 juin 2027", "competitions.html#coupes", "Les Coupes 33"),
+]
+
+def carousel():
+    slides = "".join(
+        f'<li class="slide" id="slide-{i+1}" role="group" aria-roledescription="diapositive" aria-label="{i+1} sur {len(SLIDES)}">'
+        f'<a href="{href}"><img src="assets/carrousel/{img}" alt="{alt}" width="1600" height="900" loading="{"eager" if i == 0 else "lazy"}">'
+        f'<span class="slide-cta">{cta} →</span></a></li>'
+        for i, (img, alt, href, cta) in enumerate(SLIDES))
+    dots = "".join(f'<button type="button" class="dot" aria-label="Diapositive {i+1}"{" aria-current=\"true\"" if i == 0 else ""}></button>' for i in range(len(SLIDES)))
+    return f"""<section class="section" id="agenda" aria-roledescription="carrousel" aria-labelledby="agenda-title">
+  <div class="container">
+    <div class="section-head carousel-head"><div><p class="kicker">Cette saison</p><h2 id="agenda-title">Les prochaines dates</h2></div>
+      <div class="carousel-nav"><button type="button" class="cbtn" data-dir="-1" aria-label="Diapositive précédente">←</button><button type="button" class="cbtn" data-dir="1" aria-label="Diapositive suivante">→</button></div></div>
+    <div class="carousel" data-carousel>
+      <ul class="slides">{slides}</ul>
+      <div class="dots">{dots}</div>
+    </div>
+    <p class="note">Calendrier général 2026-2027 provisoire : <a href="https://drive.google.com/file/d/1ml0u5hERsjXXAmbd_6r5MFnAS_rRXM9-/view" target="_blank" rel="noopener">le consulter</a>.</p>
+  </div>
+</section>"""
+
 home_body = f"""<section class="hero">{COURT}
   <div class="container hero-inner">
     <div>
@@ -146,12 +173,7 @@ home_body = f"""<section class="hero">{COURT}
     <div class="quick-grid">{''.join(f'<a class="qtile" href="{h}"><span class="qtile-t">{t}</span><span class="qtile-d">{d}</span><span class="qtile-a" aria-hidden="true">→</span></a>' for h, t, d in QUICK)}</div>
   </div>
 </section>
-{section("agenda", "Cette saison", "Les prochaines dates", rows([
-    ("Détections 2014/2015", "Novembre et décembre 2026 dans les quatre secteurs. <a href='joueurs.html'>Dates et lieux</a>."),
-    ("3x3 · Stop 2", "19 et 20 décembre 2026, Halle des sports de Talence. <a href='competitions.html#trois'>Tous les stops</a>."),
-    ("3x3 · Stops 3 et 4", "Du 22 au 25 février 2027, puis du 19 au 22 avril 2027, à Talence."),
-    ("Finales des Coupes 33", "Samedi 12 juin 2027, toutes catégories. <a href='competitions.html#coupes'>Les Coupes 33</a>."),
-]) + '<p class="note">Calendrier général 2026-2027 provisoire : <a href="https://drive.google.com/file/d/1ml0u5hERsjXXAmbd_6r5MFnAS_rRXM9-/view" target="_blank" rel="noopener">le consulter</a>.</p>')}
+{carousel()}
 {section("top-docs", "Documents", "Les plus téléchargés", docs(TOPDOCS) + '<p class="note"><a href="documents.html">Tous les documents officiels →</a></p>', alt=True)}
 {section("nous", "Le comité", "Au service des clubs girondins", '''<div class="split-2">
   <p class="big">Le CD33 organise et développe le basket en Gironde : compétitions départementales et pré-régionales, soutien aux clubs, formation des joueurs, entraîneurs, arbitres, officiels de table et dirigeants.</p>

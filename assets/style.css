@@ -352,3 +352,22 @@ body { background: var(--bg); }
 .mobilebar { background: #FFFFFF; border-top: 1px solid var(--line); box-shadow: 0 -6px 18px rgba(26,26,26,.06); }
 .mobilebar a { color: var(--muted); }
 .mobilebar a[aria-current="page"] { color: var(--accent-strong); }
+
+/* Carrousel des prochaines dates */
+.carousel-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.carousel-nav { display: flex; gap: 8px; }
+.cbtn { width: 48px; height: 48px; border-radius: 50%; border: 1px solid var(--line); background: #FFFFFF; color: var(--fg); font-size: 20px; cursor: pointer; }
+.cbtn:hover { border-color: var(--accent-strong); color: var(--accent-strong); }
+.slides { list-style: none; margin: 0; padding: 0; display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; border-radius: var(--radius); }
+.slides::-webkit-scrollbar { display: none; }
+.slide { flex: 0 0 100%; scroll-snap-align: start; }
+.slide a { position: relative; display: block; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); box-shadow: 0 10px 30px rgba(232,89,12,.10); }
+.slide img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
+.slide-cta { position: absolute; right: 20px; bottom: 20px; background: #FFFFFF; color: var(--fg); font-size: 14px; font-weight: 600; padding: 10px 16px; border-radius: 999px; box-shadow: 0 4px 14px rgba(26,26,26,.12); }
+.slide a:hover .slide-cta { background: var(--accent-strong); color: #FFFFFF; }
+.dots { display: flex; justify-content: center; gap: 4px; margin-top: 14px; }
+.dot { width: 28px; height: 28px; border: 0; background: transparent; cursor: pointer; position: relative; }
+.dot::after { content: ""; position: absolute; left: 50%; top: 50%; width: 10px; height: 10px; margin: -5px 0 0 -5px; border-radius: 50%; background: var(--line); transition: width .2s ease, margin .2s ease; }
+.dot[aria-current="true"]::after { background: var(--accent-strong); width: 26px; margin-left: -13px; border-radius: 999px; }
+@media (max-width: 680px) { .slide-cta { right: 10px; bottom: 10px; font-size: 12px; padding: 7px 11px; } .carousel-nav { display: none; } }
+@media (min-width: 900px) { .slide { flex: 0 0 calc(50% - 8px); } }

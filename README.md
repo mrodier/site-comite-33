@@ -50,4 +50,5 @@ Les données ne contiennent que des informations publiques : pas de coordonnées
 
 - **Un document** : modifier `data/documents.json` (titre `t`, lien `u`, catégorie `cat`).
 - **Le contenu des pages** : modifier le texte dans `_build/build.py`, puis lancer `python3 _build/build.py`.
+- **Le carrousel de l'accueil** : les visuels sont dans `assets/carrousel/` (format 16:9, 1600 × 900). Pour mettre une affiche ou une photo, déposer l'image dans ce dossier puis modifier la liste `SLIDES` dans `_build/build.py` (image, texte alternatif, lien) et relancer le script.
 - **Les couleurs** : modifier les variables en haut de `assets/style.css`.

@@ -20,6 +20,32 @@
     document.addEventListener("keydown", (e) => { if (e.key === "Escape" && topbar.classList.contains("open")) { topbar.classList.remove("open"); toggle.setAttribute("aria-expanded", "false"); toggle.focus(); } });
   }
 
+
+  /* ---------- Carrousel ---------- */
+  document.querySelectorAll("[data-carousel]").forEach((root) => {
+    const track = root.querySelector(".slides"), slides = [...track.children], dots = [...root.querySelectorAll(".dot")];
+    const section = root.closest("section");
+    let i = 0, timer = null;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const go = (n, smooth = true) => {
+      const perView = Math.max(1, Math.round(track.clientWidth / slides[0].offsetWidth)); const last = slides.length - perView; i = n > last ? (n === i + 1 ? 0 : last) : n < 0 ? last : n;
+      track.scrollTo({ left: slides[i].offsetLeft - track.offsetLeft, behavior: smooth && !reduce ? "smooth" : "auto" });
+      dots.forEach((d, k) => d.setAttribute("aria-current", String(k === i)));
+    };
+    dots.forEach((d, k) => d.addEventListener("click", () => { stop(); go(k); }));
+    section.querySelectorAll(".cbtn").forEach((b) => b.addEventListener("click", () => { stop(); go(i + Number(b.dataset.dir)); }));
+    let t;
+    track.addEventListener("scroll", () => { clearTimeout(t); t = setTimeout(() => {
+      const step = slides[1] ? slides[1].offsetLeft - slides[0].offsetLeft : track.clientWidth; const k = Math.round(track.scrollLeft / step);
+      if (k !== i && slides[k]) { i = k; dots.forEach((d, j) => d.setAttribute("aria-current", String(j === i))); }
+    }, 80); }, { passive: true });
+    const start = () => { if (!reduce && !timer) timer = setInterval(() => go(i + 1), 6000); };
+    const stop = () => { clearInterval(timer); timer = null; };
+    root.addEventListener("mouseenter", stop); root.addEventListener("mouseleave", start);
+    root.addEventListener("focusin", stop); root.addEventListener("touchstart", stop, { passive: true });
+    start();
+  });
+
   const needAsk = !!$("#ask-form"), needDocs = !!$("#doc-list") && !!$("#doc-filters"), needClubs = !!$("#districts");
   if (!needAsk && !needDocs && !needClubs) return;
 
