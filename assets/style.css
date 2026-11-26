@@ -323,3 +323,15 @@ main { overflow-x: clip; }
 .gal-social { margin-top: 44px; padding: 20px 24px; background: var(--ink); color: #fff; border-radius: var(--radius); }
 .gal-social p { margin: 0; }
 .gal-social a { color: #fff; font-weight: 700; text-decoration-color: var(--orange); }
+
+/* Sous-niveaux du menu déroulant (ex. Mini basket › U9) */
+.sub .lvl1 > a { font-weight: 700; text-transform: uppercase; font-size: .8rem; letter-spacing: .04em; }
+.sub .lvl2 > a { padding: 6px 18px 6px 34px; font-size: .86rem; color: rgba(255,255,255,.78); position: relative; }
+.sub .lvl2 > a::before { content: ""; position: absolute; left: 20px; top: 50%; width: 6px; height: 2px; background: var(--orange); }
+.sub .lvl2 + .lvl1 { border-top: 1px solid rgba(255,255,255,.12); margin-top: 6px; padding-top: 6px; }
+@media (max-width: 1180px) { .sub .lvl2 > a { color: var(--ink-2); } .sub .lvl2 + .lvl1 { border-top-color: var(--line); } }
+/* Grandes tuiles de la page Compétitions et pratiques */
+.tiles-4 .tile-lg { min-height: 240px; }
+.tile-lg .tile-t { font-size: 2.6rem; }
+.tile-lg .tile-d { font-size: .95rem; max-width: 30ch; }
+@media (max-width: 900px) { .tiles-4 { grid-template-columns: 1fr; } .tiles-4 .tile-lg { min-height: 160px; } }

@@ -12,13 +12,15 @@ GP = "https://girondebasket.com/wp-content/uploads/"
 MENU = [
     ("comite", "Le CD33", [("comite.html#missions", "Qui sommes-nous"), ("comite.html#elus", "Commissions"), ("comite.html#finances", "Finances"), ("comite.html#contact", "Contact")]),
     ("clubs", "Nos clubs", [("clubs.html#trouver", "Trouver un club"), ("clubs.html#labels", "Clubs labellisés"), ("clubs.html#demarches", "Créer, affilier, labelliser"), ("licences.html", "Licences et tarifs"), ("licences.html#surclassement", "Surclassement")]),
-    ("competitions", "Compétitions et pratiques", [("competitions.html#jeunes", "Championnats jeunes"), ("competitions.html#seniors", "Championnats seniors"), ("competitions.html#coupes", "Coupes 33"), ("competitions.html#trois", "3x3"), ("mini-basket.html", "Mini-basket"), ("competitions.html#engager", "Engager ses équipes")]),
+    ("competitions", "Compétitions et pratiques", [("5x5.html", "5x5"), ("3x3.html", "3x3"), ("mini-basket.html", "Mini basket"),
+        ("mini-basket.html#micro", "Micro basket", 2), ("mini-basket.html#u7", "U7", 2), ("mini-basket.html#u9", "U9", 2), ("mini-basket.html#u11", "U11", 2), ("mini-basket.html#labels", "Labels", 2),
+        ("vivre-ensemble.html", "Vivre ensemble"), ("vivre-ensemble.html#basketsante", "Basket santé", 2), ("vivre-ensemble.html#basketonik", "Basketonik", 2), ("vivre-ensemble.html#basketloisir", "Basket loisir", 2)]),
     ("formations", "Formations", [("joueurs.html", "Joueur"), ("formations.html#arbitres", "Arbitres"), ("formations.html#otm", "Officiels de table"), ("formations.html#entraineurs", "Entraîneurs")]),
     ("agenda", "Agenda", []),
     ("galerie", "Galerie photos", []),
     ("documents", "Ressources documentaires", []),
 ]
-SECTION_OF = {"mini-basket": "competitions", "joueurs": "formations", "licences": "clubs"}
+SECTION_OF = {"mini-basket": "competitions", "5x5": "competitions", "3x3": "competitions", "vivre-ensemble": "competitions", "joueurs": "formations", "licences": "clubs"}
 
 def doc(label, url, meta=""):
     m = f'<span class="doc-cat">{meta}</span>' if meta else ""
@@ -34,7 +36,7 @@ def menu(slug):
         if not subs:
             out.append(f'<li class="mi"><a class="mlink" href="{s}.html"{here}>{label}</a></li>')
             continue
-        items = "".join(f'<li><a href="{h}">{l}</a></li>' for h, l in subs)
+        items = "".join(f'<li class="lvl{x[2] if len(x) > 2 else 1}"><a href="{x[0]}">{x[1]}</a></li>' for x in subs)
         out.append(f'<li class="mi has-sub"><a class="mlink" href="{s}.html"{here}>{label}</a>'
                    f'<button type="button" class="sub-toggle" aria-expanded="false" aria-label="Ouvrir le sous-menu {label}">{CHEV}</button>'
                    f'<ul class="sub">{items}</ul></li>')
@@ -96,10 +98,10 @@ def hero(slug, kicker, h1, lead):
 AGENDA = [  # (jour, mois, titre, lieu, lien) – à tenir à jour
     ("29", "nov.", "Détections 2014/2015 · District de Bordeaux", "Gymnase Jean Bouin, Talence", "joueurs.html#detections"),
     ("06", "déc.", "Détections 2014/2015 · Médoc et Sud Gironde", "Le Taillan · lieu Sud Gironde à confirmer", "joueurs.html#detections"),
-    ("19", "déc.", "3x3 départemental · Stop 2 (19 et 20 déc.)", "Halle des sports, Talence", "competitions.html#trois"),
-    ("22", "févr.", "3x3 départemental · Stop 3 (22 au 25 févr.)", "Halle des sports, Talence", "competitions.html#trois"),
-    ("19", "avr.", "3x3 départemental · Stop 4 (19 au 22 avr.)", "Halle des sports, Talence", "competitions.html#trois"),
-    ("12", "juin", "Finales des Coupes 33", "Toutes catégories", "competitions.html#coupes"),
+    ("19", "déc.", "3x3 départemental · Stop 2 (19 et 20 déc.)", "Halle des sports, Talence", "3x3.html"),
+    ("22", "févr.", "3x3 départemental · Stop 3 (22 au 25 févr.)", "Halle des sports, Talence", "3x3.html"),
+    ("19", "avr.", "3x3 départemental · Stop 4 (19 au 22 avr.)", "Halle des sports, Talence", "3x3.html"),
+    ("12", "juin", "Finales des Coupes 33", "Toutes catégories", "5x5.html#coupes"),
 ]
 
 FOOTER = f"""<footer class="footer">
@@ -155,8 +157,8 @@ def docs(items):
 SLIDES = [  # image dans assets/carrousel/ (format 16:6, remplaçable par une photo), texte alternatif, lien
     ("00-bienvenue.svg", "Le basket en Gironde, comité départemental de basket-ball", "comite.html"),
     ("01-detections.svg", "Détections génération 2014/2015, novembre et décembre 2026", "joueurs.html"),
-    ("02-3x3-stop2.svg", "3x3 départemental, stop 2 les 19 et 20 décembre 2026 à Talence", "competitions.html#trois"),
-    ("04-finales-coupes.svg", "Finales des Coupes 33 le samedi 12 juin 2027", "competitions.html#coupes"),
+    ("02-3x3-stop2.svg", "3x3 départemental, stop 2 les 19 et 20 décembre 2026 à Talence", "3x3.html"),
+    ("04-finales-coupes.svg", "Finales des Coupes 33 le samedi 12 juin 2027", "5x5.html#coupes"),
 ]
 
 def slider():
@@ -176,10 +178,10 @@ def slider():
 
 FIGURES = [("66", "Clubs"), ("6", "Districts"), ("50+", "Bénévoles"), ("5", "Salariés"), ("4", "Stops 3x3")]
 ACTIVITES = [
-    ("competitions.html#jeunes", "5x5", "Championnats jeunes et seniors"),
-    ("competitions.html#trois", "3x3", "Championnat départemental"),
-    ("mini-basket.html", "Mini-basket", "U7, U9, U11"),
-    ("competitions.html#coupes", "Coupes 33", "Seniors et jeunes"),
+    ("5x5.html", "5x5", "Championnats jeunes et seniors"),
+    ("3x3.html", "3x3", "Championnat départemental"),
+    ("mini-basket.html", "Mini basket", "Micro, U7, U9, U11"),
+    ("vivre-ensemble.html", "Vivre ensemble", "Santé, Basketonik, loisir"),
     ("joueurs.html", "Détections", "Génération 2014/2015"),
     ("formations.html#arbitres", "Officiels", "Arbitres et table de marque"),
     ("formations.html#entraineurs", "Entraîneurs", "Brevets fédéraux"),
@@ -187,7 +189,7 @@ ACTIVITES = [
 ]
 BASEDOC = [
     ("documents.html#reglements", "Règlements sportifs"), ("documents.html#finances", "Tarifs et dispositions financières"),
-    ("documents.html#clubs-licences", "Licences : modes opératoires"), ("documents.html#competitions", "Compétitions et engagements"),
+    ("documents.html#clubs-licences", "Licences : modes opératoires"), ("5x5.html#engager", "Engager ses équipes"),
     ("documents.html#cd33", "Statuts et règlement intérieur"), ("documents.html", "Toutes les ressources documentaires"),
 ]
 ACTUS = [  # articles du site actuel girondebasket.com
@@ -250,8 +252,8 @@ STOPS = [
     ("Stop 3", "Halle des sports, Talence", "22/02 U13M · 23/02 U15M · 24/02 U18M · 25/02 U13-U15-U18 F (2027)"),
     ("Stop 4", "Halle des sports, Talence", "19/04 U13M · 20/04 U15M · 21/04 U18M · 22/04 U13-U15-U18 F (2027)"),
 ]
-comp_body = (
-    '<nav class="subnav container" aria-label="Dans cette page"><a href="#jeunes">Jeunes</a><a href="#seniors">Seniors</a><a href="#coupes">Coupes 33</a><a href="#trois">3x3</a><a href="#engager">Engager ses équipes</a></nav>'
+fivex5_body = (
+    '<nav class="subnav container" aria-label="Dans cette page"><a href="#jeunes">Championnats jeunes</a><a href="#seniors">Championnats seniors</a><a href="#coupes">Coupes 33</a><a href="#engager">Engager ses équipes</a></nav>'
     + section("jeunes", "Championnats jeunes", "U13 à U21", rows([
         ("Catégories", "U13F, U15F, U18F · U13M, U15M, U18M, U21M."),
         ("Listes de brûlés", "À remplir par formulaire, une par catégorie, transmis automatiquement à la commission sportive."),
@@ -279,18 +281,6 @@ comp_body = (
         ("Notice Coupe 33 jeunes 2026-2027", GP + "2026/10/notice-jeunes-3.docx", "Notice"),
         ("Cahier des charges des phases finales des Coupes 33", GP + "2026/02/2026_02_06-cahier_charges-_coupes.pdf", "Phases finales"),
     ]))
-    + section("trois", "3x3", "Championnat départemental 2026-2027", '<div class="table-wrap"><table class="tbl"><thead><tr><th>Stop</th><th>Lieu</th><th>Dates et catégories</th></tr></thead><tbody>'
-        + "".join(f"<tr><th scope='row'>{a}</th><td>{b}</td><td>{c}</td></tr>" for a, b, c in STOPS)
-        + "</tbody></table></div>" + rows([
-        ("Ouvert à", "U13 à seniors. Effectif de 3 à 7 joueurs, 4 au maximum par stop."),
-        ("Tarif", "40 € par équipe (U13 à U18) ; à partir du 3e engagement dans une catégorie, les suivants sont offerts."),
-        ("Qualification", "Vainqueurs des 4 stops et 4 meilleures équipes au classement pour le Master départemental, puis Master régional et finales nationales."),
-        ("Avant le premier stop", "Chaque joueur crée son profil sur <a href='https://play.fiba3x3.com/?lang=fr-FR' target='_blank' rel='noopener'>PlayFIBA 3X3</a>."),
-        ("Contact", "<a href='mailto:developpement@basket33.fr'>developpement@basket33.fr</a>"),
-    ]) + docs([
-        ("Formulaire d'inscription 3x3", "https://docs.google.com/forms/d/e/1FAIpQLSeOoPaNeZO1yskBizRBk1AGCH0p0N6wbBR_PsVDKE_x0u-C7g/viewform", "Inscription"),
-        ("Règlements sportifs généraux 3x3 FFBB 2026-2027", GP + "2026/09/01-refbfbdglements-sportifs-gefbfbdnefbfbdraux-3x3-vdef.pdf", "Règlement"),
-    ]), alt=True)
     + section("engager", "Engager ses équipes", "Championnats et coupes", rows([
         ("Jeunes départemental", "Une feuille d'engagement par catégorie, à télécharger sur le site actuel du comité."),
         ("Pré-région et seniors", "Via FBI uniquement (voir le mode opératoire)."),
@@ -319,22 +309,107 @@ joueurs_body = (
 )
 
 # ---------------------------------------------------------------- Mini-basket
+MINI_DOCS_U9 = [
+    ("Règlement simplifié U9 et U9/U11 (octobre 2026)", GP + "2026/10/reglement-simplifie-u9-championnat-et-u9u11.pdf", "Règlement"),
+    ("Règlement championnat U9 et U11", GP + "2025/09/u09_u11-reglements.pdf", "Règlement"),
+    ("Fiche rencontre U9 / U9-U11 championnat", GP + "2025/11/fiche-rencontre-u9u9championnatu11.pdf", "Match"),
+]
+MINI_OUTILS = [
+    ("Application de rotations des joueurs", "https://cd33-basketball.web.app/teams", "Outil"),
+    ("Feuille de rotations (Excel)", GP + "2025/09/feuille-dorganisation-mini1-1.xlsx", "Outil"),
+]
+EFMB = "CMO Bassens, St Médard Basket, AS St Delphin, Pessac BC, JSA Bordeaux, US Talence, B. Izon, US Brédoise Basket, Langon SG"
+EDMB = "Bordeaux Etudiants Club, ES Blanquefort, AS Martignas, Basket Bassin d'Arcachon"
 mini_body = (
-    section("projet", "Projet 2025-2028", "Un mini-basket éducatif", rows([
-        ("Les principes", "Plaisir de jouer, temps de jeu équilibré pour chaque enfant, règles adaptées à l'âge."),
+    '<nav class="subnav container" aria-label="Dans cette page"><a href="#micro">Micro basket</a><a href="#u7">U7</a><a href="#u9">U9</a><a href="#u11">U11</a><a href="#labels">Labels</a></nav>'
+    + section("projet", "Projet 2025-2028", "Un mini basket éducatif", rows([
+        ("Les principes", "Plaisir de jouer, temps de jeu équilibré pour chaque enfant, règles adaptées à l'âge. « Le jeu prime sur l'enjeu »."),
         ("Le projet complet", "<a href='https://www.canva.com/design/DAGxvoTcSIc/6ZKWF5lo8krE9HBEn_To-Q/view' target='_blank' rel='noopener'>Présentation du projet mini-basket 2025-2028</a>."),
+        ("Engager ses équipes", "<a href='https://docs.google.com/forms/d/e/1FAIpQLSc67OBv3uym-eVDTCE97Ozq6PkiMFjwh1efUysndh6rxMpPhA/viewform' target='_blank' rel='noopener'>Formulaire d'engagement mini-basket</a>."),
         ("Contact", "Commission mini-basket : <a href='mailto:secretariat@basket33.fr'>secretariat@basket33.fr</a>."),
     ]))
-    + section("outils", "U9 et U11", "Règlements et outils de match", docs([
-        ("Règlement simplifié U9 et U9/U11 (octobre 2026)", GP + "2026/10/reglement-simplifie-u9-championnat-et-u9u11.pdf", "Règlement"),
-        ("Règlement championnat U9 et U11", GP + "2025/09/u09_u11-reglements.pdf", "Règlement"),
-        ("Fiche rencontre U9 / U9-U11 championnat", GP + "2025/11/fiche-rencontre-u9u9championnatu11.pdf", "Match"),
-        ("Application de rotations des joueurs", "https://cd33-basketball.web.app/teams", "Outil"),
-        ("Feuille de rotations (Excel)", GP + "2025/09/feuille-dorganisation-mini1-1.xlsx", "Outil"),
+    + section("micro", "Micro basket", "Les tout-petits", rows([
+        ("Le principe", "Une première découverte du ballon et du jeu, avant la catégorie U7 : motricité, jeux d'adresse et d'équilibre, en petits groupes, avec un parent souvent associé à la séance."),
+        ("En Gironde", '<span class="todo">[À COMPLÉTER : clubs proposant le micro basket, dates des rassemblements]</span>'),
     ]), alt=True)
-    + section("labels", "Labels", "École de mini-basket", rows([
-        ("École française de mini-basket", "Label fédéral pour les clubs qui accueillent les plus jeunes dans les meilleures conditions."),
-        ("École départementale (EDMB)", "Label du comité. <a href='clubs.html#labels'>Clubs labellisés</a>."),
+    + section("u7", "U7", "Baby basket", rows([
+        ("Le principe", "Des ateliers ludiques autour du ballon, sans match ni classement, pour apprendre à dribbler, passer et tirer en s'amusant."),
+        ("Rassemblements U7", '<span class="todo">[À COMPLÉTER : dates et lieux des rassemblements de la saison]</span> Renseignements : <a href="mailto:secretariat@basket33.fr">secretariat@basket33.fr</a>.'),
+    ]))
+    + section("u9", "U9", "Championnat et plateaux", rows([
+        ("Le jeu", "4 contre 4 sur grand terrain, panier à 2,60 m, ballon taille 5, défense individuelle obligatoire, écrans interdits."),
+        ("Le match", "4 x 8 minutes non décomptées, arrêt du chrono à la 4e minute de chaque quart-temps pour les rotations, mi-temps de 3 minutes. 10 joueurs maximum (8 recommandés)."),
+        ("Formule classique", "Aucun score affiché, seul le chronomètre ; les joueurs sifflent les sorties de leur côté."),
+        ("U9 championnat", "Score affiché ; rotations des joueurs et des arbitres ; 2 à 4 joueurs sifflent les sorties."),
+        ("Sur le banc", "Un licencié de plus de 16 ans par équipe ; parents et spectateurs en tribune."),
+    ]) + docs(MINI_DOCS_U9 + MINI_OUTILS), alt=True)
+    + section("u11", "U11", "Championnat", rows([
+        ("Le jeu", "4 contre 4 sur grand terrain, panier à 2,60 m, ballon taille 5, défense individuelle obligatoire."),
+        ("Le match", "4 x 8 minutes non décomptées, 2 minutes de repos entre les quarts-temps, mi-temps de 5 minutes. Tous les joueurs doivent être entrés avant le 3e quart-temps."),
+        ("Temps morts", "1re mi-temps : temps mort technique à partir de la 4e minute de chaque période. 2e mi-temps : 2 temps morts par équipe."),
+        ("Égalité", "Prolongation de 4 minutes."),
+        ("Rotations", "Définies avec l'application dédiée ou le fichier Excel, et contrôlées sur l'e-marque."),
+    ]) + docs([MINI_DOCS_U9[1], MINI_DOCS_U9[2]] + MINI_OUTILS))
+    + section("labels", "Labels", "Les écoles de mini-basket", rows([
+        ("École française de mini-basket", "Label fédéral (FFBB) pour les clubs qui accueillent les plus jeunes dans les meilleures conditions. Clubs labellisés : " + EFMB + "."),
+        ("École départementale de mini-basket (EDMB)", "Label du comité. Clubs labellisés : " + EDMB + "."),
+        ("Obtenir un label", "Démarches et dossiers : <a href='clubs.html#labels'>Nos clubs › Clubs labellisés</a>."),
+    ]), alt=True)
+)
+
+# ---------------------------------------------------------------- 3x3
+trois_body = (
+    section("championnat", "Championnat 3x3", "Championnat départemental 2026-2027", '<div class="table-wrap"><table class="tbl"><thead><tr><th>Stop</th><th>Lieu</th><th>Dates et catégories</th></tr></thead><tbody>'
+        + "".join(f"<tr><th scope='row'>{a}</th><td>{b}</td><td>{c}</td></tr>" for a, b, c in STOPS)
+        + "</tbody></table></div>" + rows([
+        ("Ouvert à", "U13 à seniors. Effectif de 3 à 7 joueurs, 4 au maximum par stop."),
+        ("Tarif", "40 € par équipe (U13 à U18) ; à partir du 3e engagement dans une catégorie, les suivants sont offerts."),
+        ("Qualification", "Vainqueurs des 4 stops et 4 meilleures équipes au classement pour le Master départemental, puis Master régional et finales nationales."),
+        ("Avant le premier stop", "Chaque joueur crée son profil sur <a href='https://play.fiba3x3.com/?lang=fr-FR' target='_blank' rel='noopener'>PlayFIBA 3X3</a>."),
+        ("Contact", "<a href='mailto:developpement@basket33.fr'>developpement@basket33.fr</a>"),
+    ]) + docs([
+        ("Formulaire d'inscription 3x3", "https://docs.google.com/forms/d/e/1FAIpQLSeOoPaNeZO1yskBizRBk1AGCH0p0N6wbBR_PsVDKE_x0u-C7g/viewform", "Inscription"),
+        ("Règlements sportifs généraux 3x3 FFBB 2026-2027", GP + "2026/09/01-refbfbdglements-sportifs-gefbfbdnefbfbdraux-3x3-vdef.pdf", "Règlement"),
+    ]))
+    + section("pratiquer", "Pratiquer le 3x3", "En club et en loisir", rows([
+        ("Le 3x3 en club", "Licence de club obligatoire, y compris pour jouer en compétition 3x3. <a href='licences.html'>Licences et tarifs</a>."),
+        ("Le 3x3 loisir seniors", "Fiche individuelle d'inscription et formules allégées : voir <a href='vivre-ensemble.html#basketloisir'>Basket loisir</a>."),
+        ("Le 3x3 en France", "Calendrier des tournois et classements sur <a href='https://www.3x3ffbb.com/' rel='noopener'>3x3ffbb.com</a>."),
+    ]), alt=True)
+)
+
+# ---------------------------------------------------------------- Compétitions et pratiques (page d'accueil de la rubrique)
+PRATIQUES = [
+    ("5x5.html", "5x5", "Championnats jeunes et seniors, Coupes 33, engagements des équipes."),
+    ("3x3.html", "3x3", "Championnat départemental en 4 stops, Master départemental, inscriptions."),
+    ("mini-basket.html", "Mini basket", "Micro basket, U7, U9, U11 et labels des écoles de mini-basket."),
+    ("vivre-ensemble.html", "Vivre ensemble", "Basket santé, Basketonik et basket loisir : jouer autrement."),
+]
+comp_body = f"""<section class="section">
+  <div class="wrap">
+    <div class="tiles tiles-4">{''.join(f'<a class="tile tile-lg" href="{h}"><span class="tile-t">{t_}</span><span class="tile-d">{d}</span></a>' for h, t_, d in PRATIQUES)}</div>
+  </div>
+</section>"""
+
+# ---------------------------------------------------------------- Vivre ensemble
+TODO_CLUBS = '<span class="todo">[À COMPLÉTER : clubs girondins qui proposent cette pratique et contact]</span>'
+vivre_body = (
+    '<nav class="subnav container" aria-label="Dans cette page"><a href="#basketsante">Basket santé</a><a href="#basketonik">Basketonik</a><a href="#basketloisir">Basket loisir</a></nav>'
+    + section("basketsante", "Basket santé", "Bouger pour sa santé", rows([
+        ("Le principe", "Une pratique du basket adaptée, sans contact et à intensité modérée, encadrée par un animateur formé. Elle s'adresse aux personnes qui veulent reprendre une activité physique, notamment pour préserver ou améliorer leur santé."),
+        ("Pour qui", "Adultes et seniors, personnes sédentaires ou atteintes d'une maladie chronique, sur avis médical si besoin."),
+        ("En Gironde", TODO_CLUBS),
+    ]))
+    + section("basketonik", "Basketonik", "Le fitness avec un ballon", rows([
+        ("Le principe", "Une séance de remise en forme en musique, ballon en main : cardio, renforcement et coordination, sans opposition ni match."),
+        ("Pour qui", "Tous les publics, licenciés ou non, débutants comme confirmés, à partir de l'adolescence."),
+        ("En Gironde", TODO_CLUBS),
+    ]), alt=True)
+    + section("basketloisir", "Basket loisir", "Jouer sans la pression du championnat", rows([
+        ("Loisirs jeunes", "Formules allégées pour les U13, U15 et U18, filles et garçons : rencontres sans classement, pour garder le plaisir du jeu. Fiches d'inscription par catégorie sur <a href='https://girondebasket.com/autre-pratique/' target='_blank' rel='noopener'>la page « Autres pratiques » du site actuel</a>."),
+        ("Loisirs seniors", "Pratique adulte en 3x3, avec une fiche individuelle d'inscription (même page)."),
+        ("La licence loisir", "Une licence dédiée à la pratique loisir. Montant dans les <a href='licences.html#tarifs'>tarifs 2026-2027</a>."),
+        ("Contact", "<a href='mailto:secretariat@basket33.fr'>secretariat@basket33.fr</a>"),
     ]))
 )
 
@@ -482,9 +557,9 @@ def agenda_body():
 # (autorisation parentale pour les mineurs).
 GALERIE = [
     ("Détections 2014/2015", "Novembre et décembre 2026", "joueurs.html", []),
-    ("3x3 départemental", "Saison 2026-2027", "competitions.html#trois", []),
+    ("3x3 départemental", "Saison 2026-2027", "3x3.html", []),
     ("Mini-basket", "Plateaux et rassemblements", "mini-basket.html", []),
-    ("Finales des Coupes 33", "Juin 2027", "competitions.html#coupes", []),
+    ("Finales des Coupes 33", "Juin 2027", "5x5.html#coupes", []),
 ]
 
 def galerie_body():
@@ -511,9 +586,12 @@ ml_body = f'<section class="section"><div class="wrap prose">{MENTIONS}</div></s
 PAGES = [
     ("mentions-legales", "Mentions légales", "Mentions légales et politique de confidentialité du site du Comité de basket de la Gironde.", "Mentions légales", "Mentions légales et confidentialité", "Les passages surlignés sont à compléter et à faire valider par le comité avant la mise en ligne.", ml_body),
     ("index", "Accueil", "Le Comité départemental de basket-ball de la Gironde : compétitions, détections, mini-basket, licences, clubs, documents officiels et assistant.", "", "", "", home_body),
-    ("competitions", "Compétitions", "Championnats jeunes et seniors, Coupes 33, 3x3 départemental et engagements des équipes en Gironde, saison 2026-2027.", "Compétitions", "Compétitions", "Championnats, Coupes 33 et 3x3 : calendrier, règlements et engagements de la saison 2026-2027.", comp_body),
+    ("competitions", "Compétitions et pratiques", "5x5, 3x3, mini basket et vivre ensemble : toutes les façons de jouer au basket en Gironde.", "Compétitions et pratiques", "Compétitions<br>et pratiques", "5x5, 3x3, mini basket, basket santé, Basketonik, loisir : choisissez votre pratique.", comp_body),
+    ("5x5", "5x5", "Championnats jeunes et seniors, Coupes 33 et engagements des équipes en Gironde, saison 2026-2027.", "<a href=\"competitions.html\">Compétitions et pratiques</a> <span aria-hidden=\"true\">/</span> 5x5", "5x5", "Championnats jeunes et seniors, Coupes 33 : calendrier, règlements et engagements de la saison 2026-2027.", fivex5_body),
+    ("3x3", "3x3", "Championnat départemental 3x3 2026-2027 en Gironde : stops, tarifs, qualification, inscription.", "<a href=\"competitions.html\">Compétitions et pratiques</a> <span aria-hidden=\"true\">/</span> 3x3", "3x3", "Le championnat départemental en 4 stops à Talence, le Master et la pratique loisir.", trois_body),
+    ("vivre-ensemble", "Vivre ensemble", "Basket santé, Basketonik et basket loisir en Gironde : des pratiques ouvertes à tous.", "<a href=\"competitions.html\">Compétitions et pratiques</a> <span aria-hidden=\"true\">/</span> Vivre ensemble", "Vivre ensemble", "Basket santé, Basketonik, basket loisir : le basket pour tous, sans la pression du championnat.", vivre_body),
     ("joueurs", "Joueur", "Parcours du joueur en Gironde : détections de la génération 2014/2015 (dates, lieux et horaires par secteur), sélections et camps.", "<a href=\"formations.html\">Formations</a> <span aria-hidden=\"true\">/</span> Joueur", "Joueur", "Les dates et lieux des détections de la génération 2014/2015, puis le parcours vers les sélections.", joueurs_body),
-    ("mini-basket", "Mini-basket", "Mini-basket en Gironde : projet 2025-2028, règlements U9 et U11, fiche rencontre et outils de rotation.", "Mini-basket", "Mini-basket", "U7, U9 et U11 : le projet éducatif du comité, les règlements et les outils pour les matchs.", mini_body),
+    ("mini-basket", "Mini basket", "Mini basket en Gironde : micro basket, U7, U9, U11, règlements, fiche rencontre, outils de rotation et labels.", "<a href=\"competitions.html\">Compétitions et pratiques</a> <span aria-hidden=\"true\">/</span> Mini basket", "Mini basket", "Micro basket, U7, U9, U11 et labels : le projet éducatif du comité, les règles et les outils pour les matchs.", mini_body),
     ("licences", "Licences et tarifs", "Licences de basket en Gironde : tarifs 2026-2027, dispositions financières, modes opératoires et surclassement.", "Licences", "Licences<br>et tarifs", "Tarifs de la saison, démarches de licence et surclassement.", lic_body),
     ("clubs", "Clubs", "Les clubs de basket de la Gironde par district, les clubs labellisés et les démarches pour créer ou affilier un club.", "Clubs", "Trouver un club", "Les clubs girondins par district, leurs labels et les démarches pour les dirigeants.", clubs_body),
     ("formations", "Se former", "Devenir arbitre, officiel de table ou entraîneur en Gironde : formations, inscriptions et documents.", "Se former", "Se former", "Arbitrer, tenir la table de marque ou entraîner : les formations proposées par le comité et la FFBB.", form_body),
@@ -529,7 +607,7 @@ PAGES = [
 # ceux de data/documents.json et tous les liens « document » rencontrés dans les pages.
 import re, html as _html
 CAT_MAP = {"Licences et clubs": "Clubs et licences", "Officiels": "Formations et officiels", "Le comité": "Le CD33"}
-CAT_OF_PAGE = {"comite": "Le CD33", "competitions": "Compétitions", "joueurs": "Formations et officiels", "formations": "Formations et officiels",
+CAT_OF_PAGE = {"comite": "Le CD33", "competitions": "Compétitions", "5x5": "Compétitions", "3x3": "Compétitions", "vivre-ensemble": "Compétitions", "joueurs": "Formations et officiels", "formations": "Formations et officiels",
                "licences": "Clubs et licences", "clubs": "Clubs et licences", "mini-basket": "Mini-basket", "agenda": "Compétitions"}
 DOC_RE = re.compile(r'<a class="doc" href="([^"]+)"[^>]*><span class="doc-title">(.*?)</span>')
 
