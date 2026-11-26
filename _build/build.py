@@ -181,11 +181,16 @@ def slider():
 # arbitres = export FBI des arbitres ; équipes = engagements en championnats de France (NM, NF, U15/U18/U21 Élite…).
 FIGURES = [
     ("66", "Clubs"),
-    (None, "Licenciés"),
+    ("12 590", "Licenciés"),
     ("50+", "Bénévoles"),
-    (None, "Arbitres"),
-    (None, "Équipes en championnat de France"),
+    ("349", "Arbitres"),
+    ("14+", "Équipes en championnat de France"),
 ]
+# Sources (outils basket du Comité 33) : licenciés = Comparatif des licences, état au 19/11/2026 ;
+# arbitres = Arbitres & entraîneurs 33, arbitres actifs, export FBI du 24/11/2026 ;
+# équipes = Fautes techniques Gironde, saison 2025-2026 : divisions nationales où une équipe girondine apparaît
+# (NM2, NM3, NF1, NF3, U15 et U18 Élite). Chiffre minimum, à remplacer par la liste des engagements 2026-2027.
+FIGURES_NOTE = "Licenciés au 19/11/2026 · arbitres actifs au 24/11/2026 · équipes en championnat de France : saison 2025-2026"
 def figure(n, l):
     v = n if n else '<span class="todo-num" title="Chiffre à compléter dans _build/build.py (FIGURES)">À compléter</span>'
     return f'<li><strong>{v}</strong><span>{l}</span></li>'
@@ -214,7 +219,7 @@ PARTENAIRES = [("Fédération française de basket-ball", "https://www.ffbb.com/
 
 home_body = f"""{slider()}
 <section class="figures" aria-label="Le comité en chiffres">
-  <div class="wrap"><ul>{''.join(figure(n, l) for n, l in FIGURES)}</ul></div>
+  <div class="wrap"><ul>{''.join(figure(n, l) for n, l in FIGURES)}</ul><p class="fig-note">{FIGURES_NOTE}</p></div>
 </section>
 <section class="section" id="activites">
   <div class="wrap">
