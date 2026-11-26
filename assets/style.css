@@ -371,3 +371,40 @@ body { background: var(--bg); }
 .dot[aria-current="true"]::after { background: var(--accent-strong); width: 26px; margin-left: -13px; border-radius: 999px; }
 @media (max-width: 680px) { .slide-cta { right: 10px; bottom: 10px; font-size: 12px; padding: 7px 11px; } .carousel-nav { display: none; } }
 @media (min-width: 900px) { .slide { flex: 0 0 calc(50% - 8px); } }
+
+/* ================= Menu en barre latérale (ordinateur) ================= */
+@media (min-width: 1021px) {
+  html { scroll-padding-top: 24px; }
+  body { padding-left: 264px; }
+  .topbar { position: fixed; top: 0; left: 0; bottom: 0; width: 264px; background: #FFFFFF; border-bottom: 0; border-right: 1px solid var(--line); box-shadow: none; overflow-y: auto; }
+  .topbar::after { left: auto; right: -1px; top: 0; bottom: 0; width: 3px; height: auto; }
+  .topbar-inner { flex-direction: column; align-items: stretch; gap: 28px; min-height: 100%; padding: 28px 20px 24px; max-width: none; }
+  .brand { padding: 0 6px; }
+  .menu-toggle { display: none !important; }
+  .nav, .topbar .nav { display: flex !important; position: static; flex-direction: column; align-items: stretch; gap: 2px; margin: 0; padding: 0; background: transparent; border: 0; box-shadow: none; }
+  .nav a { display: block; white-space: normal; font-size: 13px; letter-spacing: .08em; padding: 12px 14px; border-radius: 10px; opacity: .85; border-bottom: 0; box-shadow: none; }
+  .nav a:hover { background: var(--peach); opacity: 1; }
+  .nav a[aria-current="page"] { background: var(--peach); color: var(--accent); opacity: 1; box-shadow: inset 3px 0 0 var(--accent-strong); border-radius: 0 10px 10px 0; padding-left: 14px; }
+  .nav .nav-cta { order: -1; margin: 0 0 18px; padding: 14px 16px; text-align: center; font-size: 14px; border-radius: 999px; background: var(--accent-strong); color: #FFFFFF; opacity: 1; box-shadow: 0 8px 20px rgba(232,89,12,.22); }
+  .nav .nav-cta:hover { background: #D04E0A; }
+  .nav .nav-cta[aria-current="page"] { background: #D04E0A; color: #FFFFFF; box-shadow: 0 8px 20px rgba(232,89,12,.22); border-radius: 999px; }
+  .container { max-width: 1080px; }
+  .split .section-head { top: 32px; }
+  .hero-inner { grid-template-columns: minmax(0, 1fr) auto; }
+  .hero-logo { width: clamp(160px, 18vw, 260px); }
+}
+@media (min-width: 1021px) and (max-width: 1280px) {
+  body { padding-left: 232px; }
+  .topbar { width: 232px; }
+  .quick-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+/* Tablette et mobile : barre en haut, le menu s'ouvre avec « Une question ? » en tête */
+@media (max-width: 1020px) {
+  .menu-toggle { display: inline-flex; align-items: center; }
+  .nav { display: none; position: absolute; left: 0; right: 0; top: 100%; background: #FFFFFF; flex-direction: column; align-items: stretch; gap: 0; padding: 12px 20px 20px; border-bottom: 1px solid var(--line); box-shadow: 0 12px 24px rgba(26,26,26,.08); max-height: calc(100vh - 68px); overflow-y: auto; }
+  .topbar.open .nav { display: flex; }
+  .nav a { padding: 14px 4px; border-radius: 0; border-bottom: 1px solid var(--line); white-space: normal; }
+  .nav .nav-cta { order: -1; margin: 0 0 8px; text-align: center; border-radius: 999px; border: 0; padding: 14px; }
+}
+@media (min-width: 1021px) and (max-width: 1180px) { .topbar.open .nav, .nav { display: flex; } }
+@media (min-width: 1021px) { .topbar .brand span { white-space: normal; font-size: 22px; line-height: 1; } }

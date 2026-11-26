@@ -43,7 +43,7 @@ def page(slug, title, desc, kicker, h1, lead, body, wide_head=False):
       <img src="assets/ballon-33.svg" alt="" width="34" height="36"><span>Gironde <em>Basket</em></span>
     </a>
     <button type="button" class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
-    <nav class="nav" id="nav" aria-label="Sommaire">{nav}<a href="assistant.html" class="nav-cta"{' aria-current="page"' if slug == 'assistant' else ''}>Une question ?</a></nav>
+    <nav class="nav" id="nav" aria-label="Sommaire"><a href="assistant.html" class="nav-cta"{' aria-current="page"' if slug == 'assistant' else ''}>Une question ?</a><a href="index.html" class="nav-home"{' aria-current="page"' if slug == 'index' else ''}>Accueil</a>{nav}</nav>
   </div>
 </header>
 <main id="contenu">
