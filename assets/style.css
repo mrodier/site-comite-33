@@ -36,16 +36,17 @@ main { overflow-x: clip; }
 .skip:focus { top: 8px; }
 :focus-visible { outline: 3px solid var(--sable); outline-offset: 2px; }
 
-/* ---------- Logo (charte : proportions du fichier source, zone de protection = ¼ du diamètre) ---------- */
+/* ---------- Logo « E » (charte v1.0 : proportions du fichier source ; 1em = hauteur de GIRONDE) ---------- */
 .logo-h, .logo-v { display: inline-flex; align-items: center; color: var(--ink); font-size: 30px; }
-.logo-h .emblem { width: 2em; height: 2em; flex-shrink: 0; margin-right: .32em; }
-.logo-txt { display: flex; flex-direction: column; align-items: flex-start; font-family: var(--display); line-height: 1; }
-.logo-txt .l1 { font-weight: 800; font-size: 1em; line-height: .9; letter-spacing: .024em; }
-.logo-txt .lrule { display: block; width: 1.8em; height: max(1px, .034em); background: var(--sable); margin: .04em 0; }
-.logo-txt .l2 { font-weight: 700; font-size: .339em; letter-spacing: .295em; line-height: 1.15; }
-.logo-txt .l3 { font-weight: 600; font-size: .1525em; letter-spacing: .27em; opacity: .85; }
+.logo-h .emblem { width: 2em; height: 2em; flex-shrink: 0; }
+.logo-h .lsep { width: 2px; align-self: stretch; margin: .2em .288em; background: var(--sable); }
+.logo-txt { display: flex; flex-direction: column; align-items: flex-start; gap: .085em; font-family: var(--display); line-height: 1; }
+.logo-txt .l1 { font-weight: 800; font-size: 1em; line-height: .9; letter-spacing: .07em; }
+.logo-txt .l2 { font-weight: 700; font-size: .407em; line-height: 1.1; letter-spacing: .317em; }
+.logo-txt .l3 { font-weight: 600; font-size: .17em; letter-spacing: .27em; opacity: .9; }
 .logo-v { flex-direction: column; }
-.logo-v .emblem { width: 2.35em; height: 2.35em; margin-bottom: .28em; }
+.logo-v .emblem { width: 2.34em; height: 2.34em; }
+.logo-v .lsep { width: .7em; height: 2px; margin: .234em 0; background: var(--sable); }
 .logo-v .logo-txt { align-items: center; }
 .logo-h.neg, .logo-v.neg { color: #fff; }
 
@@ -95,7 +96,7 @@ main { overflow-x: clip; }
   .mi.sub-open .sub { display: block; }
 }
 /* Petits écrans : sous 160 px de large le logo horizontal n'est plus lisible (charte) → emblème seul */
-@media (max-width: 420px) { .brand .logo-txt { display: none; } .brand .logo-h .emblem { width: 44px; height: 44px; margin: 0; } }
+@media (max-width: 420px) { .brand .logo-txt, .brand .lsep { display: none; } .brand .logo-h .emblem { width: 44px; height: 44px; margin: 0; } }
 
 /* ---------- Carrousel ---------- */
 .hero-slider { background: var(--ink); }

@@ -25,37 +25,38 @@ SECTION_OF = {"dirigeants": "formations", "mini-basket": "competitions", "5x5": 
 # ---------------------------------------------------------------- Logo (charte graphique novembre 2026)
 # Tracé de l'emblème repris tel quel du fichier source de la charte : ne pas redessiner.
 MARINE, SABLE, BORDEAUX = "#12284C", "#D9B57E", "#8C1D40"
-_DUNE = "M10 128 C48 116 84 98 114 80 C120 77 127 77 131 82 L192 136 L192 200 L10 200 Z"
-_SEAMS = ('<path d="M100 16 V184"/><path d="M44 30 C72 62 72 138 44 170"/><path d="M156 30 C128 62 128 138 156 170"/>')
+# Logo « E » (charte v1.0, novembre 2026) : ballon plein marine, 4 coutures blanches, dune du Pilat sable, filet fin en sceau.
+_DUNE = "M34 134 C58 128 84 118 103 109 C107 106 113 105 117 109 L164 142 L170 180 L30 180 Z"
+_RIDGE = "M34 134 C58 128 84 118 103 109 C107 106 113 105 117 109 L164 142"
+_SEAMS = ('<path d="M100 36 V164"/><path d="M36 100 H164"/>'
+          '<path d="M62 52 C80 76 80 124 62 148"/><path d="M138 52 C120 76 120 124 138 148"/>')
 _UID = [0]
 
 def emblem(neg=False, size=None, label=None):
-    """Emblème : quadri (fond clair) ou négatif (fond marine)."""
+    """Emblème : quadri (fond clair) ou négatif (fond marine), tracé du fichier source de la charte."""
     _UID[0] += 1
     u = _UID[0]
-    fill, line, inner = (MARINE, "#FFFFFF", MARINE) if neg else ("#FFFFFF", MARINE, MARINE)
+    ball, seam, ring = ("#FFFFFF", MARINE, "#FFFFFF") if neg else (MARINE, "#FFFFFF", MARINE)
     wh = f' width="{size}" height="{size}"' if size else ""
     aria = f'role="img" aria-label="{label}"' if label else 'aria-hidden="true"'
-    return (f'<svg class="emblem" viewBox="0 0 200 200"{wh} {aria} focusable="false">'
-            f'<defs><clipPath id="b{u}"><circle cx="100" cy="100" r="80"/></clipPath><clipPath id="d{u}"><path d="{_DUNE}"/></clipPath></defs>'
-            f'<circle cx="100" cy="100" r="80" fill="{fill}"/>'
+    return (f'<svg class="emblem" viewBox="26 26 148 148"{wh} {aria} focusable="false">'
+            f'<defs><clipPath id="b{u}"><circle cx="100" cy="100" r="63"/></clipPath></defs>'
+            f'<circle cx="100" cy="100" r="63" fill="{ball}"/>'
             f'<g clip-path="url(#b{u})"><path d="{_DUNE}" fill="{SABLE}"/>'
-            f'<g fill="none" stroke="{line}" stroke-width="8" stroke-linecap="round">{_SEAMS}</g>'
-            f'<g clip-path="url(#d{u})" fill="none" stroke="{inner}" stroke-width="8" stroke-linecap="round">{_SEAMS}</g>'
-            f'<path d="M10 128 C48 116 84 98 114 80 C120 77 127 77 131 82 L192 136" fill="none" stroke="{line}" stroke-width="8" stroke-linecap="round"/></g>'
-            f'<circle cx="100" cy="100" r="84" fill="none" stroke="{line}" stroke-width="11"/></svg>')
+            f'<g fill="none" stroke="{seam}" stroke-width="4.2" stroke-linecap="round">{_SEAMS}</g>'
+            f'<path d="{_RIDGE}" fill="none" stroke="{seam}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></g>'
+            f'<circle cx="100" cy="100" r="69" fill="none" stroke="{ring}" stroke-width="1.6"/></svg>')
+
+_TXT = ('<span class="logo-txt"><span class="l1">GIRONDE</span>'
+        '<span class="l2">BASKET-BALL</span><span class="l3">COMITÉ DÉPARTEMENTAL</span></span>')
 
 def logo_h(neg=False):
-    """Logo horizontal (version principale) : emblème + GIRONDE / BASKET-BALL / COMITÉ DÉPARTEMENTAL."""
-    return (f'<span class="logo-h{" neg" if neg else ""}">{emblem(neg)}'
-            '<span class="logo-txt"><span class="l1">GIRONDE</span><span class="lrule"></span>'
-            '<span class="l2">BASKET-BALL</span><span class="l3">COMITÉ DÉPARTEMENTAL</span></span></span>')
+    """Logo horizontal (version principale) : emblème | filet sable vertical | GIRONDE / BASKET-BALL / COMITÉ DÉPARTEMENTAL."""
+    return f'<span class="logo-h{" neg" if neg else ""}">{emblem(neg)}<span class="lsep"></span>{_TXT}</span>'
 
 def logo_v(neg=False):
-    """Logo vertical : emblème au-dessus du nom."""
-    return (f'<span class="logo-v{" neg" if neg else ""}">{emblem(neg)}'
-            '<span class="logo-txt"><span class="l1">GIRONDE</span><span class="lrule"></span>'
-            '<span class="l2">BASKET-BALL</span><span class="l3">COMITÉ DÉPARTEMENTAL</span></span></span>')
+    """Logo vertical : emblème, filet sable horizontal, nom centré."""
+    return f'<span class="logo-v{" neg" if neg else ""}">{emblem(neg)}<span class="lsep"></span>{_TXT}</span>'
 
 def doc(label, url, meta=""):
     m = f'<span class="doc-cat">{meta}</span>' if meta else ""
