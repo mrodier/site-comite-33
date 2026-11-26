@@ -12,13 +12,13 @@ GP = "https://girondebasket.com/wp-content/uploads/"
 MENU = [
     ("comite", "Le CD33", [("comite.html#missions", "Qui sommes-nous"), ("comite.html#elus", "Commissions"), ("comite.html#finances", "Finances"), ("comite.html#contact", "Contact")]),
     ("clubs", "Nos clubs", [("clubs.html#trouver", "Trouver un club"), ("clubs.html#labels", "Clubs labellisés"), ("clubs.html#demarches", "Créer, affilier, labelliser"), ("licences.html", "Licences et tarifs"), ("licences.html#surclassement", "Surclassement")]),
-    ("competitions", "Compétitions et pratiques", [("competitions.html#jeunes", "Championnats jeunes"), ("competitions.html#seniors", "Championnats seniors"), ("competitions.html#coupes", "Coupes 33"), ("competitions.html#trois", "3x3"), ("mini-basket.html", "Mini-basket"), ("joueurs.html", "Détections et sélections"), ("competitions.html#engager", "Engager ses équipes")]),
-    ("formations", "Formations", [("formations.html#arbitres", "Arbitres"), ("formations.html#otm", "Officiels de table"), ("formations.html#entraineurs", "Entraîneurs")]),
+    ("competitions", "Compétitions et pratiques", [("competitions.html#jeunes", "Championnats jeunes"), ("competitions.html#seniors", "Championnats seniors"), ("competitions.html#coupes", "Coupes 33"), ("competitions.html#trois", "3x3"), ("mini-basket.html", "Mini-basket"), ("competitions.html#engager", "Engager ses équipes")]),
+    ("formations", "Formations", [("joueurs.html", "Joueur"), ("formations.html#arbitres", "Arbitres"), ("formations.html#otm", "Officiels de table"), ("formations.html#entraineurs", "Entraîneurs")]),
     ("agenda", "Agenda", []),
     ("galerie", "Galerie photos", []),
     ("documents", "Ressources documentaires", []),
 ]
-SECTION_OF = {"mini-basket": "competitions", "joueurs": "competitions", "licences": "clubs"}
+SECTION_OF = {"mini-basket": "competitions", "joueurs": "formations", "licences": "clubs"}
 
 def doc(label, url, meta=""):
     m = f'<span class="doc-cat">{meta}</span>' if meta else ""
@@ -512,7 +512,7 @@ PAGES = [
     ("mentions-legales", "Mentions légales", "Mentions légales et politique de confidentialité du site du Comité de basket de la Gironde.", "Mentions légales", "Mentions légales et confidentialité", "Les passages surlignés sont à compléter et à faire valider par le comité avant la mise en ligne.", ml_body),
     ("index", "Accueil", "Le Comité départemental de basket-ball de la Gironde : compétitions, détections, mini-basket, licences, clubs, documents officiels et assistant.", "", "", "", home_body),
     ("competitions", "Compétitions", "Championnats jeunes et seniors, Coupes 33, 3x3 départemental et engagements des équipes en Gironde, saison 2026-2027.", "Compétitions", "Compétitions", "Championnats, Coupes 33 et 3x3 : calendrier, règlements et engagements de la saison 2026-2027.", comp_body),
-    ("joueurs", "Détections et sélections", "Détections de la génération 2014/2015 en Gironde : dates, lieux et horaires par secteur, sélections et camps.", "Joueurs", "Détections<br>et sélections", "Les dates et lieux des détections de la génération 2014/2015, puis le parcours vers les sélections.", joueurs_body),
+    ("joueurs", "Joueur", "Parcours du joueur en Gironde : détections de la génération 2014/2015 (dates, lieux et horaires par secteur), sélections et camps.", "<a href=\"formations.html\">Formations</a> <span aria-hidden=\"true\">/</span> Joueur", "Joueur", "Les dates et lieux des détections de la génération 2014/2015, puis le parcours vers les sélections.", joueurs_body),
     ("mini-basket", "Mini-basket", "Mini-basket en Gironde : projet 2025-2028, règlements U9 et U11, fiche rencontre et outils de rotation.", "Mini-basket", "Mini-basket", "U7, U9 et U11 : le projet éducatif du comité, les règlements et les outils pour les matchs.", mini_body),
     ("licences", "Licences et tarifs", "Licences de basket en Gironde : tarifs 2026-2027, dispositions financières, modes opératoires et surclassement.", "Licences", "Licences<br>et tarifs", "Tarifs de la saison, démarches de licence et surclassement.", lic_body),
     ("clubs", "Clubs", "Les clubs de basket de la Gironde par district, les clubs labellisés et les démarches pour créer ou affilier un club.", "Clubs", "Trouver un club", "Les clubs girondins par district, leurs labels et les démarches pour les dirigeants.", clubs_body),
@@ -529,7 +529,7 @@ PAGES = [
 # ceux de data/documents.json et tous les liens « document » rencontrés dans les pages.
 import re, html as _html
 CAT_MAP = {"Licences et clubs": "Clubs et licences", "Officiels": "Formations et officiels", "Le comité": "Le CD33"}
-CAT_OF_PAGE = {"comite": "Le CD33", "competitions": "Compétitions", "joueurs": "Compétitions", "formations": "Formations et officiels",
+CAT_OF_PAGE = {"comite": "Le CD33", "competitions": "Compétitions", "joueurs": "Formations et officiels", "formations": "Formations et officiels",
                "licences": "Clubs et licences", "clubs": "Clubs et licences", "mini-basket": "Mini-basket", "agenda": "Compétitions"}
 DOC_RE = re.compile(r'<a class="doc" href="([^"]+)"[^>]*><span class="doc-title">(.*?)</span>')
 
