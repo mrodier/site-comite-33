@@ -176,7 +176,19 @@ def slider():
   </div>
 </section>"""
 
-FIGURES = [("66", "Clubs"), ("6", "Districts"), ("50+", "Bénévoles"), ("5", "Salariés"), ("4", "Stops 3x3")]
+# Bandeau de chiffres de l'accueil. Remplacer None par le chiffre, entre guillemets (ex. "1 234").
+# Sources : clubs = site du comité ; licenciés = export FBI des licences ; bénévoles = site du comité ;
+# arbitres = export FBI des arbitres ; équipes = engagements en championnats de France (NM, NF, U15/U18/U21 Élite…).
+FIGURES = [
+    ("66", "Clubs"),
+    (None, "Licenciés"),
+    ("50+", "Bénévoles"),
+    (None, "Arbitres"),
+    (None, "Équipes en championnat de France"),
+]
+def figure(n, l):
+    v = n if n else '<span class="todo-num" title="Chiffre à compléter dans _build/build.py (FIGURES)">À compléter</span>'
+    return f'<li><strong>{v}</strong><span>{l}</span></li>'
 ACTIVITES = [
     ("5x5.html", "5x5", "Championnats jeunes et seniors"),
     ("3x3.html", "3x3", "Championnat départemental"),
@@ -202,7 +214,7 @@ PARTENAIRES = [("Fédération française de basket-ball", "https://www.ffbb.com/
 
 home_body = f"""{slider()}
 <section class="figures" aria-label="Le comité en chiffres">
-  <div class="wrap"><ul>{''.join(f'<li><strong>{n}</strong><span>{l}</span></li>' for n, l in FIGURES)}</ul></div>
+  <div class="wrap"><ul>{''.join(figure(n, l) for n, l in FIGURES)}</ul></div>
 </section>
 <section class="section" id="activites">
   <div class="wrap">
