@@ -88,6 +88,7 @@ def page(slug, title, desc, kicker, h1, lead, body, wide_head=False):
 <link rel="canonical" href="{BASE_URL}{'' if slug == 'index' else slug + '.html'}">
 <link rel="icon" href="assets/embleme.svg" type="image/svg+xml">
 <meta name="theme-color" content="#12284C">
+<meta property="og:image" content="{BASE_URL}assets/carrousel/banniere-partage.jpg">
 <meta property="og:title" content="{title} · Comité de basket de la Gironde">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -191,8 +192,8 @@ def docs(items):
 SLIDES = [
     # (type, lien, contenu) — "charte" : bannière de la charte ; "photo" : image + logo posé sur une zone calme ;
     # "info" : (surtitre, titre, accroche sable, ligne d'info). Les visuels "info" sont en HTML : polices et couleurs de la charte.
+    ("photo", "comite.html", ("carrousel/banniere-gironde.jpg", "Gironde Basket-ball, comité départemental : mosaïque de photos de joueuses, joueurs, arbitres et entraîneurs girondins autour du logo")),
     ("charte", "comite.html", None),
-    ("photo", "comite.html", ("carrousel/banniere-gironde.jpg", "Mosaïque de photos du basket girondin : joueuses, joueurs, arbitres et entraîneurs")),
     ("info", "joueurs.html", ("Joueurs · génération 2014/2015", "Détections", "Nov. – déc. 2026", "29/11 à Talence · 06/12 au Taillan et en Sud Gironde")),
     ("info", "3x3.html", ("3x3 départemental · stop 2", "3x3", "19 et 20 déc.", "Halle des sports de Talence · U13 à seniors")),
     ("info", "5x5.html#coupes", ("Coupes 33 · toutes catégories", "Finales", "12 juin 2027", "Le rendez-vous de fin de saison du basket girondin")),
@@ -210,8 +211,7 @@ def slide_html(i, kind, href, data):
         label = "Gironde Basket-ball, comité départemental : le basket en Gironde"
     elif kind == "photo":
         img, alt = data
-        inner = (f'<div class="sl sl-photo"><img src="assets/{img}" alt="{alt}" width="1920" height="720" loading="lazy">'
-                 f'<span class="sl-logo">{logo_v()}</span></div>')
+        inner = (f'<div class="sl sl-photo"><img src="assets/{img}" alt="{alt}" width="1920" height="720" loading="{"eager" if i == 0 else "lazy"}"></div>')
         label = alt
     else:
         k, t1, t2, sub = data
