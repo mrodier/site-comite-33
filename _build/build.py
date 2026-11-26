@@ -52,6 +52,8 @@ def page(slug, title, desc, kicker, h1, lead, body, wide_head=False):
 <meta name="description" content="{desc}">
 <link rel="canonical" href="{BASE_URL}{'' if slug == 'index' else slug + '.html'}">
 <link rel="icon" href="assets/ballon-33.svg" type="image/svg+xml">
+<meta property="og:image" content="{BASE_URL}assets/carrousel/banniere-gironde.jpg">
+<meta property="og:title" content="{title} · Comité de basket de la Gironde">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap">
@@ -155,7 +157,7 @@ def docs(items):
 
 # ---------------------------------------------------------------- Accueil
 SLIDES = [  # image dans assets/carrousel/ (format 16:6, remplaçable par une photo), texte alternatif, lien
-    ("00-bienvenue.svg", "Le basket en Gironde, comité départemental de basket-ball", "comite.html"),
+    ("banniere-gironde.jpg", "Gironde Basketball : mosaïque de photos de joueuses, joueurs, arbitres et entraîneurs girondins autour du logo du comité", "comite.html"),
     ("01-detections.svg", "Détections génération 2014/2015, novembre et décembre 2026", "joueurs.html"),
     ("02-3x3-stop2.svg", "3x3 départemental, stop 2 les 19 et 20 décembre 2026 à Talence", "3x3.html"),
     ("04-finales-coupes.svg", "Finales des Coupes 33 le samedi 12 juin 2027", "5x5.html#coupes"),

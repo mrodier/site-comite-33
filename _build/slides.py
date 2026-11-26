@@ -3,7 +3,6 @@ import pathlib
 OUT = pathlib.Path(__file__).resolve().parent.parent / "assets" / "carrousel"
 O = "#E8590C"
 SLIDES = {
-  "00-bienvenue.svg": ("COMITÉ DÉPARTEMENTAL DE BASKET-BALL", "LE BASKET", "EN GIRONDE", "66 clubs · 6 districts · au service des clubs"),
   "01-detections.svg": ("JOUEURS · GÉNÉRATION 2014/2015", "DÉTECTIONS", "NOV. – DÉC. 2026", "29/11 à Talence · 06/12 au Taillan et en Sud Gironde"),
   "02-3x3-stop2.svg": ("3X3 DÉPARTEMENTAL · STOP 2", "3X3", "19 ET 20 DÉC.", "Halle des sports de Talence · U13 à seniors"),
   "04-finales-coupes.svg": ("COUPES 33 · TOUTES CATÉGORIES", "FINALES", "12 JUIN 2027", "Le rendez-vous de fin de saison du basket girondin"),
