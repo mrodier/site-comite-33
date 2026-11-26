@@ -28,6 +28,13 @@
     li.addEventListener("keydown", (e) => { if (e.key === "Escape" && li.classList.contains("sub-open")) { closeSubs(); b.focus(); e.stopPropagation(); } });
   });
   document.addEventListener("click", (e) => { if (!e.target.closest(".mi.has-sub")) closeSubs(); });
+  /* Garde chaque sous-menu sous sa rubrique, sans sortir de l'écran */
+  const placeSub = (li) => {
+    const sub = li.querySelector(".sub"); if (!sub) return;
+    sub.classList.remove("to-right");
+    if (sub.getBoundingClientRect().right > document.documentElement.clientWidth - 8) sub.classList.add("to-right");
+  };
+  subs.forEach((li) => ["mouseenter", "focusin", "click"].forEach((ev) => li.addEventListener(ev, () => placeSub(li))));
 
 
   /* ---------- Carrousel ---------- */

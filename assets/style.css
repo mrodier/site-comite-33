@@ -65,7 +65,7 @@ main { overflow-x: clip; }
 .sub { position: absolute; top: 100%; left: 0; min-width: 250px; list-style: none; margin: 0; padding: 8px 0; background: var(--white); border-top: 3px solid var(--sable); box-shadow: 0 14px 30px rgba(18,40,76,.18); opacity: 0; visibility: hidden; transform: translateY(6px); transition: opacity .15s, transform .15s, visibility .15s; z-index: 5; }
 .sub a { display: block; padding: 9px 18px; color: var(--ink); text-decoration: none; font-size: .95rem; }
 .sub a:hover, .sub a:focus-visible { background: var(--soft); color: var(--bordeaux); }
-.mi:last-child .sub { left: auto; right: 0; }
+
 @media (hover: hover) and (min-width: 641px) { .mi.has-sub:hover > .sub { opacity: 1; visibility: visible; transform: none; } }
 @media (min-width: 641px) { .mi.sub-open > .sub, .mi.has-sub:focus-within > .sub { opacity: 1; visibility: visible; transform: none; } }
 .menu-toggle { display: none; align-items: center; gap: 8px; border: 1px solid var(--ink); background: var(--white); color: var(--ink); border-radius: 999px; padding: 9px 14px; font: 700 .9rem var(--font); cursor: pointer; }
@@ -404,10 +404,5 @@ main { overflow-x: clip; }
   .menu-list { flex-wrap: wrap; justify-content: center; column-gap: 6px; }
   .mlink { font-size: .92rem; padding: 10px 4px 8px; }
 }
-@media (min-width: 641px) and (max-width: 1240px) {
-  .menu { overflow-x: clip; }
-  .menu .wrap { position: relative; }
-  .mi { position: static; }
-  .sub { left: 50%; transform: translate(-50%, 6px); }
-  .mi.has-sub:hover > .sub, .mi.sub-open > .sub, .mi.has-sub:focus-within > .sub { transform: translate(-50%, 0) !important; }
-}
+/* Les sous-menus s'ouvrent sous la rubrique choisie ; s'ils dépassent à droite, app.js les aligne sur le bord droit de la rubrique */
+@media (min-width: 641px) { .menu { overflow-x: clip; } .sub.to-right { left: auto; right: 0; } }
