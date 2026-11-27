@@ -194,7 +194,6 @@ SLIDES = [
     # (type, lien, contenu) — "charte" : bannière de la charte ; "photo" : image + logo posé sur une zone calme ;
     # "info" : (surtitre, titre, accroche sable, ligne d'info). Les visuels "info" sont en HTML : polices et couleurs de la charte.
     ("photo", "comite.html", ("carrousel/banniere-gironde.jpg", "Gironde Basket-ball, comité départemental : mosaïque de photos de joueuses, joueurs, arbitres et entraîneurs girondins autour du logo")),
-    ("charte", "comite.html", None),
     ("info", "joueurs.html", ("Joueurs · génération 2014/2015", "Détections", "Nov. – déc. 2026", "29/11 à Talence · 06/12 au Taillan et en Sud Gironde")),
     ("info", "3x3.html", ("3x3 départemental · stop 2", "3x3", "19 et 20 déc.", "Halle des sports de Talence · U13 à seniors")),
     ("info", "5x5.html#coupes", ("Coupes 33 · toutes catégories", "Finales", "12 juin 2027", "Le rendez-vous de fin de saison du basket girondin")),
