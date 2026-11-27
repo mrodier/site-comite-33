@@ -199,11 +199,13 @@ SLIDES = [
     ("info", "3x3.html", ("3x3 départemental · stop 2", "3x3", "19 et 20 déc.", "Halle des sports de Talence · U13 à seniors")),
     ("info", "5x5.html#coupes", ("Coupes 33 · toutes catégories", "Finales", "12 juin 2027", "Le rendez-vous de fin de saison du basket girondin")),
 ]
+# Demi-terrain décoratif : ligne médiane et rond central à x = 1150, ligne à 3 points à droite
+# (point le plus à gauche de l'arc ≈ 1551) : le rond central (bord droit à 1300) ne la touche pas.
 COURT = ('<svg class="court" viewBox="0 0 1920 720" preserveAspectRatio="xMaxYMid slice" aria-hidden="true">'
-         '<g fill="none" stroke="#FFFFFF" stroke-opacity=".09" stroke-width="5"><line x1="1420" y1="0" x2="1420" y2="720"/>'
-         '<circle cx="1420" cy="360" r="150"/><circle cx="1420" cy="360" r="50"/><path d="M1924 60 L1760 60 A320 320 0 0 0 1760 660 L1924 660"/>'
+         '<g fill="none" stroke="#FFFFFF" stroke-opacity=".09" stroke-width="5"><line x1="1150" y1="0" x2="1150" y2="720"/>'
+         '<circle cx="1150" cy="360" r="150"/><circle cx="1150" cy="360" r="50"/><path d="M1924 60 L1760 60 A320 320 0 0 0 1760 660 L1924 660"/>'
          '<rect x="1700" y="250" width="224" height="220"/></g>'
-         '<path d="M1420 210 A150 150 0 0 1 1570 360" fill="none" stroke="#D9B57E" stroke-width="5"/></svg>')
+         '<path d="M1150 210 A150 150 0 0 1 1300 360" fill="none" stroke="#D9B57E" stroke-width="5"/></svg>')
 
 def slide_html(i, kind, href, data):
     if kind == "charte":
