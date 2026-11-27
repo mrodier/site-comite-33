@@ -204,8 +204,7 @@ SLIDES = [
 COURT = ('<svg class="court" viewBox="0 0 1920 720" preserveAspectRatio="xMaxYMid slice" aria-hidden="true">'
          '<g fill="none" stroke="#FFFFFF" stroke-opacity=".09" stroke-width="5"><line x1="1150" y1="0" x2="1150" y2="720"/>'
          '<circle cx="1150" cy="360" r="150"/><circle cx="1150" cy="360" r="50"/><path d="M1924 60 L1760 60 A320 320 0 0 0 1760 660 L1924 660"/>'
-         '<rect x="1700" y="250" width="224" height="220"/></g>'
-         '<path d="M1150 210 A150 150 0 0 1 1300 360" fill="none" stroke="#D9B57E" stroke-width="5"/></svg>')
+         '<rect x="1700" y="250" width="224" height="220"/></g></svg>')
 
 def slide_html(i, kind, href, data):
     if kind == "charte":
